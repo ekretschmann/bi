@@ -25,11 +25,14 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
+				'public/lib/leaflet/dist/leaflet.js'
 			]
 		},
 		css: [
-			'public/modules/**/css/*.css'
+			'public/modules/**/css/*.css',
+			'public/lib/leaflet/dist/leaflet.css'
 		],
 		js: [
 			'public/config.js',
