@@ -2,10 +2,24 @@
 
 
 	<div style="margin-top: 50px">
-	<!--<leaflet lf-center="center" height="480px" width="640px"></leaflet>-->
+	<!--<leaflet lf-center="mk" paths="buses" height="480px" width="640px"></leaflet>-->
 
-		<leaflet lf-center="london" event-broadcast="events" markers="markers" height="480px" width="100%"></leaflet>
+		<leaflet width="100%" height="400px" lf-center="mk" paths="paths" layers="layers"></leaflet>
 
+		<!--<leaflet lf-center="mk" event-broadcast="events" markers="markers" height="480px" width="100%"></leaflet>-->
+
+		<button ng-click="displayBusRoute()">Bus</button>
+
+	</div>
+
+
+	<div>
+		<h1>Center map example</h1>
+		<ul>
+			<li><input type="number" step="any" ng-model="mk.lat" /> Latitude</li>
+			<li><input type="number" step="any" ng-model="mk.lng" /> Longitude</li>
+			<li><input type="number" step="any" ng-model="mk.zoom" /> Zoom</li>
+		</ul>
 	</div>
 
 	<!--<div class="jumbotron text-center">-->
