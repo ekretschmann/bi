@@ -5,8 +5,8 @@ module.exports = {
 	assets: {
 		lib: {
 			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/bootstrap/dist/css/bootstrap.css',
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -23,8 +23,15 @@ module.exports = {
 				'public/lib/ng-lodash/build/ng-lodash.js'
 			]
 		},
-		css: 'public/dist/application.min.css',
-		js: 'public/dist/application.min.js'
+		css: [
+			'public/modules/**/css/*.css',
+			'public/lib/leaflet/dist/leaflet.css'
+		],
+		js: [
+			'public/config.js',
+			'public/application.js',
+			'public/modules/*/*.js',
+		]
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
