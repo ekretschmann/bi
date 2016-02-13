@@ -7,19 +7,21 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
         $scope.authentication = Authentication;
 
 
-        //var mainMarker = {
-        //	lat: 51,
-        //	lng: 0,
-        //	focus: true,
-        //	message: 'Hey, drag me if you want',
-        //	draggable: true
-        //};
+        $scope.info = 'xxx';
 
         var mainMarker = {
-            autoDiscover: true,
-            focus: true,
-            message: 'You are here'
+        	lat: 51,
+        	lng: 0,
+        	focus: true,
+        	message: 'Hey, drag me if you want',
+        	draggable: true
         };
+
+        //var mainMarker = {
+        //    autoDiscover: true,
+        //    focus: true,
+        //    message: 'You are here'
+        //};
 
         angular.extend($scope, {
 
@@ -30,10 +32,10 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
 
         mk: {
 
-                autoDiscover: true
-            //    lat: 52.036,
-            //    lng: -0.7532501220703125,
-            //    zoom: 12
+              //  autoDiscover: true
+                lat: 52.036,
+                lng: -0.7532501220703125,
+                zoom: 12
             },
             paths: {
                 //p1: {
@@ -44,7 +46,7 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 //}
             },
             markers: {
-                autoDiscover: true
+                //autoDiscover: true
             },
             layers: {
                 baselayers: {
@@ -74,24 +76,35 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
         });
 
         $scope.visible = false;
-        $scope.displayBusRoute = function () {
+        //$scope.displayBusRoute = function () {
+        //
+        //    $scope.visible = !$scope.visible;
+        //    if ($scope.visible) {
+        //        $scope.paths = {
+        //            p2: {
+        //                color: '#00F',
+        //                weight: 3,
+        //                latlngs: $scope.route2,
+        //                layer: 'test',
+        //                type: 'multiPolyline'
+        //            }
+        //        };
+        //    } else {
+        //        $scope.paths = {};
+        //    }
+        //
+        //};
 
-            $scope.visible = !$scope.visible;
-            if ($scope.visible) {
-                $scope.paths = {
-                    p2: {
-                        color: '#00F',
-                        weight: 3,
-                        latlngs: $scope.route2,
-                        layer: 'test',
-                        type: 'multiPolyline'
-                    }
-                };
-            } else {
-                $scope.paths = {};
-            }
+        $scope.displayBusRoute = function(id) {
+            $http.get('http://mk.ods-live.co.uk/api/1/bus/locations.json?service='+id)
+                .then(function(response) {
+                    $scope.info = response.data;
+                });
 
+           // $scope.info = 'test';
         };
+
+
 
         $scope.route = [
             {lat: 51.50, lng: -0.082},
