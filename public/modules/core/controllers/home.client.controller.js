@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', '$http', 'Authentication',
-    function ($scope, $http, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash', 'Authentication',
+    function ($scope, $http, _, Authentication) {
         // This provides Authentication context.
         $scope.authentication = Authentication;
 
@@ -15,19 +15,36 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'Authent
         //	draggable: true
         //};
 
+        var mainMarker = {
+            autoDiscover: true,
+            focus: true,
+            message: 'You are here'
+        };
+
         angular.extend($scope, {
-            mk: {
-                lat: 52.036,
-                lng: -0.7532501220703125,
-                zoom: 12
+
+
+
+
+
+
+        mk: {
+
+                autoDiscover: true
+            //    lat: 52.036,
+            //    lng: -0.7532501220703125,
+            //    zoom: 12
             },
-            paths : {
-                p1: {
-                    color: '#000',
-                    weight: 8,
-                    latlngs: [{ lat: 51.50, lng: -0.082 }, { lat: 41.91, lng: 12.48 }],
-                    layer: 'test'
-                }
+            paths: {
+                //p1: {
+                //    color: '#000',
+                //    weight: 8,
+                //    latlngs: [{lat: 51.50, lng: -0.082}, {lat: 41.91, lng: 12.48}],
+                //    layer: 'test'
+                //}
+            },
+            markers: {
+                autoDiscover: true
             },
             layers: {
                 baselayers: {
@@ -56,26 +73,30 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'Authent
             $scope.position.lng = args.model.lng;
         });
 
+        $scope.visible = false;
         $scope.displayBusRoute = function () {
 
-            _.forEach($scope.route2, function(value, key) {
-                console.log(key);
-            });
+            $scope.visible = !$scope.visible;
+            if ($scope.visible) {
+                $scope.paths = {
+                    p2: {
+                        color: '#00F',
+                        weight: 3,
+                        latlngs: $scope.route2,
+                        layer: 'test',
+                        type: 'multiPolyline'
+                    }
+                };
+            } else {
+                $scope.paths = {};
+            }
 
-            $scope.paths = {
-                p2: {
-                    color: '#FC0',
-                    weight: 8,
-                    latlngs: $scope.route,
-                    layer: 'test'
-                }
-            };
         };
 
         $scope.route = [
-            { lat: 51.50, lng: -0.082 },
-            { lat: 48.83, lng: 2.37 },
-            { lat: 41.91, lng: 12.48 }
+            {lat: 51.50, lng: -0.082},
+            {lat: 48.83, lng: 2.37},
+            {lat: 41.91, lng: 12.48}
         ];
 
         $scope.route2 = [[{'lat': 52.0027697, 'lng': -0.7640825}, {

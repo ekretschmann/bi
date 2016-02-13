@@ -27,7 +27,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
-				'public/lib/leaflet/dist/leaflet.js'
+				'public/lib/leaflet/dist/leaflet.js',
+				'public/lib/ng-lodash/build/ng-lodash.js'
 			]
 		},
 		css: [
