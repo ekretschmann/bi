@@ -8,6 +8,8 @@ module.exports = function(app) {
 
 	app.get('/busservices/:busId', buses.busservice);
 
+	app.get('/busroutes/:routeId', buses.busroute);
+
 	// Finish by binding the Bus middleware
 	//app.param('busId', buses.busByID);
 };
