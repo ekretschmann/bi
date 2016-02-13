@@ -6,6 +6,7 @@
     "bootstrap": "~3",
     "lodash": "~4.0.0",
     "angular": "~1.2",
+    "angular-leaflet": "~0.10",
     "angular-resource": "~1.2",
     "angular-mocks": "~1.2",
     "angular-cookies": "~1.2",
