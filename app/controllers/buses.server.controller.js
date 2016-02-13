@@ -1,107 +1,81 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-var mongoose = require('mongoose'),
-	errorHandler = require('./errors.server.controller'),
-	Bus = mongoose.model('Bus'),
-	_ = require('lodash');
-
-/**
- * Create a Bus
- */
-exports.create = function(req, res) {
-	var bus = new Bus(req.body);
-	bus.user = req.user;
-
-	bus.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(bus);
-		}
-	});
-};
-
-/**
- * Show the current Bus
- */
-exports.read = function(req, res) {
-	res.jsonp(req.bus);
-};
-
-/**
- * Update a Bus
- */
-exports.update = function(req, res) {
-	var bus = req.bus ;
-
-	bus = _.extend(bus , req.body);
-
-	bus.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(bus);
-		}
-	});
-};
-
-/**
- * Delete an Bus
- */
-exports.delete = function(req, res) {
-	var bus = req.bus ;
-
-	bus.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(bus);
-		}
-	});
-};
+var http = require('http');
 
 /**
  * List of Buses
  */
-exports.list = function(req, res) { 
-	Bus.find().sort('-created').populate('user', 'displayName').exec(function(err, buses) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(buses);
-		}
+exports.busservices = function(req, res) {
+
+
+	var options = {
+		//http://mk.ods-live.co.uk/api/1/bus/locations.json?service='+id
+		host: 'mk.ods-live.co.uk',
+		path: '/api/1/bus/services.json'
+	};
+
+	//res.jsonp(services);
+
+	var httpReq = http.get(options, function(response) {
+		console.log('STATUS: ' + response.statusCode);
+		console.log('HEADERS: ' + JSON.stringify(response.headers));
+
+		// Buffer the body entirely for processing as a whole.
+		var bodyChunks = [];
+		response.on('data', function(chunk) {
+			// You can process streamed parts here...
+			bodyChunks.push(chunk);
+		}).on('end', function() {
+			console.log(Buffer.concat(bodyChunks));
+			var body = JSON.parse(Buffer.concat(bodyChunks));
+			console.log('BODY: ' + body.toString());
+			// ...and/or process the entire body here.
+			res.jsonp(body);
+		});
 	});
+
+	httpReq.on('error', function(e) {
+		console.log('ERROR: ' + e.message);
+	});
+
 };
 
-/**
- * Bus middleware
- */
-exports.busByID = function(req, res, next, id) { 
-	Bus.findById(id).populate('user', 'displayName').exec(function(err, bus) {
-		if (err) return next(err);
-		if (! bus) return next(new Error('Failed to load Bus ' + id));
-		req.bus = bus ;
-		next();
+exports.busservice = function(req, res) {
+
+
+	console.log(req.params);
+
+	var options = {
+		//http://mk.ods-live.co.uk/api/1/bus/locations.json?service='+id
+		host: 'mk.ods-live.co.uk',
+		path: '/api/1/bus/locations.json?service='+req.params.busId
+	};
+
+	//res.jsonp(line5);
+
+	var httpReq = http.get(options, function(response) {
+		console.log('STATUS: ' + response.statusCode);
+		console.log('HEADERS: ' + JSON.stringify(response.headers));
+
+		// Buffer the body entirely for processing as a whole.
+		var bodyChunks = [];
+		response.on('data', function(chunk) {
+			// You can process streamed parts here...
+			bodyChunks.push(chunk);
+		}).on('end', function() {
+			var body = JSON.parse(Buffer.concat(bodyChunks));
+			console.log('BODY: ' + body.toString());
+			// ...and/or process the entire body here.
+			res.jsonp(body);
+		});
 	});
+
+	httpReq.on('error', function(e) {
+		console.log('ERROR: ' + e.message);
+	});
+
 };
 
-/**
- * Bus authorization middleware
- */
-exports.hasAuthorization = function(req, res, next) {
-	if (req.bus.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
-	next();
-};
+
+var services = { "data": { "Root": { "Header": { "Identifier": "services", "DisplayTitle": "Services", "PublishDateTime": "Sat 13 Feb 2016 14:01:24.754", "Author": "api@connexionzuk.com", "Owner": "Reading Borough Council", "RefreshRate": "604800", "Max_Latency": "86400", "TimeToError": "1209600", "Schedule": "Once a week", "OverrideMessage": "Due to unforeseen circumstances, this feed is currently not publishable.", "ErrorMessage": "Due to unforeseen circumstances, this feed is currently not available.", "FeedInfo": "", "Attribution": { "Url": "http://www.reading-travelinfo.co.uk/", "Text": "(c) RBC", "Logo": "http://www.reading-travelinfo.co.uk/images/CompanyLogos/rbclogo.gif" }, "Language": "EN" }, "Services": [ { "Id": "..X4", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": ".X4", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": ".X5", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": ".X7", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "1", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "11", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "11A", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "12", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "12A", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "13", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "13", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "14", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "149", "Description": "UNKNOWN", "Operator": "Centrebus South" }, { "Id": "150", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "162", "Description": "UNKNOWN", "Operator": "Red Kite" }, { "Id": "165", "Description": "UNKNOWN", "Operator": "Centrebus South" }, { "Id": "17", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "18", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "18A", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "197", "Description": "UNKNOWN", "Operator": "Grant Palmer" }, { "Id": "2", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "21", "Description": "UNKNOWN", "Operator": "Redline" }, { "Id": "23", "Description": "UNKNOWN", "Operator": "Red Rose Travel" }, { "Id": "24", "Description": "UNKNOWN", "Operator": "Vale Travel" }, { "Id": "25", "Description": "UNKNOWN", "Operator": "Vale Travel" }, { "Id": "28", "Description": "UNKNOWN", "Operator": "Red Rose Travel" }, { "Id": "297", "Description": "UNKNOWN", "Operator": "Diamond Coaches" }, { "Id": "30", "Description": "UNKNOWN", "Operator": "Red Rose Travel" }, { "Id": "300", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "31", "Description": "UNKNOWN", "Operator": "Red Rose Travel" }, { "Id": "321", "Description": "UNKNOWN", "Operator": "Britannia Bus" }, { "Id": "33", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "33A", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "37", "Description": "UNKNOWN", "Operator": "Vale Travel" }, { "Id": "4", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "40", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": "41", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": "48", "Description": "UNKNOWN", "Operator": "South Beds Dial-a-Ride" }, { "Id": "49", "Description": "UNKNOWN", "Operator": "Centrebus South" }, { "Id": "49", "Description": "UNKNOWN", "Operator": "Grant Palmer" }, { "Id": "5", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "50", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "53", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": "6", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "601", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "602", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "603", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "604", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "605", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "606", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "607", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "608", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "673", "Description": "UNKNOWN", "Operator": "Red Kite" }, { "Id": "7", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "70", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "750", "Description": "UNKNOWN", "Operator": "Red Kite" }, { "Id": "8", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "80", "Description": "UNKNOWN", "Operator": "Z & S Transport" }, { "Id": "801", "Description": "UNKNOWN", "Operator": "Uno" }, { "Id": "83", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "88", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "89", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "9", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "90", "Description": "UNKNOWN", "Operator": "Country Lion" }, { "Id": "90", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "99", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": "C1", "Description": "UNKNOWN", "Operator": "Uno" }, { "Id": "C10", "Description": "UNKNOWN", "Operator": "Uno" }, { "Id": "C11", "Description": "UNKNOWN", "Operator": "Uno" }, { "Id": "C3", "Description": "UNKNOWN", "Operator": "Uno" }, { "Id": "F70", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "OU", "Description": "UNKNOWN", "Operator": "Soul Brothers" }, { "Id": "X31", "Description": "UNKNOWN", "Operator": "Centrebus South" }, { "Id": "X4", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" }, { "Id": "X5", "Description": "UNKNOWN", "Operator": "Stagecoach in Bedford" }, { "Id": "X60", "Description": "UNKNOWN", "Operator": "ARRIVA the Shires" }, { "Id": "X7", "Description": "UNKNOWN", "Operator": "Stagecoach Midlands" } ] } }, "status": 200, "config": { "method": "GET", "transformRequest": [ null ], "transformResponse": [ null ], "url": "/busservices/", "headers": { "Accept": "application/json, text/plain, */*" } }, "statusText": "OK" };
+var line5 = { "Root": { "Header": { "Identifier": "locations", "DisplayTitle": "Locations", "PublishDateTime": "Sat 13 Feb 2016 12:43:21.826", "Author": "api@connexionzuk.com", "Owner": "Reading Borough Council", "RefreshRate": "604800", "Max_Latency": "86400", "TimeToError": "1209600", "Schedule": "Once a week", "OverrideMessage": "Due to unforeseen circumstances, this feed is currently not publishable.", "ErrorMessage": "Due to unforeseen circumstances, this feed is currently not available.", "FeedInfo": "", "Attribution": { "Url": "http://www.reading-travelinfo.co.uk/", "Text": "(c) RBC", "Logo": "http://www.reading-travelinfo.co.uk/images/CompanyLogos/rbclogo.gif" }, "Language": "EN" }, "Locations": [ { "Id": "049000000911", "Naptan": null, "Name": "Central Railway Station Stop Y1", "Bay": "Y1", "Latitude": 52.034496666667, "Longitude": -0.77314666666667, "Services": "32/5/6/X60" }, { "Id": "049000000911", "Naptan": null, "Name": "Central Railway Station Stop Y1", "Bay": "Y1", "Latitude": 52.034496666667, "Longitude": -0.77314666666667, "Services": "32/5/6/X60" }, { "Id": "049000000911", "Naptan": null, "Name": "Central Railway Station Stop Y1", "Bay": "Y1", "Latitude": 52.034496666667, "Longitude": -0.77314666666667, "Services": "32/5/6/X60" }, { "Id": "049000000919", "Naptan": null, "Name": "Central Railway Station Stop Z3", "Bay": "Z3", "Latitude": 52.035178333333, "Longitude": -0.773915, "Services": "14/300/5/6" }, { "Id": "049000000919", "Naptan": null, "Name": "Central Railway Station Stop Z3", "Bay": "Z3", "Latitude": 52.035178333333, "Longitude": -0.773915, "Services": "14/300/5/6" }, { "Id": "049000000919", "Naptan": null, "Name": "Central Railway Station Stop Z3", "Bay": "Z3", "Latitude": 52.035178333333, "Longitude": -0.773915, "Services": "14/300/5/6" }, { "Id": "049003020932", "Naptan": null, "Name": "Abbey House Stop X3", "Bay": "", "Latitude": 52.037175, "Longitude": -0.76782333333333, "Services": "11/11A/12/12A/13/14/150/300/32/4/45/5/6/" }, { "Id": "049003020936", "Naptan": null, "Name": "Central Business Exchange Stop R3", "Bay": "", "Latitude": 52.039483333333, "Longitude": -0.76243833333333, "Services": "11/11A/12/12A/13/14/150/300/32/4/40/45/5" }, { "Id": "049003020957", "Naptan": null, "Name": "Central Business Exchange Stop Q4", "Bay": "", "Latitude": 52.039485, "Longitude": -0.76181166666667, "Services": "13/14/19/28/32/33/33A/4/5/6/70/88/89/90/" }, { "Id": "049003020961", "Naptan": null, "Name": "Abbey House Stop W4", "Bay": "", "Latitude": 52.037168333333, "Longitude": -0.76719666666667, "Services": "13/14/19/28/32/33/33A/4/5/6/70/88/89/90/" }, { "Id": "049003030900", "Naptan": null, "Name": "The Point Stop K3", "Bay": "K3", "Latitude": 52.041351666667, "Longitude": -0.75630666666667, "Services": "19/25/28/29/4/5/6/7" }, { "Id": "049003030900", "Naptan": null, "Name": "The Point Stop K3", "Bay": "K3", "Latitude": 52.041351666667, "Longitude": -0.75630666666667, "Services": "19/25/28/29/4/5/6/7" }, { "Id": "049003030900", "Naptan": null, "Name": "The Point Stop K3", "Bay": "K3", "Latitude": 52.041351666667, "Longitude": -0.75630666666667, "Services": "19/25/28/29/4/5/6/7" }, { "Id": "049003030900", "Naptan": null, "Name": "The Point Stop K3", "Bay": "K3", "Latitude": 52.041351666667, "Longitude": -0.75630666666667, "Services": "19/25/28/29/4/5/6/7" }, { "Id": "049003030900", "Naptan": null, "Name": "The Point Stop K3", "Bay": "K3", "Latitude": 52.041351666667, "Longitude": -0.75630666666667, "Services": "19/25/28/29/4/5/6/7" }, { "Id": "049003030901", "Naptan": null, "Name": "Xscape Stop A5", "Bay": "", "Latitude": 52.042408333333, "Longitude": -0.74992, "Services": "19/28/29/5/6" }, { "Id": "049003030903", "Naptan": null, "Name": "Xscape Stop A6", "Bay": "", "Latitude": 52.04255, "Longitude": -0.74894, "Services": "19/28/29/5/6" }, { "Id": "049003030944", "Naptan": null, "Name": "Food Centre Stop E3", "Bay": "", "Latitude": 52.043906666667, "Longitude": -0.75216833333333, "Services": "4/5/50/6/80/X80" }, { "Id": "049003030949", "Naptan": null, "Name": "Food Centre Stop C4", "Bay": "", "Latitude": 52.044136666667, "Longitude": -0.750995, "Services": "28/29/4/5/6/80/X80" }, { "Id": "049003030953", "Naptan": null, "Name": "The Point Stop J4", "Bay": "J4", "Latitude": 52.042073333333, "Longitude": -0.75576166666667, "Services": "14/297/4/45/5/6/80/90A/X80" }, { "Id": "049003030953", "Naptan": null, "Name": "The Point Stop J4", "Bay": "J4", "Latitude": 52.042073333333, "Longitude": -0.75576166666667, "Services": "14/297/4/45/5/6/80/90A/X80" }, { "Id": "049003030953", "Naptan": null, "Name": "The Point Stop J4", "Bay": "J4", "Latitude": 52.042073333333, "Longitude": -0.75576166666667, "Services": "14/297/4/45/5/6/80/90A/X80" }, { "Id": "049003030953", "Naptan": null, "Name": "The Point Stop J4", "Bay": "J4", "Latitude": 52.042073333333, "Longitude": -0.75576166666667, "Services": "14/297/4/45/5/6/80/90A/X80" }, { "Id": "049003030953", "Naptan": null, "Name": "The Point Stop J4", "Bay": "J4", "Latitude": 52.042073333333, "Longitude": -0.75576166666667, "Services": "14/297/4/45/5/6/80/90A/X80" }, { "Id": "049003105307", "Naptan": null, "Name": "Wolverton Tesco o/s", "Bay": "", "Latitude": 52.063285, "Longitude": -0.80974666666667, "Services": "14/23/30/300/31/33/33A/37/5/6/7" }, { "Id": "049003105609", "Naptan": null, "Name": "Church Street o/s", "Bay": "", "Latitude": 52.062301666667, "Longitude": -0.80945166666667, "Services": "14/23/30/300/31/33/33A/37/43/5/6/7/83" }, { "Id": "049003115308", "Naptan": null, "Name": "Wolverton Railway Station NE-bound", "Bay": "", "Latitude": 52.064703333333, "Longitude": -0.80415, "Services": "23/30/300/31/33/33A/37/43/5/7" }, { "Id": "049003115344", "Naptan": null, "Name": "Wolverton Railway Station SW-bound", "Bay": "", "Latitude": 52.064428333333, "Longitude": -0.804595, "Services": "23/30/300/31/33/33A/37/43/5/7" }, { "Id": "049003355309", "Naptan": null, "Name": "Bradwell War Memorial opp", "Bay": "", "Latitude": 52.06554, "Longitude": -0.79721333333333, "Services": "23/30/31/37/5/7" }, { "Id": "049003355310", "Naptan": null, "Name": "St James's Church opp", "Bay": "", "Latitude": 52.06579, "Longitude": -0.79345666666667, "Services": "23/30/31/37/5/7" }, { "Id": "049003355342", "Naptan": null, "Name": "St James's Church o/s", "Bay": "", "Latitude": 52.065696666667, "Longitude": -0.79313833333333, "Services": "23/30/31/37/5/7" }, { "Id": "049003355343", "Naptan": null, "Name": "War Memorial o/s", "Bay": "", "Latitude": 52.065393333333, "Longitude": -0.79784333333333, "Services": "23/30/31/37/5/7" }, { "Id": "049003375331", "Naptan": null, "Name": "North Street southbound", "Bay": "", "Latitude": 52.065053333333, "Longitude": -0.78913, "Services": "5" }, { "Id": "049003375385", "Naptan": null, "Name": "North Street northbound", "Bay": "", "Latitude": 52.065245, "Longitude": -0.789445, "Services": "5" }, { "Id": "049003385332", "Naptan": null, "Name": "Ashwood adjacent", "Bay": "", "Latitude": 52.061868333333, "Longitude": -0.78632666666667, "Services": "5" }, { "Id": "049003385335", "Naptan": null, "Name": "Stanton Avenue southbound", "Bay": "", "Latitude": 52.059601666667, "Longitude": -0.78548333333333, "Services": "5" }, { "Id": "049003385336", "Naptan": null, "Name": "Mathiesen Centre o/s", "Bay": "", "Latitude": 52.057635, "Longitude": -0.78565333333333, "Services": "5" }, { "Id": "049003385381", "Naptan": null, "Name": "Abbey Way northbound", "Bay": "", "Latitude": 52.058431666667, "Longitude": -0.785355, "Services": "5" }, { "Id": "049003385383", "Naptan": null, "Name": "Stanton Avenue northbound", "Bay": "", "Latitude": 52.060586666667, "Longitude": -0.785865, "Services": "5" }, { "Id": "049003385384", "Naptan": null, "Name": "Ashwood opp", "Bay": "", "Latitude": 52.062511666667, "Longitude": -0.78686333333333, "Services": "5" }, { "Id": "049003395694", "Naptan": null, "Name": "Stonegate opp", "Bay": "", "Latitude": 52.056253333333, "Longitude": -0.78761666666667, "Services": "300/33/33A/5/639" }, { "Id": "049003395695", "Naptan": null, "Name": "Stonegate N-bound", "Bay": "", "Latitude": 52.0564, "Longitude": -0.78802166666667, "Services": "300/33/33A/5/639" }, { "Id": "049003425422", "Naptan": null, "Name": "Bancroft Roundabout South SE-bound", "Bay": "", "Latitude": 52.053078333333, "Longitude": -0.7841, "Services": "300/33/33A/5/6/639" }, { "Id": "049003425426", "Naptan": null, "Name": "Bancroft Roundabout South NW-bound", "Bay": "", "Latitude": 52.05292, "Longitude": -0.784455, "Services": "300/33/33A/5/6/639" }, { "Id": "049003845556", "Naptan": null, "Name": "Rooksley Roundabout South Northbound", "Bay": "", "Latitude": 52.044796666667, "Longitude": -0.778755, "Services": "300/33/33A/5/6/632/830" }, { "Id": "049003845557", "Naptan": null, "Name": "Rooksley Roundabout South Southbound", "Bay": "", "Latitude": 52.044908333333, "Longitude": -0.778285, "Services": "300/33/33A/5/6/632/830" }, { "Id": "049003845667", "Naptan": null, "Name": "Rooksley Roundabout North Southbound", "Bay": "", "Latitude": 52.04708, "Longitude": -0.77958166666667, "Services": "13/19/300/5/6/639" }, { "Id": "049003845670", "Naptan": null, "Name": "Rooksley Roundabout North Northbound", "Bay": "", "Latitude": 52.046985, "Longitude": -0.77997833333333, "Services": "13/300/5/6/639" }, { "Id": "049003855666", "Naptan": null, "Name": "Priory Common School opp", "Bay": "", "Latitude": 52.050556666667, "Longitude": -0.78109166666667, "Services": "300/5/6/639" }, { "Id": "049003855671", "Naptan": null, "Name": "Priory Common School o/s", "Bay": "", "Latitude": 52.050046666667, "Longitude": -0.78131, "Services": "300/5/6/639" }, { "Id": "049003975555", "Naptan": null, "Name": "Rooksley Retail Park o/s", "Bay": "", "Latitude": 52.041171666667, "Longitude": -0.77606833333333, "Services": "300/33/33A/5/6/632/830" }, { "Id": "049003975558", "Naptan": null, "Name": "Rooksley Retail Park opp", "Bay": "", "Latitude": 52.041248333333, "Longitude": -0.775615, "Services": "13/19/300/33/33A/5/6/632/830" }, { "Id": "049004295521", "Naptan": null, "Name": "Meadfurlong School opp", "Bay": "", "Latitude": 52.033756666667, "Longitude": -0.74984166666667, "Services": "150/300/5/50/6/607/632/70/F70" }, { "Id": "049004295522", "Naptan": null, "Name": "South Saxon Roundabout South northbound", "Bay": "", "Latitude": 52.036088333333, "Longitude": -0.75439666666667, "Services": "150/300/5/50/6/607/632/70/F70" }, { "Id": "049004295527", "Naptan": null, "Name": "South Saxon Roundabout South southbound", "Bay": "", "Latitude": 52.036246666667, "Longitude": -0.75402833333333, "Services": "14/150/300/5/50/6/632/70/F70" }, { "Id": "049004295528", "Naptan": null, "Name": "Meadfurlong School o/s", "Bay": "", "Latitude": 52.034745, "Longitude": -0.75146, "Services": "14/150/300/5/50/6/632/70/F70" }, { "Id": "049004305259", "Naptan": null, "Name": "Eaglestone Roundabout South Southbound", "Bay": "", "Latitude": 52.030916666667, "Longitude": -0.74486166666667, "Services": "1/14/150/300/5/50/6/70/F70" }, { "Id": "049004305520", "Naptan": null, "Name": "Eaglestone Roundabout North Northbound", "Bay": "", "Latitude": 52.03208, "Longitude": -0.74681166666667, "Services": "150/300/5/50/6/607/632/70/F70" }, { "Id": "049004615254", "Naptan": null, "Name": "Golden Drive N-bound", "Bay": "", "Latitude": 52.027701666667, "Longitude": -0.742765, "Services": "1/150/300/5/50/6/70/F70" }, { "Id": "049004615260", "Naptan": null, "Name": "Golden Drive S-bound", "Bay": "", "Latitude": 52.027898333333, "Longitude": -0.7426, "Services": "1/14/150/300/5/50/6/70/F70" }, { "Id": "049004625253", "Naptan": null, "Name": "Coffee Hall Roundabout North Northbound", "Bay": "", "Latitude": 52.022405, "Longitude": -0.74016, "Services": "150/300/32/5/50/6/70/F70" }, { "Id": "049004625261", "Naptan": null, "Name": "Coffee Hall Roundabout North Southbound", "Bay": "", "Latitude": 52.023365, "Longitude": -0.74078833333333, "Services": "14/150/300/32/5/50/6/70/F70" }, { "Id": "049004635249", "Naptan": null, "Name": "Milton Keynes Hospital Stop B", "Bay": "B", "Latitude": 52.024688333333, "Longitude": -0.73416333333333, "Services": "1/12A/25/4/5/52/53/6/673/X31" }, { "Id": "049004635249", "Naptan": null, "Name": "Milton Keynes Hospital Stop B", "Bay": "B", "Latitude": 52.024688333333, "Longitude": -0.73416333333333, "Services": "1/12A/25/4/5/52/53/6/673/X31" }, { "Id": "049004635252", "Naptan": null, "Name": "Milton Keynes Hospital Stop A", "Bay": "A", "Latitude": 52.024906666667, "Longitude": -0.734405, "Services": "1/14/18/24/4/5/6/673/X31" }, { "Id": "049004635252", "Naptan": null, "Name": "Milton Keynes Hospital Stop A", "Bay": "A", "Latitude": 52.024906666667, "Longitude": -0.734405, "Services": "1/14/18/24/4/5/6/673/X31" }, { "Id": "049004675147", "Naptan": null, "Name": "Bletchley Tesco opp", "Bay": "", "Latitude": 52.002136666667, "Longitude": -0.726655, "Services": "1/162/17/19/24/300/31/32/5/50/6/673/70/9" }, { "Id": "049005035148", "Naptan": null, "Name": "Mount Farm Park o/s", "Bay": "", "Latitude": 52.005118333333, "Longitude": -0.72129666666667, "Services": "150/17/5/70/9/F70" }, { "Id": "049005035149", "Naptan": null, "Name": "Mount Farm Park opp", "Bay": "", "Latitude": 52.004853333333, "Longitude": -0.72166833333333, "Services": "150/17/5/70/9/F70" }, { "Id": "049005045121", "Naptan": null, "Name": "Bond Avenue o/s", "Bay": "", "Latitude": 52.009911666667, "Longitude": -0.72140833333333, "Services": "5" }, { "Id": "049005045122", "Naptan": null, "Name": "Bond Avenue opp", "Bay": "", "Latitude": 52.009738333333, "Longitude": -0.72106333333333, "Services": "5" }, { "Id": "049005055214", "Naptan": null, "Name": "Simpson Roundabout South SE-bound", "Bay": "", "Latitude": 52.01637, "Longitude": -0.72241833333333, "Services": "5" }, { "Id": "049005055215", "Naptan": null, "Name": "Simpson Roundabout North Northbound", "Bay": "", "Latitude": 52.018, "Longitude": -0.725185, "Services": "25/5/6" }, { "Id": "049005055217", "Naptan": null, "Name": "Simpson Roundabout South NW-bound", "Bay": "", "Latitude": 52.01632, "Longitude": -0.72274166666667, "Services": "5" }, { "Id": "049005055223", "Naptan": null, "Name": "Simpson Roundabout North Southbound", "Bay": "", "Latitude": 52.018131666667, "Longitude": -0.72478833333333, "Services": "24/5/6" }, { "Id": "049005065216", "Naptan": null, "Name": "Langland School o/s", "Bay": "", "Latitude": 52.021696666667, "Longitude": -0.72605666666667, "Services": "25/5/6" }, { "Id": "049005065222", "Naptan": null, "Name": "Langland School opp", "Bay": "", "Latitude": 52.022386666667, "Longitude": -0.725935, "Services": "24/5/6" }, { "Id": "049005320835", "Naptan": null, "Name": "Bus Station Bay 5", "Bay": "5", "Latitude": 51.995571666667, "Longitude": -0.73392166666667, "Services": "300/5/6" }, { "Id": "049005320835", "Naptan": null, "Name": "Bus Station Bay 5", "Bay": "5", "Latitude": 51.995571666667, "Longitude": -0.73392166666667, "Services": "300/5/6" }, { "Id": "049005320835", "Naptan": null, "Name": "Bus Station Bay 5", "Bay": "5", "Latitude": 51.995571666667, "Longitude": -0.73392166666667, "Services": "300/5/6" }, { "Id": "049005320837", "Naptan": null, "Name": "Bus Station Bay 7", "Bay": "7", "Latitude": 51.995498333333, "Longitude": -0.73389333333333, "Services": "5/6/673" }, { "Id": "049005320837", "Naptan": null, "Name": "Bus Station Bay 7", "Bay": "7", "Latitude": 51.995498333333, "Longitude": -0.73389333333333, "Services": "5/6/673" }, { "Id": "049005320837", "Naptan": null, "Name": "Bus Station Bay 7", "Bay": "7", "Latitude": 51.995498333333, "Longitude": -0.73389333333333, "Services": "5/6/673" }, { "Id": "049005345087", "Naptan": null, "Name": "Water Eaton Road o/s 95", "Bay": "", "Latitude": 51.990193333333, "Longitude": -0.72890166666667, "Services": "5/6" }, { "Id": "049005365104", "Naptan": null, "Name": "Bala Way westbound", "Bay": "", "Latitude": 51.984458333333, "Longitude": -0.72905, "Services": "5/6" }, { "Id": "049005375130", "Naptan": null, "Name": "Fern Grove Eastbound", "Bay": "", "Latitude": 51.981613333333, "Longitude": -0.72951, "Services": "5/6" }, { "Id": "049005375131", "Naptan": null, "Name": "Leon School opp", "Bay": "", "Latitude": 51.981055, "Longitude": -0.72686, "Services": "5/6" }, { "Id": "049005375132", "Naptan": null, "Name": "Tulla Court adjacent", "Bay": "", "Latitude": 51.977816666667, "Longitude": -0.72922333333333, "Services": "5/6" }, { "Id": "049005385133", "Naptan": null, "Name": "Lomond Drive NE-bound", "Bay": "", "Latitude": 51.974226666667, "Longitude": -0.72655833333333, "Services": "1/5/6/603" }, { "Id": "049005385134", "Naptan": null, "Name": "Arrow Place Eastbound", "Bay": "", "Latitude": 51.976243333333, "Longitude": -0.72021166666667, "Services": "1/5/6/603" }, { "Id": "049005395135", "Naptan": null, "Name": "Santen Grove westbound", "Bay": "", "Latitude": 51.979635, "Longitude": -0.72192166666667, "Services": "5/6/603" }, { "Id": "049005395136", "Naptan": null, "Name": "Windermere Drive northbound", "Bay": "", "Latitude": 51.981106666667, "Longitude": -0.72505333333333, "Services": "5/6/603" }, { "Id": "049005395137", "Naptan": null, "Name": "Rydal Way eastbound", "Bay": "", "Latitude": 51.983183333333, "Longitude": -0.72249, "Services": "5/6/603" }, { "Id": "049005405012", "Naptan": null, "Name": "Stoke Road northbound", "Bay": "", "Latitude": 51.985131666667, "Longitude": -0.71982833333333, "Services": "1/19/5/6/603/70" }, { "Id": "049005415102", "Naptan": null, "Name": "Buttermere Close southbound", "Bay": "", "Latitude": 51.987385, "Longitude": -0.722735, "Services": "5/6" }, { "Id": "049005415103", "Naptan": null, "Name": "Grasmere Way SW-bound", "Bay": "", "Latitude": 51.985658333333, "Longitude": -0.724385, "Services": "5/6" }, { "Id": "049005425088", "Naptan": null, "Name": "Water Eaton Post Office adjacent", "Bay": "", "Latitude": 51.98947, "Longitude": -0.72340333333333, "Services": "5/6" }, { "Id": "049005435089", "Naptan": null, "Name": "The Plough o/s", "Bay": "", "Latitude": 51.990138333333, "Longitude": -0.722015, "Services": "1/19/5/603/70" }, { "Id": "049005435090", "Naptan": null, "Name": "Manor Road Centre opp", "Bay": "", "Latitude": 51.99218, "Longitude": -0.72047166666667, "Services": "1/19/5/603/70" }, { "Id": "049005435091", "Naptan": null, "Name": "St Thomas Aquinas Church opp", "Bay": "", "Latitude": 51.99468, "Longitude": -0.718885, "Services": "1/19/5/603/70" }, { "Id": "049005465067", "Naptan": null, "Name": "Leisure Centre opp", "Bay": "", "Latitude": 51.996493333333, "Longitude": -0.72774833333333, "Services": "1/18/18A/5/70/X31" }, { "Id": "049005465092", "Naptan": null, "Name": "Knowles Schools o/s", "Bay": "", "Latitude": 51.996018333333, "Longitude": -0.72282333333333, "Services": "1/18/18A/19/5/70/X31" }, { "Id": "049005465093", "Naptan": null, "Name": "Queensway westbound", "Bay": "", "Latitude": 51.995306666667, "Longitude": -0.72685, "Services": "1/18/18A/19/5/70/X31" }, { "Id": "049005475150", "Naptan": null, "Name": "Bletchley Tesco o/s", "Bay": "", "Latitude": 52.001971666667, "Longitude": -0.72628166666667, "Services": "1/162/17/19/25/300/31/32/5/50/6/673/70/9" } ] } };
