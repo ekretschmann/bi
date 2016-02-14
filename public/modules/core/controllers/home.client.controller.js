@@ -21,22 +21,39 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 }
             });
 
-
+           // $scope.markers.m1.icon=$scope.markers.leafIcon;
         };
 
 
+
         angular.extend($scope, {
+
             mk: {
                 //  autoDiscover: true
                 lat: 52.036,
                 lng: -0.7532501220703125,
                 zoom: 12
             }, paths: {},
-            markers: {},
+            markers: {
+                m1: {
+                    lat: 52.036,
+                    lng: -0.7532501220703125,
+                    message: 'static marker with defaultIcon',
+                    focus: false,
+                    icon: {
+                        type: 'div',
+                        html: '<div class="bus-icon"></div>',
+                        className: 'map-marker bus-icon'
+                    }
+                }
+            },
+            defaultIcon: {},
             defaults: {
                 scrollWheelZoom: false
             }
+
         });
+
 
         $scope.displayBusRoute = function (id) {
             $scope.markers = [];
@@ -49,8 +66,14 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                         $scope.markers.push({
                             lat: point.Latitude,
                             lng: point.Longitude,
-                            message: point.Name
+                            message: point.Name,
+                            icon: {type: 'div',
+                            html: '<div class="bus-icon"></div>',
+                            className: 'map-marker bus-icon'}
+
                         });
+
+                        //markers.m1.icon='makiMarkerIcon'; markers.m1.icon.icon='beer';
                     }
 
                     $scope.info = response;
@@ -87,7 +110,7 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 $scope.paths.p1 = {
                     color: 'blue',
                     weight: 2,
-                    type: "multiPolyline",
+                    type: 'multiPolyline',
                     latlngs: $scope.route
                 };
 
