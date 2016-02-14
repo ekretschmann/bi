@@ -34,19 +34,7 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 lng: -0.7532501220703125,
                 zoom: 12
             }, paths: {},
-            markers: {
-                m1: {
-                    lat: 52.036,
-                    lng: -0.7532501220703125,
-                    message: 'static marker with defaultIcon',
-                    focus: false,
-                    icon: {
-                        type: 'div',
-                        html: '<div class="bus-icon"></div>',
-                        className: 'map-marker bus-icon'
-                    }
-                }
-            },
+            markers: {},
             defaultIcon: {},
             defaults: {
                 scrollWheelZoom: false
@@ -76,46 +64,49 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                         //markers.m1.icon='makiMarkerIcon'; markers.m1.icon.icon='beer';
                     }
 
-                    $scope.info = response;
+                    //$scope.info = response;
                 });
 
 
-            $scope.route = [[]];
 
-            var routeIds = {
-                '1': '32106',
-                '2': '32919',
-                '4': '32110',
-                '5': '32451',
-                '6': '37288',
-                '7': '37292',
-                '8': '32677'
-            };
-            if (routeIds[id]) {
-                $http.get('/busroutes/'+routeIds[id])
+
+
+            //if (routeIds[id]) {
+                $http.get('/busroutes/'+id)
                     .then(function (response) {
-                        var data = response.data.r[Object.keys(response.data.r)[0]];
+
+                      //  console.log(response.data[0].path);
+
+                        console.log(response);
+
+                        var segments = response.data[0].path;
 
 
-                        for (var i = 0; i < data.length; i++) {
-                            $scope.route[0].push({
-                                lat: data[i][0],
-                                lng: data[i][1]
+                        var route = [[]];
+                        for (var i = 0; i < segments.length; i++) {
+                            route[0].push({
+                                lat: segments[i].lat,
+                                lng: segments[i].lng
                             });
+                          //  console.log(route[i].lat, route[i].lng);
                         }
+
+                        console.log(route);
+
+                        $scope.paths = {};
+                        $scope.paths.p1 = {
+                            color: 'blue',
+                            weight: 2,
+                            type: 'multiPolyline',
+                            latlngs: route
+                        };
                     });
 
-                $scope.info = $scope.route;
-                $scope.paths = {};
-                $scope.paths.p1 = {
-                    color: 'blue',
-                    weight: 2,
-                    type: 'multiPolyline',
-                    latlngs: $scope.route
-                };
 
 
-            }
+
+
+            //}
 
 
         };
