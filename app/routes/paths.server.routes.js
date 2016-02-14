@@ -11,7 +11,7 @@ module.exports = function(app) {
 
 	app.route('/paths/:pathId')
 		.get(paths.read)
-		.put(users.requiresLogin, paths.hasAuthorization, paths.update)
+		.put(paths.update)
 		.delete( paths.delete);
 
 	// Finish by binding the Path middleware

@@ -20,13 +20,8 @@ var PathSchema = new Schema({
 		default: ''
 	},
 	path: {
-		type: [{
-			lat: Number,
-			lng: Number
-		}],
-
-		//type: String,
-		default: []
+		type: Schema.Types.Mixed,
+		default: [[]]
 	},
 	created: {
 		type: Date,

@@ -22,7 +22,7 @@ exports.busroute = function (req, res) {
     Path.find({type: 'busline', name:req.params.routeId}).exec(function (err, path) {
 
         if (path && path.length > 0) {
-            res.jsonp(path);
+            res.jsonp(path[0]);
         } else {
             var routeIds = {
                 '1': '32106',
@@ -55,14 +55,21 @@ exports.busroute = function (req, res) {
                     //console.log('BODY: ' + body.toString());
                     // ...and/or process the entire body here.
 
-                    var segments = body.r[Object.keys(body.r)[0]];
+
+                    console.log(Object.keys(body.r).length);
+
+                   // var segments = body.r[Object.keys(body.r)[0]];
 
                     var route = [];
-                    for (var i = 0; i < segments.length; i++) {
-                        route.push({
-                            lat: segments[i][0],
-                            lng: segments[i][1]
-                        });
+                    for (var j=0; j<Object.keys(body.r).length; j++) {
+                        route.push([]);
+                        var segments = body.r[Object.keys(body.r)[j]];
+                        for (var i = 0; i < segments.length; i++) {
+                            route[j].push({
+                                lat: segments[i][0],
+                                lng: segments[i][1]
+                            });
+                        }
                     }
 
                     var path = new Path({
@@ -71,7 +78,7 @@ exports.busroute = function (req, res) {
                         path: route
                     });
 
-                   // console.log(path);
+                    //res.jsonp(path);
 
 
 

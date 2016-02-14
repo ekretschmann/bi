@@ -75,30 +75,17 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 $http.get('/busroutes/'+id)
                     .then(function (response) {
 
-                      //  console.log(response.data[0].path);
+                        $scope.info=response;
 
-                        console.log(response);
-
-                        var segments = response.data[0].path;
-
-
-                        var route = [[]];
-                        for (var i = 0; i < segments.length; i++) {
-                            route[0].push({
-                                lat: segments[i].lat,
-                                lng: segments[i].lng
-                            });
-                          //  console.log(route[i].lat, route[i].lng);
-                        }
-
-                        console.log(route);
+                        var segments = response.data.path;
+                        
 
                         $scope.paths = {};
                         $scope.paths.p1 = {
                             color: 'blue',
                             weight: 2,
                             type: 'multiPolyline',
-                            latlngs: route
+                            latlngs: segments
                         };
                     });
 
