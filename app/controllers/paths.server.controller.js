@@ -13,11 +13,6 @@ var mongoose = require('mongoose'),
 
 exports.busroute = function (req, res) {
 
-    console.log('xxx');
-
-
-
-    console.log(req.params.routeId);
 
     Path.find({type: 'busline', name:req.params.routeId}).exec(function (err, path) {
 

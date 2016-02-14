@@ -67,7 +67,7 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                         //markers.m1.icon='makiMarkerIcon'; markers.m1.icon.icon='beer';
                     }
 
-                    //$scope.info = response;
+                    $scope.info = response;
                 });
 
 

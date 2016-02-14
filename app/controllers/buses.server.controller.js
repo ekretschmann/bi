@@ -67,7 +67,7 @@ exports.busservice = function(req, res) {
 			bodyChunks.push(chunk);
 		}).on('end', function() {
 			var body = JSON.parse(Buffer.concat(bodyChunks));
-			//console.log('BODY: ' + body.toString());
+			console.log(body);
 			// ...and/or process the entire body here.
 			res.jsonp(body);
 		});
