@@ -33,7 +33,8 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
                 lat: 52.036,
                 lng: -0.7532501220703125,
                 zoom: 12
-            }, paths: {},
+            },
+            paths: {},
             markers: {},
             defaultIcon: {},
             defaults: {
@@ -45,6 +46,8 @@ angular.module('core').controller('HomeController', ['$scope', '$http', 'lodash'
 
         $scope.displayBusRoute = function (id) {
             $scope.markers = [];
+            $scope.paths = {};
+            $scope.selectedLine = id;
             $http.get('/busservices/' + id)
                 .then(function (response) {
                    // $scope.info = response.data.Root.Locations;
