@@ -34,73 +34,72 @@ exports.busroute = function (req, res) {
                 '8': '32677'
             };
 
-            var options = {
-                host: 'www.arrivabus.co.uk',
-                path: '/TimetableData/?route=true&id=' + routeIds[req.params.routeId] + '&date=151011'
-            };
+            if (routeIds[req.params.routeId]) {
+                var options = {
+                    host: 'www.arrivabus.co.uk',
+                    path: '/TimetableData/?route=true&id=' + routeIds[req.params.routeId] + '&date=151011'
+                };
 
-            //res.jsonp(line5);
+                //res.jsonp(line5);
 
-            var httpReq = https.get(options, function (response) {
-                console.log('STATUS: ' + response.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(response.headers));
+                var httpReq = https.get(options, function (response) {
+                    console.log('STATUS: ' + response.statusCode);
+                    //console.log('HEADERS: ' + JSON.stringify(response.headers));
 
-                // Buffer the body entirely for processing as a whole.
-                var bodyChunks = [];
-                response.on('data', function (chunk) {
-                    // You can process streamed parts here...
-                    bodyChunks.push(chunk);
-                }).on('end', function () {
-                    var body = JSON.parse(Buffer.concat(bodyChunks));
-                    //console.log('BODY: ' + body.toString());
-                    // ...and/or process the entire body here.
+                    // Buffer the body entirely for processing as a whole.
+                    var bodyChunks = [];
+                    response.on('data', function (chunk) {
+                        // You can process streamed parts here...
+                        bodyChunks.push(chunk);
+                    }).on('end', function () {
+                        var body = JSON.parse(Buffer.concat(bodyChunks));
+                        //console.log('BODY: ' + body.toString());
+                        // ...and/or process the entire body here.
 
 
-                    console.log(Object.keys(body.r).length);
+                        console.log(Object.keys(body.r).length);
 
-                   // var segments = body.r[Object.keys(body.r)[0]];
+                        // var segments = body.r[Object.keys(body.r)[0]];
 
-                    var route = [];
-                    for (var j=0; j<Object.keys(body.r).length; j++) {
-                        route.push([]);
-                        var segments = body.r[Object.keys(body.r)[j]];
-                        for (var i = 0; i < segments.length; i++) {
-                            route[j].push({
-                                lat: segments[i][0],
-                                lng: segments[i][1]
-                            });
+                        var route = [];
+                        for (var j = 0; j < Object.keys(body.r).length; j++) {
+                            route.push([]);
+                            var segments = body.r[Object.keys(body.r)[j]];
+                            for (var i = 0; i < segments.length; i++) {
+                                route[j].push({
+                                    lat: segments[i][0],
+                                    lng: segments[i][1]
+                                });
+                            }
                         }
-                    }
 
-                    var path = new Path({
-                        type: 'busline',
-                        name: req.params.routeId,
-                        path: route
+                        var path = new Path({
+                            type: 'busline',
+                            name: req.params.routeId,
+                            path: route
+                        });
+
+                        //res.jsonp(path);
+
+
+                        path.save(function (err, newPath) {
+                            if (err) {
+                                return res.status(400).send({
+                                    message: errorHandler.getErrorMessage(err)
+                                });
+                            } else {
+                                res.jsonp(newPath);
+                            }
+                        });
+
+                        //res.jsonp(body);
                     });
-
-                    //res.jsonp(path);
-
-
-
-
-
-                    path.save(function (err, newPath) {
-                        if (err) {
-                            return res.status(400).send({
-                                message: errorHandler.getErrorMessage(err)
-                            });
-                        } else {
-                            res.jsonp(newPath);
-                        }
-                    });
-
-                    //res.jsonp(body);
                 });
-            });
 
-            httpReq.on('error', function (e) {
-                console.log('ERROR: ' + e.message);
-            });
+                httpReq.on('error', function (e) {
+                    console.log('ERROR: ' + e.message);
+                });
+            }
         }
 
         //if (err) return next(err);
