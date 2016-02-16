@@ -1,7 +1,7 @@
 /*planner*/
 .planner {
   margin-top: 1%;
-  height: 90vh;
+  height: 80vh;
 
   .input-row {
     .make-row(0);
@@ -54,6 +54,13 @@
     border: 1px solid @border-color;
     .when-button {
       .planner-button;
+    }
+
+    .time-slider {
+      margin-top: -20px;
+      font-size: x-small;
+      .make-xs-column(6, 0.5);
+      .make-xs-column-offset(0.5);
     }
   }
 }

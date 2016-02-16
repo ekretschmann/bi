@@ -15,7 +15,7 @@
 /*planner*/
 .planner {
   margin-top: 1%;
-  height: 90vh;
+  height: 80vh;
 }
 .planner .input-row {
   margin-left: 0;
@@ -120,4 +120,15 @@
 }
 .planner .timer .when-button .btn {
   width: 100%;
+}
+.planner .timer .time-slider {
+  margin-top: -20px;
+  font-size: x-small;
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 0.25;
+  padding-right: 0.25;
+  margin-left: 4.16666667%;
 }

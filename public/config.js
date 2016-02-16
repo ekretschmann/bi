@@ -5,7 +5,7 @@ var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'motionmap';
 	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap',
-		'leaflet-directive', 'ngLodash'];
+		'leaflet-directive', 'ngLodash', 'rzModule'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

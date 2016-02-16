@@ -15,6 +15,29 @@ angular.module('core').controller('PlannerController',
                 $scope.fromInput = false;
                 $scope.fromInputFocus = false;
                 $scope.toInput = false;
+                $scope.priceSlider = 10;
+            };
+
+
+            $scope.slider = {
+               value: Date.now(),
+                options: {
+                    hideLimitLabels: true,
+                    floor: Date.now(),
+                    ceil: Date.now()+1000*60*60*24,
+                    interval: 60000,
+                    getPointerColor: function(value) {
+                        return '#2b669a';
+                    },
+                    getSelectionBarColor: function(value) {
+                        return '#2b669a';
+                    },
+                    translate: function(value) {
+                        //return new Date(value);
+                        return '';
+                    }
+
+                }
             };
 
             $scope.toggleFrom = function () {

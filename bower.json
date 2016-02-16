@@ -17,7 +17,8 @@
     "angular-bootstrap": "~1.1.2",
     "angular-ui-utils": "~3.0.0",
     "angular-ui-router": "~0.2.11",
-    "ng-lodash": "~0.4.0"
+    "ng-lodash": "~0.4.0",
+    "angularjs-slider": "~2.8.0"
   },
   "resolutions": {
     "angular": "~1.5",

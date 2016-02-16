@@ -28,12 +28,16 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
 				'public/lib/leaflet/dist/leaflet.js',
-				'public/lib/ng-lodash/build/ng-lodash.js'
+				'public/lib/ng-lodash/build/ng-lodash.js',
+				'public/lib/angularjs-slider/dist/rzslider.min.js'
 			]
 		},
 		css: [
-			'public/modules/**/css/*.css',
-			'public/lib/leaflet/dist/leaflet.css'
+			'public/lib/leaflet/dist/leaflet.css',
+			'public/lib/angularjs-slider/dist/rzslider.css',
+			'public/modules/**/css/*.css'
+
+
 		],
 		js: [
 			'public/config.js',

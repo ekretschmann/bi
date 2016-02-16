@@ -56,9 +56,27 @@
         <div class="timer">
             <div class="when-button">
                 <button type="button" class="btn btn-primary">
+                    -
+                </button>
+            </div>
+
+            <div class="when-button">
+                <button type="button" class="btn btn-primary">
                     Today
                 </button>
             </div>
+
+            <div class="when-button">
+                <button type="button" class="btn btn-primary">
+                    +
+                </button>
+            </div>
+            <div class="time-slider">
+                <rzslider
+                        rz-slider-model="slider.value"
+                        rz-slider-options="slider.options"></rzslider>
+            </div>
+
         </div>
 
     </div>
