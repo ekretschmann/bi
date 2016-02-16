@@ -16,6 +16,23 @@ angular.module('core').controller('PlannerController',
                 $scope.fromInputFocus = false;
                 $scope.toInput = false;
                 $scope.priceSlider = 10;
+                $scope.startTime = $scope.getDateString(Date.now());
+            };
+
+            $scope.getDateString = function(d) {
+                var result = '';
+                result += new Date(d).getDate() +'/';
+                result += new Date(d).getMonth()+'/';
+                result += new Date(d).getFullYear()+' ';
+                if (new Date(d).getHours()<10) {
+                    result += '0';
+                }
+                result += new Date(d).getHours()+':';
+                if (new Date(d).getMinutes()<10) {
+                    result += '0';
+                }
+                result += new Date(d).getMinutes();
+                return result;
             };
 
 
@@ -24,7 +41,7 @@ angular.module('core').controller('PlannerController',
                 options: {
                     hideLimitLabels: true,
                     floor: Date.now(),
-                    ceil: Date.now()+1000*60*60*24,
+                    ceil: Date.now()+1000*60*60*4,
                     interval: 60000,
                     getPointerColor: function(value) {
                         return '#2b669a';
@@ -33,12 +50,15 @@ angular.module('core').controller('PlannerController',
                         return '#2b669a';
                     },
                     translate: function(value) {
-                        //return new Date(value);
                         return '';
+                    },
+                    onChange: function(sliderId, modelValue, highValue) {
+                        $scope.startTime = $scope.getDateString(modelValue);
                     }
 
                 }
             };
+
 
             $scope.toggleFrom = function () {
 

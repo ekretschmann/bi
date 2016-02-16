@@ -132,3 +132,13 @@
   padding-right: 0.25;
   margin-left: 4.16666667%;
 }
+.planner .timer .time {
+  margin-top: 0.2em;
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: right;
+}
