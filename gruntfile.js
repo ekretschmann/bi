@@ -41,13 +41,20 @@ module.exports = function(grunt) {
 					livereload: true
 				}
 			},
-			clientCSS: {
-				files: watchFiles.clientCSS,
-				tasks: ['csslint'],
-				options: {
-					livereload: true
-				}
+			//clientCSS: {
+			//	files: watchFiles.clientCSS,
+			//	tasks: ['csslint'],
+			//	options: {
+			//		livereload: true
+			//	}
+			//}
+			clientLESS: {
+			files: ['public/**/css/**/*.less'],
+			tasks: ['less'],
+			options: {
+				livereload: true
 			}
+		}
 		},
 		jshint: {
 			all: {
@@ -55,6 +62,23 @@ module.exports = function(grunt) {
 				options: {
 					jshintrc: true
 				}
+			}
+		},
+		less: {
+			development: {
+				options: {
+					paths: ['assets/css']
+				},
+				files: {'public/modules/core/css/mm.css': 'public/modules/core/css/mm.less'}
+
+
+			},
+			production: {
+				options: {
+					paths: ['assets/css'],
+					cleancss: true
+				},
+				files: {'public/modules/core/css/mm.css': 'public/modules/core/css/mm.less'}
 			}
 		},
 		csslint: {
@@ -158,7 +182,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'concurrent:default']);
+	grunt.registerTask('default', ['lint', 'less','concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);
@@ -174,4 +198,6 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+
+	grunt.loadNpmTasks('grunt-contrib-less');
 };

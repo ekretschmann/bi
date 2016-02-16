@@ -1,0 +1,123 @@
+.planner .input-row:before,
+.planner .input-row:after,
+.planner .journey:before,
+.planner .journey:after,
+.planner .timer:before,
+.planner .timer:after {
+  content: " ";
+  display: table;
+}
+.planner .input-row:after,
+.planner .journey:after,
+.planner .timer:after {
+  clear: both;
+}
+/*planner*/
+.planner {
+  margin-top: 1%;
+  height: 90vh;
+}
+.planner .input-row {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.2em;
+  background-color: #f1eee9;
+  font-size: large;
+}
+.planner .planner-button {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .planner-button .btn {
+  width: 100%;
+}
+.planner .journey {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.2em;
+  background-color: #f1eee9;
+  font-size: large;
+  border: 1px solid #b5a68c;
+}
+.planner .journey .from-button {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .journey .from-button .btn {
+  width: 100%;
+}
+.planner .journey .from-input {
+  position: relative;
+  float: left;
+  width: 37.5%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
+}
+.planner .journey .text {
+  margin-top: 0.2em;
+}
+.planner .journey .to-button {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .journey .to-button .btn {
+  width: 100%;
+}
+.planner .journey .to-input {
+  position: relative;
+  float: left;
+  width: 37.5%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
+}
+.planner .journey .go-button {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .journey .go-button .btn {
+  width: 100%;
+}
+.planner .map {
+  height: 100%;
+  border-left: 1px solid #b5a68c;
+  border-right: 1px solid #b5a68c;
+}
+.planner .timer {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.2em;
+  background-color: #f1eee9;
+  font-size: large;
+  border: 1px solid #b5a68c;
+}
+.planner .timer .when-button {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .timer .when-button .btn {
+  width: 100%;
+}

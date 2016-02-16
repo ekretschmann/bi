@@ -1,0 +1,63 @@
+/*planner*/
+.planner {
+  margin-top: 1%;
+  height: 90vh;
+
+  .input-row {
+    .make-row(0);
+    padding: 0.2em;
+    background-color: @background-color;
+    font-size: large;
+  }
+
+  .planner-button {
+    .make-xs-column(1, 0);
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .journey {
+    .input-row;
+    border: 1px solid @border-color;
+    .from-button {
+      .planner-button;
+    }
+    .from-input {
+      .make-xs-column(4.5);
+      cursor: pointer;
+    }
+    .text {
+      margin-top: 0.2em;
+    }
+    .to-button {
+      .planner-button;
+
+    }
+    .to-input {
+      .make-xs-column(4.5);
+      cursor: pointer;
+    }
+    .go-button {
+      .planner-button;
+    }
+
+  }
+
+  .map {
+    height: 100%;
+    border-left: 1px solid @border-color;
+    border-right: 1px solid @border-color;
+  }
+  .timer {
+    .input-row;
+    border: 1px solid @border-color;
+    .when-button {
+      .planner-button;
+    }
+  }
+}
+
+
+
+

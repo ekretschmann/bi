@@ -1,0 +1,67 @@
+<section data-ng-controller="PlannerController" ng-init="init()">
+
+    <div class="planner">
+
+        <div class="journey">
+
+                <div class="from-button">
+                    <button type="button" class="btn btn-primary">
+                        From
+                    </button>
+                </div>
+                <div class="from-input text" ng-show="!fromInput" ng-hide="fromInput" data-ng-click="toggleFrom()">
+                    {{from}}
+                </div>
+
+                <div class="from-input" ng-show="fromInput" ng-hide="!fromInput">
+                    <input type="text"
+                           data-ng-model="from"
+                           id="from-input"
+                           ng-blur="toggleFrom()"
+                           class="form-control"
+                           placeholder="Where do you travel from">
+                </div>
+
+                <div class="to-button">
+                    <button type="button" class="btn btn-primary">
+                        To
+                    </button>
+                </div>
+                <div class="to-input text" ng-show="!toInput" ng-hide="toInput" data-ng-click="toggleTo()">
+                    {{to}}
+                </div>
+
+                <div class="to-inputl" ng-show="toInput" ng-hide="!toInput">
+                    <input type="text"
+                           data-ng-model="to"
+                           id="to-input"
+                           ng-blur="toggleTo()"
+                           class="form-control from-input"
+                           placeholder="Where do you travel from">
+                </div>
+
+                <div class="go-button">
+                    <button type="button" class="btn btn-primary">
+                        Go!
+                    </button>
+                </div>
+
+
+        </div>
+
+        <div class="map">
+            <leaflet height="100%" width="100%" center="mk"></leaflet>
+        </div>
+
+        <div class="timer">
+            <div class="when-button">
+                <button type="button" class="btn btn-primary">
+                    Today
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
+</section>

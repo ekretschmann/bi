@@ -1,5 +1,5 @@
 .content {
-	margin-top: 50px;
+	/*//margin-top: 50px;*/
 }
 .undecorated-link:hover {
 	text-decoration: none;
@@ -13,3 +13,5 @@
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
+
+
