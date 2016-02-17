@@ -8,6 +8,21 @@ angular.module('core').controller('PlannerController',
             $scope.authentication = Authentication;
 
 
+            var icons = {
+                blue: {
+                    type: 'div',
+                    iconSize: [10, 10],
+                    className: 'blue',
+                    iconAnchor:  [5, 5]
+                },
+                red: {
+                    type: 'div',
+                    iconSize: [10, 10],
+                    className: 'red',
+                    iconAnchor:  [5, 5]
+                }
+            };
+
             $scope.init = function () {
                 $scope.from = 'Current Location';
                 $scope.to = undefined;
@@ -20,6 +35,8 @@ angular.module('core').controller('PlannerController',
                 $scope.startTime = $scope.getStartTime(Date.now());
 
                 $scope.locationInputState = 'init';
+                //$scope.startMarkerVisible = -1;
+                //$scope.endMarkerVisible = -1;
             };
 
             $scope.getStartDate = function(d) {
@@ -134,34 +151,48 @@ angular.module('core').controller('PlannerController',
             $scope.$on('leafletDirectiveMap.click', function(event, args){
                 var leafEvent = args.leafletEvent;
 
-                console.log($scope.locationInputState);
                 if ($scope.locationInputState === 'select-from') {
-                    $scope.markers.push({
-                        lat: leafEvent.latlng.lat,
-                        lng: leafEvent.latlng.lng,
-                        icon: {
-                            type: 'div',
-                            html: '<div class="bus-icon"></div>',
-                            className: 'map-marker bus-icon'
-                        },
-                        message: 'From here'
-                    });
+
+                    if (!$scope.startMarker) {
+                        $scope.startMarker = {
+                            lat: leafEvent.latlng.lat,
+                            lng: leafEvent.latlng.lng,
+                            icon: {
+
+                                type: 'div',
+                                html: '<div class="bus-icon"></div>',
+                                className: 'map-marker bus-icon'
+                            },
+                            message: 'From here'
+                        };
+
+                        $scope.markers.push($scope.startMarker);
+                    } else {
+                        $scope.startMarker.lat = leafEvent.latlng.lat;
+                        $scope.startMarker.lng = leafEvent.latlng.lng;
+                    }
                     $scope.locationInputState = 'init';
                     $scope.from = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
                 }
 
                 if ($scope.locationInputState === 'select-to') {
 
-                    $scope.markers.push({
-                        lat: leafEvent.latlng.lat,
-                        lng: leafEvent.latlng.lng,
-                        icon: {
-                            type: 'div',
-                            html: '<div class="bus-icon"></div>',
-                            className: 'map-marker bus-icon'
-                        },
-                        message: 'To here'
-                    });
+                    if (!$scope.endMarker) {
+                        $scope.endMarker = {
+                            lat: leafEvent.latlng.lat,
+                            lng: leafEvent.latlng.lng,
+                            icon: {
+                                type: 'div',
+                                html: '<div class="test-icon"></div>',
+                                className: 'map-marker test-icon'
+                            },
+                            message: 'To here'
+                        };
+                        $scope.markers.push($scope.endMarker);
+                    } else {
+                        $scope.endMarker.lat = leafEvent.latlng.lat;
+                        $scope.endMarker.lng = leafEvent.latlng.lng;
+                    }
                     $scope.locationInputState = 'init';
                     $scope.to = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
                 }
