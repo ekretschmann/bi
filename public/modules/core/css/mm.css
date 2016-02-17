@@ -110,35 +110,41 @@
   font-size: large;
   border: 1px solid #b5a68c;
 }
-.planner .timer .when-button {
-  position: relative;
-  float: left;
-  width: 8.33333333%;
-  min-height: 1px;
-  padding-left: 0;
-  padding-right: 0;
-}
-.planner .timer .when-button .btn {
-  width: 100%;
-}
 .planner .timer .time-slider {
-  margin-top: -20px;
+  margin-top: -1.5em;
   font-size: x-small;
   position: relative;
   float: left;
   width: 50%;
   min-height: 1px;
-  padding-left: 0.25;
-  padding-right: 0.25;
-  margin-left: 4.16666667%;
+  padding-left: 0;
+  padding-right: 0;
 }
-.planner .timer .time {
+.planner .timer .date-input {
   margin-top: 0.2em;
   position: relative;
   float: left;
-  width: 16.66666667%;
+  width: 25%;
   min-height: 1px;
   padding-left: 0;
   padding-right: 0;
-  text-align: right;
+  text-align: center;
+}
+.planner .timer .date-input .start-date {
+  display: inline;
+  padding: 0 0.5em 0 0.5em;
+}
+.planner .timer .time-input {
+  margin-top: 0.2em;
+  position: relative;
+  float: left;
+  width: 25%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+.planner .timer .time-input .start-time {
+  display: inline;
+  padding: 0 0.5em 0 0.5em;
 }

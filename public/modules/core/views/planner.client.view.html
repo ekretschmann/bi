@@ -5,7 +5,7 @@
         <div class="journey">
 
                 <div class="from-button">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" ng-click="selectFrom()">
                         From
                     </button>
                 </div>
@@ -23,12 +23,14 @@
                 </div>
 
                 <div class="to-button">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" ng-click="selectTo()">
                         To
                     </button>
                 </div>
                 <div class="to-input text" ng-show="!toInput" ng-hide="toInput" data-ng-click="toggleTo()">
-                    {{to}}
+
+                    <span ng-if="to">{{to}}</span>
+                    <span ng-if="!to" class="text-muted">Select Destination</span>
                 </div>
 
                 <div class="to-inputl" ng-show="toInput" ng-hide="!toInput">
@@ -50,34 +52,39 @@
         </div>
 
         <div class="map">
-            <leaflet height="100%" width="100%" center="mk"></leaflet>
+            <leaflet height="100%" width="100%" markers="markers" lf-center="mk" event-broadcast="events"></leaflet>
         </div>
 
         <div class="timer">
-            <div class="when-button">
-                <button type="button" class="btn btn-primary">
+
+
+            <div class="date-input">
+                <button type="button" class="btn btn-primary" ng-click="changeDate(-1)">
                     -
                 </button>
-            </div>
-
-            <div class="when-button">
-                <button type="button" class="btn btn-primary">
-                    Today
-                </button>
-            </div>
-
-            <div class="when-button">
-                <button type="button" class="btn btn-primary">
+                <div class="start-date">
+                    {{startDate}}
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="changeDate(1)">
                     +
                 </button>
             </div>
+
             <div class="time-slider">
                 <rzslider
                         rz-slider-model="slider.value"
                         rz-slider-options="slider.options"></rzslider>
             </div>
-            <div class="time">
+            <div class="time-input">
+                <button type="button" class="btn btn-primary" ng-click="changeTime(-1)">
+                    -
+                </button>
+                <div class="start-time">
                 {{startTime}}
+                    </div>
+                <button type="button" class="btn btn-primary" ng-click="changeTime(1)" onD>
+                    +
+                </button>
             </div>
         </div>
 

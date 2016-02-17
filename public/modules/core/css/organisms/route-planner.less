@@ -41,6 +41,9 @@
     .go-button {
       .planner-button;
     }
+  }
+
+  .start-icon {
 
   }
 
@@ -52,20 +55,31 @@
   .timer {
     .input-row;
     border: 1px solid @border-color;
-    .when-button {
-      .planner-button;
-    }
+
 
     .time-slider {
-      margin-top: -20px;
+      margin-top: -1.5em;
       font-size: x-small;
-      .make-xs-column(6, 0.5);
-      .make-xs-column-offset(0.5);
+      .make-xs-column(6, 0);
+      //.make-xs-column-offset(0.5);
     }
-    .time {
+    .date-input {
       margin-top: 0.2em;
-      .make-xs-column(2, 0);
-      text-align: right;
+      .make-xs-column(3, 0);
+      text-align: center;
+      .start-date {
+        display: inline;
+        padding: 0 0.5em 0 0.5em;
+      }
+    }
+    .time-input {
+      margin-top: 0.2em;
+      .make-xs-column(3, 0);
+      text-align: center;
+      .start-time {
+        display: inline;
+        padding: 0 0.5em 0 0.5em;
+      }
     }
   }
 }
