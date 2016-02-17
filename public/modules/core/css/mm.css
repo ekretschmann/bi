@@ -110,6 +110,18 @@
   font-size: large;
   border: 1px solid #b5a68c;
 }
+.planner .timer .now-button {
+  margin-top: 0.2em;
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.planner .timer .now-button .btn {
+  width: 100%;
+}
 .planner .timer .time-slider {
   margin-top: -1.5em;
   font-size: x-small;
@@ -124,7 +136,7 @@
   margin-top: 0.2em;
   position: relative;
   float: left;
-  width: 25%;
+  width: 20.83333333%;
   min-height: 1px;
   padding-left: 0;
   padding-right: 0;
@@ -138,7 +150,7 @@
   margin-top: 0.2em;
   position: relative;
   float: left;
-  width: 25%;
+  width: 20.83333333%;
   min-height: 1px;
   padding-left: 0;
   padding-right: 0;

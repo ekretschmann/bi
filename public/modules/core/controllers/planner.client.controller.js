@@ -53,6 +53,13 @@ angular.module('core').controller('PlannerController',
             };
 
 
+            $scope.resetTime = function() {
+
+                $scope.slider.value = Date.now();
+                $scope.startTime = $scope.getStartTime( $scope.slider.value);
+                $scope.startDate = $scope.getStartDate( $scope.slider.value);
+            };
+
             $scope.changeDate = function(howMuch) {
 
                 $scope.slider.value += howMuch * 1000 * 60 * 60 * 24;
@@ -140,6 +147,7 @@ angular.module('core').controller('PlannerController',
                         message: 'From here'
                     });
                     $scope.locationInputState = 'init';
+                    $scope.from = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
                 }
 
                 if ($scope.locationInputState === 'select-to') {
@@ -155,6 +163,7 @@ angular.module('core').controller('PlannerController',
                         message: 'To here'
                     });
                     $scope.locationInputState = 'init';
+                    $scope.to = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
                 }
             });
 
