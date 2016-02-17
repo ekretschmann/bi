@@ -79,16 +79,45 @@ angular.module('core').controller('PlannerController',
 
             $scope.changeDate = function(howMuch) {
 
-                $scope.slider.value += howMuch * 1000 * 60 * 60 * 24;
-                $scope.startTime = $scope.getStartTime( $scope.slider.value);
-                $scope.startDate = $scope.getStartDate( $scope.slider.value);
+                var newValue = $scope.slider.value + howMuch * 1000 * 60 * 60 * 24;
+
+                if (newValue > Date.now()) {
+                    $scope.slider.value = newValue;
+                } else {
+                    $scope.slider.value = Date.now();
+                }
+                $scope.startTime = $scope.getStartTime($scope.slider.value);
+                $scope.startDate = $scope.getStartDate($scope.slider.value);
+
+                $scope.slider.options.floor = $scope.slider.value - 1000*60*60*2;
+                $scope.slider.options.ceil = $scope.slider.value + 1000*60*60*2;
+
+                if ($scope.slider.options.floor < Date.now()) {
+                    $scope.slider.options.floor = Date.now();
+                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000*60*60*4;
+                }
             };
 
             $scope.changeTime = function(howMuch) {
 
-                $scope.slider.value += howMuch * 1000 * 60;
-                $scope.startTime = $scope.getStartTime( $scope.slider.value);
-                $scope.startDate = $scope.getStartDate( $scope.slider.value);
+                var newValue = $scope.slider.value + howMuch * 1000 * 60;
+
+                if (newValue > Date.now()) {
+                    $scope.slider.value = newValue;
+
+                } else {
+                    $scope.slider.value = Date.now();
+                }
+                $scope.startTime = $scope.getStartTime($scope.slider.value);
+                $scope.startDate = $scope.getStartDate($scope.slider.value);
+
+                $scope.slider.options.floor = $scope.slider.value - 1000*60*60*2;
+                $scope.slider.options.ceil = $scope.slider.value + 1000*60*60*2;
+
+                if ($scope.slider.options.floor < Date.now()) {
+                    $scope.slider.options.floor = Date.now();
+                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000*60*60*4;
+                }
             };
 
             $scope.slider = {
