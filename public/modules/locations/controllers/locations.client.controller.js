@@ -87,7 +87,7 @@ angular.module('locations').controller('LocationsController', ['$scope', '$state
 
 		// Find existing Location
 		$scope.findOne = function() {
-			$scope.location = Locations.get({ 
+			$scope.location = Locations.get({
 				locationId: $stateParams.locationId
 			});
 		};

@@ -27,16 +27,29 @@ angular.module('core').controller('PlannerController',
 
 
                 var minDistance = 100;
-                var minLoc = undefined;
+                var minLoc;
                 Locations.query(function (locations) {
-                    console.log($scope.from);
                     for (var i=0; i<locations.length; i++) {
                         var loc = locations[i];
-                        console.log(loc);
-                        var distance = Math.sqrt((loc.lat - $scope.from.lat)*(loc.lat - $scope.from.lat)+(loc.lat - $scope.from.lng)*(loc.lng - $scope.from.lng));
-                        console.log(distance);
+                        var distance = Math.sqrt((loc.lat - $scope.from.lat)*(loc.lat - $scope.from.lat)+(loc.lng - $scope.from.lng)*(loc.lng - $scope.from.lng));
+                        if (distance < minDistance) {
+                            minLoc = loc;
+                            minDistance = distance;
+                        }
                     }
+                    $scope.nearestStop = {
+                        lat: minLoc.lat,
+                        lng: minLoc.lng,
+                        icon: {
+                            type: 'div',
+                            html: '<div class="test-icon"></div>',
+                            className: 'map-marker test-icon'
+                        },
+                        message: 'Nearest Busstop'
+                    };
+                    $scope.markers.push($scope.nearestStop);
                 });
+
             };
 
             $scope.init = function () {
