@@ -1,0 +1,13 @@
+<section data-ng-controller="LocationsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Busstops</h1>
+    </div>
+    <div class="list-group">
+        <div data-ng-repeat="location in locations" class="list-group-item">
+            <a ng-href="#!/busstops/{{location._id}}/edit"><i class="glyphicon glyphicon-edit"></i></a> {{location.name}} {{location.lat}} {{location.lng}} {{location.lines}}
+        </div>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!locations.$resolved || locations.length">
+    	No Locations yet, why don't you <a href="/#!/locations/create">create one</a>?
+    </div>
+</section>
