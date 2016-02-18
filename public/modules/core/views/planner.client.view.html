@@ -12,7 +12,7 @@
                     </button>
                 </div>
                 <div class="from-input text" ng-show="!fromInput" ng-hide="fromInput" data-ng-click="toggleFrom()">
-                    {{from}}
+                    {{from.lat}} {{from.lng}}
                 </div>
 
                 <div class="from-input" ng-show="fromInput" ng-hide="!fromInput">
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="go-button">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary"  ng-click="calculateDirections()">
                         Go!
                     </button>
                 </div>
@@ -83,13 +83,13 @@
                         rz-slider-options="slider.options"></rzslider>
             </div>
             <div class="time-input">
-                <button type="button" class="btn btn-primary" ng-click="changeTime(-1)">
+                <button type="button" class="btn btn-primary" ng-mousedown="changeTimeFast(-1)" ng-mouseup="stopChangeTimeFast()">
                     -
                 </button>
                 <div class="start-time">
                 {{startTime}}
                     </div>
-                <button type="button" class="btn btn-primary" ng-click="changeTime(1)" onD>
+                <button type="button" class="btn btn-primary" ng-mousedown="changeTimeFast(1)" ng-mouseup="stopChangeTimeFast()">
                     +
                 </button>
             </div>

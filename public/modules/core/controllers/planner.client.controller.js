@@ -2,8 +2,8 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication',
-        function ($scope, $http, $timeout, $window, Authentication) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
@@ -13,14 +13,30 @@ angular.module('core').controller('PlannerController',
                     type: 'div',
                     iconSize: [10, 10],
                     className: 'blue',
-                    iconAnchor:  [5, 5]
+                    iconAnchor: [5, 5]
                 },
                 red: {
                     type: 'div',
                     iconSize: [10, 10],
                     className: 'red',
-                    iconAnchor:  [5, 5]
+                    iconAnchor: [5, 5]
                 }
+            };
+
+            $scope.calculateDirections = function () {
+
+
+                var minDistance = 100;
+                var minLoc = undefined;
+                Locations.query(function (locations) {
+                    console.log($scope.from);
+                    for (var i=0; i<locations.length; i++) {
+                        var loc = locations[i];
+                        console.log(loc);
+                        var distance = Math.sqrt((loc.lat - $scope.from.lat)*(loc.lat - $scope.from.lat)+(loc.lat - $scope.from.lng)*(loc.lng - $scope.from.lng));
+                        console.log(distance);
+                    }
+                });
             };
 
             $scope.init = function () {
@@ -39,11 +55,11 @@ angular.module('core').controller('PlannerController',
                 //$scope.endMarkerVisible = -1;
             };
 
-            $scope.getStartDate = function(d) {
+            $scope.getStartDate = function (d) {
                 var result = '';
-                result += new Date(d).getDate() +'/';
-                result += ((new Date(d).getMonth())+1)+'/';
-                result += ((new Date(d).getFullYear())-2000)+' ';
+                result += new Date(d).getDate() + '/';
+                result += ((new Date(d).getMonth()) + 1) + '/';
+                result += ((new Date(d).getFullYear()) - 2000) + ' ';
                 //if (new Date(d).getHours()<10) {
                 //    result += '0';
                 //}
@@ -55,14 +71,14 @@ angular.module('core').controller('PlannerController',
                 return result;
             };
 
-            $scope.getStartTime = function(d) {
+            $scope.getStartTime = function (d) {
                 var result = '';
 
-                if (new Date(d).getHours()<10) {
+                if (new Date(d).getHours() < 10) {
                     result += '0';
                 }
-                result += new Date(d).getHours()+':';
-                if (new Date(d).getMinutes()<10) {
+                result += new Date(d).getHours() + ':';
+                if (new Date(d).getMinutes() < 10) {
                     result += '0';
                 }
                 result += new Date(d).getMinutes();
@@ -70,14 +86,14 @@ angular.module('core').controller('PlannerController',
             };
 
 
-            $scope.resetTime = function() {
+            $scope.resetTime = function () {
 
                 $scope.slider.value = Date.now();
-                $scope.startTime = $scope.getStartTime( $scope.slider.value);
-                $scope.startDate = $scope.getStartDate( $scope.slider.value);
+                $scope.startTime = $scope.getStartTime($scope.slider.value);
+                $scope.startDate = $scope.getStartDate($scope.slider.value);
             };
 
-            $scope.changeDate = function(howMuch) {
+            $scope.changeDate = function (howMuch) {
 
                 var newValue = $scope.slider.value + howMuch * 1000 * 60 * 60 * 24;
 
@@ -89,16 +105,16 @@ angular.module('core').controller('PlannerController',
                 $scope.startTime = $scope.getStartTime($scope.slider.value);
                 $scope.startDate = $scope.getStartDate($scope.slider.value);
 
-                $scope.slider.options.floor = $scope.slider.value - 1000*60*60*2;
-                $scope.slider.options.ceil = $scope.slider.value + 1000*60*60*2;
+                $scope.slider.options.floor = $scope.slider.value - 1000 * 60 * 60 * 2;
+                $scope.slider.options.ceil = $scope.slider.value + 1000 * 60 * 60 * 2;
 
                 if ($scope.slider.options.floor < Date.now()) {
                     $scope.slider.options.floor = Date.now();
-                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000*60*60*4;
+                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000 * 60 * 60 * 4;
                 }
             };
 
-            $scope.changeTime = function(howMuch) {
+            $scope.changeTime = function (howMuch) {
 
                 var newValue = $scope.slider.value + howMuch * 1000 * 60;
 
@@ -111,32 +127,46 @@ angular.module('core').controller('PlannerController',
                 $scope.startTime = $scope.getStartTime($scope.slider.value);
                 $scope.startDate = $scope.getStartDate($scope.slider.value);
 
-                $scope.slider.options.floor = $scope.slider.value - 1000*60*60*2;
-                $scope.slider.options.ceil = $scope.slider.value + 1000*60*60*2;
+                $scope.slider.options.floor = $scope.slider.value - 1000 * 60 * 60 * 2;
+                $scope.slider.options.ceil = $scope.slider.value + 1000 * 60 * 60 * 2;
 
                 if ($scope.slider.options.floor < Date.now()) {
                     $scope.slider.options.floor = Date.now();
-                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000*60*60*4;
+                    $scope.slider.options.ceil = $scope.slider.options.floor + 1000 * 60 * 60 * 4;
                 }
             };
 
+            $scope.changeTimeFast = function (howMuch) {
+                $scope.fastTimeChange = true;
+                $timeout(function () {
+                    if ($scope.fastTimeChange) {
+                        $scope.changeTime(howMuch);
+                        $scope.changeTimeFast(howMuch);
+                    }
+                }, 100);
+            };
+
+            $scope.stopChangeTimeFast = function () {
+                $scope.fastTimeChange = false;
+            };
+
             $scope.slider = {
-               value: Date.now(),
+                value: Date.now(),
                 options: {
                     hideLimitLabels: true,
                     floor: Date.now(),
-                    ceil: Date.now()+1000*60*60*4,
+                    ceil: Date.now() + 1000 * 60 * 60 * 4,
                     interval: 60000,
-                    getPointerColor: function(value) {
+                    getPointerColor: function (value) {
                         return '#2b669a';
                     },
-                    getSelectionBarColor: function(value) {
+                    getSelectionBarColor: function (value) {
                         return '#2b669a';
                     },
-                    translate: function(value) {
+                    translate: function (value) {
                         return '';
                     },
-                    onChange: function(sliderId, modelValue, highValue) {
+                    onChange: function (sliderId, modelValue, highValue) {
                         $scope.startTime = $scope.getStartTime(modelValue);
                         $scope.startDate = $scope.getStartDate(modelValue);
                     }
@@ -169,15 +199,15 @@ angular.module('core').controller('PlannerController',
                 });
             };
 
-            $scope.selectFrom = function() {
+            $scope.selectFrom = function () {
                 $scope.locationInputState = 'select-from';
             };
 
-            $scope.selectTo = function() {
+            $scope.selectTo = function () {
                 $scope.locationInputState = 'select-to';
             };
 
-            $scope.$on('leafletDirectiveMap.click', function(event, args){
+            $scope.$on('leafletDirectiveMap.click', function (event, args) {
                 var leafEvent = args.leafletEvent;
 
                 if ($scope.locationInputState === 'select-from') {
@@ -201,7 +231,9 @@ angular.module('core').controller('PlannerController',
                         $scope.startMarker.lng = leafEvent.latlng.lng;
                     }
                     $scope.locationInputState = 'init';
-                    $scope.from = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
+                    $scope.from = {};
+                    $scope.from.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
+                    $scope.from.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
                 }
 
                 if ($scope.locationInputState === 'select-to') {
@@ -223,7 +255,7 @@ angular.module('core').controller('PlannerController',
                         $scope.endMarker.lng = leafEvent.latlng.lng;
                     }
                     $scope.locationInputState = 'init';
-                    $scope.to = Math.round(leafEvent.latlng.lat * 10000)/10000 + ' ' +Math.round(leafEvent.latlng.lng*10000)/10000;
+                    $scope.to = Math.round(leafEvent.latlng.lat * 10000) / 10000 + ' ' + Math.round(leafEvent.latlng.lng * 10000) / 10000;
                 }
             });
 
