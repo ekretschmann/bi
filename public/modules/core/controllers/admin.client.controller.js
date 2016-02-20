@@ -1,15 +1,17 @@
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
+angular.module('core').controller('AdminController', ['$scope', 'Authentication', 'Menus',
 	function($scope, Authentication, Menus) {
 		$scope.authentication = Authentication;
-
-		console.log($scope.authentication.user);
 		$scope.isCollapsed = false;
 		$scope.menu = Menus.getMenu('topbar');
 
+
+		if (!$scope.authentication.user) {
+			return;
+		}
+
 		$scope.toggleCollapsibleMenu = function() {
-			console.log('xxx');
 			$scope.isCollapsed = !$scope.isCollapsed;
 		};
 
@@ -17,5 +19,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
 		});
+
+
 	}
 ]);

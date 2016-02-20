@@ -45,7 +45,7 @@ angular.module('core').controller('PlannerController',
                             html: '<div class="test-icon"></div>',
                             className: 'map-marker test-icon'
                         },
-                        message: 'Nearest Busstop'
+                        message: minLoc.name+' lines:'+minLoc.info
                     };
                     $scope.markers.push($scope.nearestStop);
                 });
