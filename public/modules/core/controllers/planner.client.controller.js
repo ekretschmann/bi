@@ -29,9 +29,9 @@ angular.module('core').controller('PlannerController',
                 var minDistance = 100;
                 var minLoc;
                 Locations.query(function (locations) {
-                    for (var i=0; i<locations.length; i++) {
+                    for (var i = 0; i < locations.length; i++) {
                         var loc = locations[i];
-                        var distance = Math.sqrt((loc.lat - $scope.from.lat)*(loc.lat - $scope.from.lat)+(loc.lng - $scope.from.lng)*(loc.lng - $scope.from.lng));
+                        var distance = Math.sqrt((loc.lat - $scope.from.lat) * (loc.lat - $scope.from.lat) + (loc.lng - $scope.from.lng) * (loc.lng - $scope.from.lng));
                         if (distance < minDistance) {
                             minLoc = loc;
                             minDistance = distance;
@@ -45,7 +45,7 @@ angular.module('core').controller('PlannerController',
                             html: '<div class="test-icon"></div>',
                             className: 'map-marker test-icon'
                         },
-                        message: minLoc.name+' lines:'+minLoc.info
+                        message: minLoc.name + ' lines:' + minLoc.info
                     };
                     $scope.markers.push($scope.nearestStop);
                 });
@@ -53,17 +53,19 @@ angular.module('core').controller('PlannerController',
             };
 
             $scope.init = function () {
-                $scope.from = 'Current Location';
+                $scope.goReady = false;
+                $scope.from = undefined;
                 $scope.to = undefined;
                 $scope.routePlannerExpanded = false;
-                $scope.fromInput = false;
                 $scope.fromInputFocus = false;
                 $scope.toInput = false;
                 $scope.priceSlider = 10;
                 $scope.startDate = $scope.getStartDate(Date.now());
                 $scope.startTime = $scope.getStartTime(Date.now());
 
-                $scope.locationInputState = 'init';
+                $scope.locationInputState = 'select-from';
+                $scope.instruction = 'Select Departure';
+                $scope.fromInput = true;
                 //$scope.startMarkerVisible = -1;
                 //$scope.endMarkerVisible = -1;
             };
@@ -191,37 +193,34 @@ angular.module('core').controller('PlannerController',
             $scope.toggleFrom = function () {
 
 
-                $scope.fromInput = !$scope.fromInput;
-                $timeout(function () {
-                    var element = $window.document.getElementById('from-input');
-                    if (element) {
-                        element.focus();
-                    }
-                });
+                $scope.fromInput = true;
+                $scope.toInput = false;
+                    $timeout(function () {
+                        var element = $window.document.getElementById('from-input');
+                        if (element) {
+                            element.focus();
+                        }
+                    });
 
             };
 
 
             $scope.toggleTo = function () {
-                $scope.toInput = !$scope.toInput;
-                $timeout(function () {
-                    var element = $window.document.getElementById('to-input');
-                    if (element) {
-                        element.focus();
-                    }
-                });
+                $scope.fromInput = false;
+                $scope.toInput = true;
+                    $timeout(function () {
+                        var element = $window.document.getElementById('to-input');
+                        if (element) {
+                            element.focus();
+                        }
+                    });
             };
 
-            $scope.selectFrom = function () {
-                $scope.locationInputState = 'select-from';
-            };
-
-            $scope.selectTo = function () {
-                $scope.locationInputState = 'select-to';
-            };
 
             $scope.$on('leafletDirectiveMap.click', function (event, args) {
                 var leafEvent = args.leafletEvent;
+
+                console.log($scope.locationInputState);
 
                 if ($scope.locationInputState === 'select-from') {
 
@@ -244,9 +243,16 @@ angular.module('core').controller('PlannerController',
                         $scope.startMarker.lng = leafEvent.latlng.lng;
                     }
                     $scope.locationInputState = 'init';
-                    $scope.from = {};
+
+                    $scope.from = {}
                     $scope.from.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
                     $scope.from.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
+
+                    $scope.from.text = 'lat: ' + $scope.from.lat + ' lng: ' + $scope.from.lng;
+                    $scope.locationInputState = 'select-to';
+                    $scope.fromInput = false;
+                    $scope.toggleTo();
+                    return;
                 }
 
                 if ($scope.locationInputState === 'select-to') {
@@ -268,7 +274,17 @@ angular.module('core').controller('PlannerController',
                         $scope.endMarker.lng = leafEvent.latlng.lng;
                     }
                     $scope.locationInputState = 'init';
-                    $scope.to = Math.round(leafEvent.latlng.lat * 10000) / 10000 + ' ' + Math.round(leafEvent.latlng.lng * 10000) / 10000;
+
+                    $scope.to = {}
+                    $scope.to.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
+                    $scope.to.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
+
+                    $scope.to.text = 'lat: ' + $scope.to.lat + ' lng: ' + $scope.to.lng;
+
+                    $scope.locationInputState = 'select-go';
+                    $scope.goReady = true;
+                    $scope.fromInput = false;
+                    $scope.toInput = false;
                 }
             });
 

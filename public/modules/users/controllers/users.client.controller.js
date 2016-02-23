@@ -52,15 +52,15 @@ angular.module('users').controller('UsersController', ['$scope', '$stateParams',
 		//};
 
 		// Find a list of Tracks
-		$scope.find = function() {
-			$scope.tracks = Users.query();
-		};
-
-		// Find existing Track
-		$scope.findOne = function() {
-			$scope.track = Tracks.get({ 
-				trackId: $stateParams.trackId
-			});
-		};
+		//$scope.find = function() {
+		//	$scope.tracks = Users.query();
+		//};
+        //
+		//// Find existing Track
+		//$scope.findOne = function() {
+		//	$scope.track = Tracks.get({
+		//		trackId: $stateParams.trackId
+		//	});
+		//};
 	}
 ]);

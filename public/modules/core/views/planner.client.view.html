@@ -5,50 +5,66 @@
         <div class="journey">
 
 
+            <!--<div class="here-button">-->
+                <!--<button type="button" class="btn btn-primary" ng-click="selectTo()">-->
+                    <!--My Location-->
+                <!--</button>-->
+            <!--</div>-->
 
-                <div class="from-button">
-                    <button type="button" class="btn btn-primary" ng-click="selectFrom()">
-                        From
-                    </button>
+                <div class="from-text text">
+                        From:
                 </div>
-                <div class="from-input text" ng-show="!fromInput" ng-hide="fromInput" data-ng-click="toggleFrom()">
-                    {{from.lat}} {{from.lng}}
+                <div class="from-input" ng-show="!fromInput" ng-hide="fromInput" data-ng-click="toggleFrom()">
+
+                    <input type="text"
+                           data-ng-model="from.text"
+
+                           class="form-control"
+                           placeholder="Where do you travel from" disabled>
                 </div>
 
                 <div class="from-input" ng-show="fromInput" ng-hide="!fromInput">
                     <input type="text"
-                           data-ng-model="from"
-                           id="from-input"
-                           ng-blur="toggleFrom()"
+                           data-ng-model="from.text"
+
                            class="form-control"
                            placeholder="Where do you travel from">
                 </div>
 
-                <div class="to-button">
-                    <button type="button" class="btn btn-primary" ng-click="selectTo()">
-                        To
-                    </button>
-                </div>
-                <div class="to-input text" ng-show="!toInput" ng-hide="toInput" data-ng-click="toggleTo()">
+            <div class="to-text text">
+                To:
+            </div>
+                <!--<div class="to-button">-->
+                    <!--<button type="button" class="btn btn-primary" ng-click="selectTo()">-->
+                        <!--To-->
+                    <!--</button>-->
+                <!--</div>-->
+                <div class="to-input" ng-show="!toInput" ng-hide="toInput" data-ng-click="toggleTo()">
 
-                    <span ng-if="to">{{to}}</span>
-                    <span ng-if="!to" class="text-muted">Select Destination</span>
-                </div>
-
-                <div class="to-inputl" ng-show="toInput" ng-hide="!toInput">
                     <input type="text"
-                           data-ng-model="to"
-                           id="to-input"
-                           ng-blur="toggleTo()"
-                           class="form-control from-input"
-                           placeholder="Where do you travel from">
+                           data-ng-model="to.text"
+                           class="form-control"
+                           placeholder="Where do you travel from" disabled>
                 </div>
 
-                <div class="go-button">
-                    <button type="button" class="btn btn-primary"  ng-click="calculateDirections()">
+                <div class="to-input" ng-show="toInput" ng-hide="!toInput">
+                    <input type="text"
+                           data-ng-model="to.text"
+                           class="form-control"
+                           placeholder="Where do you travel to">
+                </div>
+
+                <div class="go-button" ng-show="!goReady" ng-hide="goReady">
+                    <button type="button" class="btn btn-primary"  disabled>
                         Go!
                     </button>
                 </div>
+
+            <div class="go-button" ng-show="goReady" ng-hide="!goReady">
+                <button type="button" class="btn btn-primary"  ng-click="calculateDirections()">
+                    Go!
+                </button>
+            </div>
 
 
         </div>

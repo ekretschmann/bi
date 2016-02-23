@@ -43,16 +43,14 @@
   font-size: large;
   border: 1px solid #b5a68c;
 }
-.planner .journey .from-button {
+.planner .journey .from-text {
   position: relative;
   float: left;
   width: 8.33333333%;
   min-height: 1px;
-  padding-left: 0;
-  padding-right: 0;
-}
-.planner .journey .from-button .btn {
-  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
 }
 .planner .journey .from-input {
   position: relative;
@@ -66,16 +64,14 @@
 .planner .journey .text {
   margin-top: 0.2em;
 }
-.planner .journey .to-button {
+.planner .journey .to-text {
   position: relative;
   float: left;
   width: 8.33333333%;
   min-height: 1px;
-  padding-left: 0;
-  padding-right: 0;
-}
-.planner .journey .to-button .btn {
-  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
 }
 .planner .journey .to-input {
   position: relative;
