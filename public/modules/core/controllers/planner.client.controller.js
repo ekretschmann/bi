@@ -2,8 +2,8 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations',
-        function ($scope, $http, $timeout, $window, _, Authentication, Locations) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'DirectionsService',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations, DirectionsService) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
@@ -27,6 +27,8 @@ angular.module('core').controller('PlannerController',
 
                 console.log($scope.nearestBusstopFrom.info);
                 console.log($scope.nearestBusstopTo.info);
+
+                DirectionsService.getDirections($scope.nearestBusstopFrom, $scope.nearestBusstopTo, $scope.locations);
 
                 //var minDistance = 100;
                 //var minLoc;
