@@ -144,24 +144,25 @@ module.exports = function(grunt) {
 				limit: 10
 			}
 		},
-		env: {
-			test: {
-				NODE_ENV: 'test'
-			},
-			secure: {
-				NODE_ENV: 'secure'
-			}
-		},
-		mochaTest: {
-			src: watchFiles.mochaTests,
-			options: {
-				reporter: 'spec',
-				require: 'server.js'
-			}
-		},
+		//env: {
+		//	test: {
+		//		NODE_ENV: 'test'
+		//	},
+		//	secure: {
+		//		NODE_ENV: 'secure'
+		//	}
+		//},
+		//mochaTest: {
+		//	src: watchFiles.mochaTests,
+		//	options: {
+		//		reporter: 'spec',
+		//		require: 'server.js'
+		//	}
+		//},
 		karma: {
 			unit: {
-				configFile: 'karma.conf.js'
+				configFile: 'karma.conf.js',
+				autoWatch: true
 			}
 		}
 	});
@@ -197,7 +198,11 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
 
 	// Test task.
-	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+	//grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+
+	//grunt.registerTask('mocha', ['env:test', 'mochaTest']);
 
 	grunt.loadNpmTasks('grunt-contrib-less');
+
+	grunt.loadNpmTasks('grunt-karma');
 };
