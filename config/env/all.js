@@ -29,7 +29,9 @@ module.exports = {
 				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
 				'public/lib/leaflet/dist/leaflet.js',
 				'public/lib/ng-lodash/build/ng-lodash.js',
-				'public/lib/angularjs-slider/dist/rzslider.min.js'
+				'public/lib/angularjs-slider/dist/rzslider.min.js',
+				'public/lib/moment/min/moment.min.js',
+				'public/lib/ngMoment/dist/ng-moment.min.js'
 			]
 		},
 		css: [

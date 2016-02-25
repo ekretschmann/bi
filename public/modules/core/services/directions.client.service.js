@@ -2,13 +2,25 @@
 
 
 angular.module('core').service('DirectionsService', [
-    function () {
+    'lodash', '$moment',
+    function (_, moment) {
 
-        this.getDirections = function (departure, destination, lines, timetable) {
+        this.getDirections = function (departure, destination, time, lines) {
 
 
+            var earliestTravel = moment(time);
             var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
             var arriveStop = this.getClosestStop(destination.lat, destination.lng, lines);
+
+
+            var departureTime = '';
+            var arrivalTime = '';
+            var minDistance = 100000;
+            var today = moment().hours(0).minutes(0).seconds(0);
+            console.log(today);
+            //_.forEach(departStop.departures, function(departure) {
+            //
+            //});
 
 
             var journey = {
@@ -33,13 +45,12 @@ angular.module('core').service('DirectionsService', [
 
         this.getClosestStop = function (lat, lng, lines) {
 
+
             var minDistance = 10000000;
             var result;
 
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i];
-                for (var j = 0; j < line.stops.length; j++) {
-                    var stop = line.stop[j];
+            _.forEach(lines, function (line) {
+                _.forEach(line.stops, function (stop) {
                     var distance = Math.sqrt(
                         (lat - stop.lat) * (lat - stop.lat) +
                         (lng - stop.lng) * (lng - stop.lng)
@@ -48,8 +59,8 @@ angular.module('core').service('DirectionsService', [
                         minDistance = distance;
                         result = stop;
                     }
-                }
-            }
+                });
+            });
 
             return result;
         }

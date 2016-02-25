@@ -18,12 +18,11 @@
             Service = _DirectionsService_;
         }));
 
-
-        it('should find route on one line with previous stop', function () {
+        it('should find earliest possible connection for simple route', function () {
 
             var departure = {
-                lat: 29,
-                lng: 29
+                lat: 0,
+                lng: 0
             };
 
             var destination = {
@@ -34,7 +33,7 @@
             var stop1 = {
                 name: 'Stop 1',
                 lines: ['1'],
-                departures: ['6.00'],
+                departures: ['6:00', '8:00', '10:00'],
                 lat: 10,
                 lng: 10
             };
@@ -42,48 +41,170 @@
             var stop2 = {
                 name: 'Stop 2',
                 lines: ['1'],
-                departures: ['6.20'],
-                lat: 30,
-                lng: 30
-            };
-
-            var stop3 = {
-                name: 'Stop 3',
-                lines: ['1'],
-                arrivals: ['6.40'],
-                lat: 60,
-                lng: 60
-            };
-
-            var stop4 = {
-                name: 'Stop 4',
-                lines: ['1'],
-                arrivals: ['7.00'],
+                arrivals: ['7:00', '9:00', '11:00'],
                 lat: 90,
                 lng: 90
             };
 
             var line1 = {
-                stops: [stop1, stop2, stop3]
+                stops: [stop1, stop2]
             };
 
 
-            var time = {
-                hours: 5,
-                minutes: 0
-            };
+            var time = '2013-02-08 7:30';
 
 
-            var journeyPlan = Service.getDirections(departure, destination, [line1]);
+            var journeyPlan = Service.getDirections(departure, destination, time, [line1]);
 
 
-            expect(journeyPlan.departure.stop.name).toBe('Stop 2');
-            expect(journeyPlan.destination.stop.name).toBe('Stop 4');
-            expect(journeyPlan.departure.time).toBe('6.20');
-            expect(journeyPlan.destination.time).toBe('7.00');
+            expect(journeyPlan.departure.stop.name).toBe('Stop 1');
+            expect(journeyPlan.destination.stop.name).toBe('Stop 2');
+            expect(journeyPlan.departure.time).toBe('8:00');
+            expect(journeyPlan.destination.time).toBe('9:00');
         });
 
-
+        //it('should find route on one line with follow on stops', function () {
+        //
+        //
+        //    //var d1 = moment('09:30');
+        //    //console.log(d1);
+        //
+        //    var departure = {
+        //        lat: 29,
+        //        lng: 29
+        //    };
+        //
+        //    var destination = {
+        //        lat: 100,
+        //        lng: 100
+        //    };
+        //
+        //    var stop1 = {
+        //        name: 'Stop 1',
+        //        lines: ['1'],
+        //        departures: ['6.00'],
+        //        lat: 10,
+        //        lng: 10
+        //    };
+        //
+        //    var stop2 = {
+        //        name: 'Stop 2',
+        //        lines: ['1'],
+        //        departures: ['6.20'],
+        //        lat: 30,
+        //        lng: 30
+        //    };
+        //
+        //    var stop3 = {
+        //        name: 'Stop 3',
+        //        lines: ['1'],
+        //        arrivals: ['6.40'],
+        //        lat: 60,
+        //        lng: 60
+        //    };
+        //
+        //    var stop4 = {
+        //        name: 'Stop 4',
+        //        lines: ['1'],
+        //        arrivals: ['7.00'],
+        //        lat: 90,
+        //        lng: 90
+        //    };
+        //
+        //    var stop5 = {
+        //        name: 'Stop 5',
+        //        lines: ['1'],
+        //        arrivals: ['7.20'],
+        //        lat: 120,
+        //        lng: 120
+        //    };
+        //
+        //    var line1 = {
+        //        stops: [stop1, stop2, stop3, stop4, stop5]
+        //    };
+        //
+        //
+        //    var time = {
+        //        hours: 5,
+        //        minutes: 0
+        //    };
+        //
+        //
+        //    var journeyPlan = Service.getDirections(departure, destination, [line1]);
+        //
+        //
+        //    expect(journeyPlan.departure.stop.name).toBe('Stop 2');
+        //    expect(journeyPlan.destination.stop.name).toBe('Stop 4');
+        //    expect(journeyPlan.departure.time).toBe('6.20');
+        //    expect(journeyPlan.destination.time).toBe('7.00');
+        //});
+        //
+        //
+        //it('should find route on one line with previous stop', function () {
+        //
+        //    var departure = {
+        //        lat: 29,
+        //        lng: 29
+        //    };
+        //
+        //    var destination = {
+        //        lat: 100,
+        //        lng: 100
+        //    };
+        //
+        //    var stop1 = {
+        //        name: 'Stop 1',
+        //        lines: ['1'],
+        //        departures: ['6.00'],
+        //        lat: 10,
+        //        lng: 10
+        //    };
+        //
+        //    var stop2 = {
+        //        name: 'Stop 2',
+        //        lines: ['1'],
+        //        departures: ['6.20'],
+        //        lat: 30,
+        //        lng: 30
+        //    };
+        //
+        //    var stop3 = {
+        //        name: 'Stop 3',
+        //        lines: ['1'],
+        //        arrivals: ['6.40'],
+        //        lat: 60,
+        //        lng: 60
+        //    };
+        //
+        //    var stop4 = {
+        //        name: 'Stop 4',
+        //        lines: ['1'],
+        //        arrivals: ['7.00'],
+        //        lat: 90,
+        //        lng: 90
+        //    };
+        //
+        //    var line1 = {
+        //        stops: [stop1, stop2, stop3, stop4]
+        //    };
+        //
+        //
+        //    var time = {
+        //        hours: 5,
+        //        minutes: 0
+        //    };
+        //
+        //
+        //    var journeyPlan = Service.getDirections(departure, destination, [line1]);
+        //
+        //
+        //    expect(journeyPlan.departure.stop.name).toBe('Stop 2');
+        //    expect(journeyPlan.destination.stop.name).toBe('Stop 4');
+        //    expect(journeyPlan.departure.time).toBe('6.20');
+        //    expect(journeyPlan.destination.time).toBe('7.00');
+        //});
+        //
+        //
         //it('should find route on one line with intermediate stop', function () {
         //
         //    var departure = {
@@ -187,7 +308,7 @@
         //    expect(journeyPlan.departure.time).toBe('6.00');
         //    expect(journeyPlan.destination.time).toBe('7.00');
         //});
-        //
+
 
 
     });
