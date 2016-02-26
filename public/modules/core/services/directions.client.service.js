@@ -8,18 +8,20 @@ angular.module('core').service('DirectionsService', [
         this.getDirections = function (departure, destination, time, lines) {
 
 
-            var earliestTravel = moment(time);
+
             var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
             var arriveStop = this.getClosestStop(destination.lat, destination.lng, lines);
 
-            console.log(departStop.line);
-            console.log(arriveStop.line);
 
 
-            var departureIndex = this.getNextDeparture(departStop, earliestTravel);
+            var journeyStops = this.getChangeStops(departStop, arriveStop, time, lines);
+            departStop = journeyStops[0];
+            arriveStop = journeyStops[2];
 
-            var journeyStops = this.getChangeStops(departStop, arriveStop, lines);
 
+
+
+           // var departureIndex = this.getNextDeparture(departStop, earliestTravel);
 
 
             var journey = {
@@ -27,13 +29,16 @@ angular.module('core').service('DirectionsService', [
                     stop: {
                         name: departStop.name
                     },
-                    time: departStop.departures[departureIndex]
+                    time: departStop.departures[0]
                 },
+                changes: [
+
+                ],
                 destination: {
                     stop: {
                         name: arriveStop.name
                     },
-                    time: arriveStop.arrivals[departureIndex]
+                    time: arriveStop.arrivals[0]
                 }
             };
 
@@ -41,18 +46,60 @@ angular.module('core').service('DirectionsService', [
             return journey;
         };
 
-        this.getChangeStops = function(departStop, arriveStop, lines) {
-            if (departStop.line === arriveStop.line) {
-                return [departStop.id, arriveStop.id];
-            }
-            return [departStop.id, 's2', arriveStop.id];
+        this.getChangeStops = function(departStop, arriveStop, time, lines) {
+
+            var earliestTravel = moment(time);
+            var departureTime = this.getNextDeparture(departStop, earliestTravel);
+
+            var getLine = function(lineName) {
+                return _.find(lines, function(line) {
+                    return line.name === lineName;
+                })
+            };
+
+            var findLine = function(departStop, arriveStop, lines, changes) {
+                //console.log(departLine.line);
+                if (departStop.line === arriveStop.line) {
+                    return changes;
+                }
+                var line = getLine(departStop.line);
+                console.log(line);
+                var foundDepartureStop = false;
+                for (var i=0; i<line.stops.length; i++) {
+                    var stop = line.stops[i];
+                    console.log(stop);
+                    if (foundDepartureStop) {
+                        console.log(stop.lines);
+                    } else {
+                        if (stop.id = departStop.id) {
+                            foundDepartureStop = true;
+                        }
+                    }
+
+                }
+
+                return [[]]
+            };
+
+            findLine(departStop, arriveStop, lines, [[]]);
+
+            //console.log(departureTime);
+
+
+
+            //if (departStop.line === arriveStop.line) {
+            //    return [departStop, [], arriveStop];
+            //}
+            //
+            //
+            //
+            //return [departStop, ['s2'], arriveStop];
         };
 
 
         this.getNextDeparture = function(departStop, earliestTravel) {
+
             var departureTime = '';
-            var departureIndex = -1;
-            var index = 0;
             var minDifference = Number.MAX_VALUE;
 
             var today = moment(earliestTravel).hours(0).minutes(0).seconds(0);
@@ -66,11 +113,9 @@ angular.module('core').service('DirectionsService', [
                 if (diff > 0 && diff < minDifference) {
                     minDifference = diff;
                     departureTime = departure;
-                    departureIndex = index;
                 }
-                index ++;
             });
-            return departureIndex;
+            return departureTime;
 
         };
 
