@@ -20,8 +20,9 @@ angular.module('core').service('DirectionsService', [
             //arriveStop = journeyStops[2];
 
 
+            var now = moment(time);
+            var departureTime = this.getNextDeparture(departStop, now);
 
-            var departureTime = this.getNextDeparture(departStop, time);
 
             var currentStop = departStop;
             var currentTime = departureTime;
@@ -30,36 +31,34 @@ angular.module('core').service('DirectionsService', [
             _.forEach(paths, function(path) {
                 _.forEach(path, function (change) {
 
-                    //console.log(currentStop);
-                    //console.log(currentTime);
-                    //console.log(change);
-                    var changeArrive = _self.getArrival(currentStop, currentTime, change);
-                    var changeDeparture = _self.getNextDeparture(change, changeArrive);
+                    var changeArrive = _self.getArrival(currentStop, currentTime, change.arrivalStop);
+            var hours = changeArrive.split(':')[0];
+                    var minutes = changeArrive.split(':')[1];
+                    now.hours(hours).minutes(minutes);
+
+
+                    var changeDeparture = _self.getNextDeparture(change.departureStop, now);
                     changes.push({
-                        stop: change.name,
-                        arrrival: changeArrive,
-                        deparutre: changeDeparture
+                        stop: change.arrivalStop.name,
+                        arrival: changeArrive,
+                        departure: changeDeparture
                     });
                     currentTime = changeDeparture;
-                    //console.log(changeArrive);
+                    currentStop = change.departureStop;
                 });
             });
 
-            var arrivalTime = this.getArrival(departStop, currentTime, arriveStop);
+            var arrivalTime = this.getArrival(currentStop, currentTime, arriveStop);
 
             var journey = {
                 departure: {
-                    stop: {
-                        name: departStop.name
-                    },
-                    departure: departureTime
+                    stop: departStop.name,
+                    time: departureTime
                 },
                 changes: changes,
                 destination: {
-                    stop: {
-                        name: arriveStop.name
-                    },
-                    arrival: arrivalTime
+                    stop: arriveStop.name,
+                    time: arrivalTime
                 }
             };
 
@@ -73,11 +72,10 @@ angular.module('core').service('DirectionsService', [
             //    return route[0] === line.name;
             //});
 
-           // console.log(time);
 
 
             for(var i=0; i<departStop.departures.length; i++) {
-                if(departStop.departures[i] == time) {
+                if(departStop.departures[i] === time) {
                     return arriveStop.arrivals[i];
                 }
             }
@@ -100,13 +98,24 @@ angular.module('core').service('DirectionsService', [
                     });
                 }
             };
+
+            var getStop = function(id, linename) {
+                var line = _.find(lines, function (line) {
+                    return line.name === linename;
+                });
+
+                return _.find(line.stops, function(stop) {
+                    return stop.id === id;
+                })
+            };
+
             _.forEach(lines, function (line) {
                 graph.nodes.push({name: line.name, visited: false});
-                _.forEach(line.stops, function (stop) {
-                    _.forEach(stop.lines, function (change) {
+                _.forEach(line.stops, function (arrivalStop) {
+                    _.forEach(arrivalStop.lines, function (change) {
                         if (change !== line.name) {
-
-                            graph.edges.push({from: line.name, to: change, stop: stop});
+                            var departureStop = getStop(arrivalStop.id, change);
+                            graph.edges.push({from: line.name, to: change, arrivalStop: arrivalStop, departureStop: departureStop});
                         }
                     });
                 });
@@ -121,9 +130,9 @@ angular.module('core').service('DirectionsService', [
 
                 if (!graph.getNode(edge.to).visited) {
                     if (edge.to === stop) {
-                        path.push(edge.stop);
+                        path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+
                         result.push(path);
-                       // console.log(path);
                     } else {
                       //  console.log('xxx');
                     }
@@ -134,8 +143,6 @@ angular.module('core').service('DirectionsService', [
         this.getChangeStops = function (departStop, arriveStop, time, lines) {
 
 
-            //console.log(departStop.line);
-            //console.log(arriveStop.line);
 
             if (departStop.line === arriveStop.line) {
                 return [];
@@ -148,51 +155,7 @@ angular.module('core').service('DirectionsService', [
                 return changes;
                 //return [departStop, result, arriveStop];
             }
-            //var earliestTravel = moment(time);
-            //var departureTime = this.getNextDeparture(departStop, earliestTravel);
-            //
-            //var getLine = function(lineName) {
-            //    return _.find(lines, function(line) {
-            //        return line.name === lineName;
-            //    })
-            //};
-            //
-            //var findLine = function(departStop, arriveStop, lines, changes) {
-            //    //console.log(departLine.line);
-            //    if (departStop.line === arriveStop.line) {
-            //        return changes;
-            //    }
-            //    var line = getLine(departStop.line);
-            //    console.log(line);
-            //    var foundDepartureStop = false;
-            //    for (var i=0; i<line.stops.length; i++) {
-            //        var stop = line.stops[i];
-            //        console.log(stop);
-            //        if (foundDepartureStop) {
-            //            console.log(stop.lines);
-            //        } else {
-            //            if (stop.id = departStop.id) {
-            //                foundDepartureStop = true;
-            //            }
-            //        }
-            //
-            //    }
-            //
-            //    return [[]]
-            //};
-            //
-            //findLine(departStop, arriveStop, lines, [[]]);
 
-            //console.log(departureTime);
-
-
-            //if (departStop.line === arriveStop.line) {
-            //    return [departStop, [], arriveStop];
-            //}
-            //
-            //
-            //
-            //return [departStop, ['s2'], arriveStop];
         };
 
 
@@ -201,12 +164,12 @@ angular.module('core').service('DirectionsService', [
             var departureTime = '';
             var minDifference = Number.MAX_VALUE;
 
-            var today = moment(earliestTravel).hours(0).minutes(0).seconds(0);
+
             _.forEach(departStop.departures, function (departure) {
 
                 var hours = departure.split(':')[0];
                 var minutes = departure.split(':')[1];
-                var departureMoment = today.clone();
+                var departureMoment = earliestTravel.clone();
                 departureMoment.hours(hours).minutes(minutes);
                 var diff = departureMoment.diff(earliestTravel);
                 if (diff > 0 && diff < minDifference) {
