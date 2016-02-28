@@ -97,7 +97,7 @@
             expect(journeyPlan.departure.time).toBe('06:00');
             expect(journeyPlan.destination.time).toBe('06:39');
         });
-
+        //
         //it('should find earliest possible connection for simple route', function () {
         //
         //    var departure = {
@@ -125,6 +125,7 @@
         //        id: 's2',
         //        name: 'Stop 2',
         //        lines: ['1'],
+        //        line: '1',
         //        arrivals: ['07:00', '09:00', '11:00'],
         //        departures: ['07:01', '09:01', '11:01'],
         //        lat: 90,
@@ -132,6 +133,7 @@
         //    };
         //
         //    var line1 = {
+        //        name: '1',
         //        stops: [stop1, stop2]
         //    };
         //
@@ -220,6 +222,7 @@
         //    };
         //
         //    var line1 = {
+        //        name: '1',
         //        stops: [stop1, stop2, stop3, stop4, stop5]
         //    };
         //
@@ -235,7 +238,6 @@
         //    expect(journeyPlan.departure.time).toBe('06:20');
         //    expect(journeyPlan.destination.time).toBe('07:00');
         //});
-        //
         //
         //it('should find route on one line with previous stop', function () {
         //
@@ -294,6 +296,7 @@
         //    };
         //
         //    var line1 = {
+        //        name: '1',
         //        stops: [stop1, stop2, stop3, stop4]
         //    };
         //
@@ -309,7 +312,6 @@
         //    expect(journeyPlan.departure.time).toBe('06:20');
         //    expect(journeyPlan.destination.time).toBe('07:00');
         //});
-        //
         //
         //it('should find route on one line with intermediate stop', function () {
         //
@@ -357,6 +359,7 @@
         //    };
         //
         //    var line1 = {
+        //        name: '1',
         //        stops: [stop1, stop2, stop3]
         //    };
         //
@@ -408,6 +411,7 @@
         //    };
         //
         //    var line1 = {
+        //        name: '1',
         //        stops: [stop1, stop2]
         //    };
         //
@@ -423,7 +427,7 @@
         //    expect(journeyPlan.departure.time).toBe('06:00');
         //    expect(journeyPlan.destination.time).toBe('07:00');
         //});
-
+        //
 
 
     });
