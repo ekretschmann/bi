@@ -29,22 +29,18 @@ angular.module('core').service('DirectionsService', [
             var journeyPlan = [];
             var _self = this;
             _.forEach(paths, function (path) {
-            //
-            //
-                var changes = [];
-                var currentStop = path[0].departureStop;
-            //
-                var departureTime = _self.getNextDeparture(currentStop, journeyTime);
-                var currentTime = departureTime;
-            //
-            //    console.log('aaaa');
-            //
+
 
                 var arrivalTime;
+                var changes = [];
+
                 _.forEach(path, function (change) {
 
                     //console.log(change);
-                    arrivalTime = _self.getArrival(currentStop, currentTime, change.arrivalStop);
+                    var departureTime = _self.getNextDeparture(change.departureStop, journeyTime);
+                    var currentTime = departureTime;
+                    arrivalTime = _self.getArrival(change.departureStop, currentTime, change.arrivalStop);
+
                    // console.log(changeArrive);
             //        var hours = changeArrive.split(':')[0];
             //        var minutes = changeArrive.split(':')[1];
@@ -54,11 +50,17 @@ angular.module('core').service('DirectionsService', [
             //
             //        var changeDeparture = _self.getNextDeparture(change.departureStop, now);
             //
-            //        changes.push({
-            //            stop: change.arrivalStop.name,
-            //            arrival: changeArrive,
-            //            departure: changeDeparture
-            //        });
+                    changes.push({
+                        stop: change.departureStop.name,
+                        //arrival: changeArrive,
+                        departureTime: departureTime
+                    });
+
+                    changes.push({
+                        stop: change.arrivalStop.name,
+                        //arrival: changeArrive,
+                        arrivalTime: arrivalTime
+                    });
             //        //currentTime = changeDeparture;
             //        //currentStop = change.departureStop;
                 });
@@ -69,24 +71,29 @@ angular.module('core').service('DirectionsService', [
                 //console.log('arrival ',arrivalTime);
                 //console.log('changes ',changes);
 
-                journeyPlan.push({
-                    departure: {
-                        stop: departStop.name,
-                        time: departureTime
-                    },
-                    changes: changes,
-                    arrival: {
-                        stop: arriveStop.name,
-                        time: arrivalTime
-                    }
-                });
+
+                journeyPlan.push(changes);
+
+                //journeyPlan.push({
+                //    departure: {
+                //        stop: changes[0].stop,
+                //        time: changes[0].departureTime
+                //    },
+                //    changes: [{}],
+                //    arrival: {
+                //        stop: changes[3].stop,
+                //        time: changes[3].arrivalTime
+                //    }
+                //});
             //
             //    console.log('bbbbb');
             //
             });
             //
-            return _.sortBy(journeyPlan, function(j) { return j.arrival.time; });
+            //return _.sortBy(journeyPlan, function(j) { return j.arrival.time; });
 
+
+            return journeyPlan;
 
         };
 
@@ -176,16 +183,16 @@ angular.module('core').service('DirectionsService', [
             return graph;
         };
 
-        this.traverse = function (start, stop, graph, path, result) {
+        this.traverse = function (start, stop, graph, path) {
             var n = graph.getNode(start);
             n.visited = true;
             _.forEach(graph.getEdges(n), function (edge) {
 
                 if (!graph.getNode(edge.to).visited) {
                     if (edge.to === stop) {
-                        path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                        path.push({ departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
 
-                        result.push(path);
+                        //result.push(path);
                     } else {
                         //  console.log('xxx');
                     }
@@ -223,15 +230,33 @@ angular.module('core').service('DirectionsService', [
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
 
+//                    console.log(departLine, arriveLine);
+
                     if (departLine === arriveLine) {
-                        changes.push([{arrivalStop: arriveLineStop, departureStop: departLineStop}]);
+                        changes.push([{ departureStop: departLineStop, arrivalStop: arriveLineStop}]);
+                    } else {
+                        var path = [];
+                        //changes.push([{arrivalStop: arriveLineStop, departureStop: departLineStop}]);
+                        _self.traverse(departLine, arriveLine, graph, path);
+
+                        var change = [];
+
+                        change.push({ departureStop: departLineStop, arrivalStop: path[0].arrivalStop});
+
+                        change.push({ departureStop: path[0].departureStop, arrivalStop: arriveLineStop});
+
+                        changes.push(change);
+                        //console.log('l1',path);
+                        //console.log(path[0].arrivalStop);
+                        //console.log(path[0].departureStop);
+
+                        //console.log(changes[0][0].arrivalStop);
+                        //console.log(changes[1]);
                     }
-                      //  var path = [];
-                    //    _self.traverse(departLine, arriveLine, graph, path, changes);
-                    //}
                     //console.log(path);
                 });
             });
+            //console.log('l2',changes.length);
             return changes;
 
         };
