@@ -154,16 +154,17 @@ angular.module('core').service('DirectionsService', [
         this.traverse = function (start, stop, graph, path) {
             var n = graph.getNode(start);
             n.visited = true;
+            var _self = this;
             _.forEach(graph.getEdges(n), function (edge) {
 
                 if (!graph.getNode(edge.to).visited) {
+                    console.log(stop, edge.to);
                     if (edge.to === stop) {
 
                         path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
 
-                        //result.push(path);
                     } else {
-                        //  console.log('xxx');
+                       // _self.traverse(edge.to, stop, graph, path);
                     }
                 }
             });
@@ -178,7 +179,6 @@ angular.module('core').service('DirectionsService', [
                     return l.name === departLine;
                 });
 
-                //console.log(lineStops);
 
                 return _.find(line.stops, function (stop) {
                     return stop.id === departStop.id;
@@ -206,13 +206,20 @@ angular.module('core').service('DirectionsService', [
 
                         var path = [];
 
+
                         _self.traverse(departLine, arriveLine, graph, path);
 
 
                         if (path.length > 0) {
                             if (path[0].departureStop.id !== departLineStop.id) {
+
+
+
                                 var change = [];
                                 change.push({departureStop: departLineStop, arrivalStop: path[0].arrivalStop});
+                                //for (var i=1; i<path.length; i++) {
+                                //    change.push({departureStop: path[i].departureStop, arrivalStop: path[i].arrivalStop});
+                                //}
                                 change.push({departureStop: path[0].departureStop, arrivalStop: arriveLineStop});
                                 changes.push(change);
                             }
