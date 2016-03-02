@@ -18,8 +18,324 @@
             Service = _DirectionsService_;
         }));
 
-        //it('should find a alternative routs without changes', function () {
+        //it('should find a alternative routs with changes', function () {
         //
+        //    var departure = {
+        //        lat: 50,
+        //        lng: 50
+        //    };
+        //
+        //    var destination = {
+        //        lat: 76,
+        //        lng: 76
+        //    };
+        //
+        //    var stop1 = {
+        //        id: 's1',
+        //        name: 'Stop 1',
+        //        lines: ['1'],
+        //        line: '1',
+        //        arrivals: ['05:50', '06:05', '06:20'],
+        //        departures: ['05:51', '06:06', '06:21'],
+        //        lat: 49,
+        //        lng: 49
+        //    };
+        //
+        //    var stop2a = {
+        //        id: 's1',
+        //        name: 'Stop 1',
+        //        lines: ['1', '2'],
+        //        line: '2',
+        //        arrivals: ['05:52', '06:07', '06:22'],
+        //        departures: ['05:53', '06:08', '06:24'],
+        //        lat: 60,
+        //        lng: 60
+        //    };
+        //
+        //    var stop2b = {
+        //        id: 's2',
+        //        name: 'Stop 2',
+        //        lines: ['1', '2'],
+        //        line: '1',
+        //        arrivals: ['06:10', '06:25', '06:40'],
+        //        departures: ['06:11','06:26','06:41'],
+        //        lat: 60,
+        //        lng: 60
+        //    };
+        //
+        //    var stop3a = {
+        //        id: 's3',
+        //        name: 'Stop 3',
+        //        lines: ['1', '2'],
+        //        line: '2',
+        //        arrivals: ['06:08', '06:23', '06:38'],
+        //        departures: ['06:09','06:24','06:40'],
+        //        lat: 75,
+        //        lng: 75
+        //    };
+        //
+        //    var stop3b = {
+        //        id: 's3',
+        //        name: 'Stop 3',
+        //        lines: ['1', '2'],
+        //        line: '1',
+        //        arrivals: ['06:08', '06:23', '06:38'],
+        //        departures: ['06:09','06:24','06:40'],
+        //        lat: 75,
+        //        lng: 75
+        //    };
+        //
+        //
+        //
+        //    var line1 = {
+        //        name: '1',
+        //        stops: [stop1a, stop2a]
+        //    };
+        //
+        //    var line2 = {
+        //        name: '2',
+        //        stops: [stop1b, stop2b]
+        //    };
+        //
+        //    var time = '2013-02-08 06:00';
+        //
+        //
+        //    var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
+        //
+        //    expect(journeyPlan.length).toBe(2);
+        //
+        //    var plan1 = journeyPlan[0];
+        //    expect(plan1.length).toBe(2);
+        //    var s1b = plan1[0];
+        //    var s2b = plan1[1];
+        //
+        //    expect(plan1.departureTime).toBe('06:08');
+        //    expect(plan1.departureStop).toBe('Stop 1');
+        //    expect(plan1.departureLine).toBe('2');
+        //
+        //    expect(plan1.arrivalTime).toBe('06:23');
+        //    expect(plan1.arrivalStop).toBe('Stop 2');
+        //    expect(plan1.arrivalLine).toBe('2');
+        //
+        //
+        //    expect(s1b.stop).toBe('Stop 1');
+        //    expect(s1b.departureTime).toBe('06:08');
+        //    expect(s1b.line).toBe('2');
+        //
+        //    expect(s2b.stop).toBe('Stop 2');
+        //    expect(s2b.arrivalTime).toBe('06:23');
+        //    expect(s2b.line).toBe('2');
+        //
+        //    var plan2 = journeyPlan[1];
+        //    expect(plan2.length).toBe(2);
+        //    var s1a = plan2[0];
+        //    var s2a = plan2[1];
+        //
+        //    expect(plan2.departureTime).toBe('06:06');
+        //    expect(plan2.departureStop).toBe('Stop 1');
+        //    expect(plan2.departureLine).toBe('1');
+        //
+        //    expect(plan2.arrivalTime).toBe('06:25');
+        //    expect(plan2.arrivalStop).toBe('Stop 2');
+        //    expect(plan2.arrivalLine).toBe('1');
+        //
+        //    expect(s1a.stop).toBe('Stop 1');
+        //    expect(s1a.departureTime).toBe('06:06');
+        //    expect(s1a.line).toBe('1');
+        //
+        //    expect(s2a.stop).toBe('Stop 2');
+        //    expect(s2a.arrivalTime).toBe('06:25');
+        //    expect(s2a.line).toBe('1');
+        //
+        //});
+
+        //it('should find a alternative routs without changes with intermediate stops', function () {
+        //
+        //    var departure = {
+        //        lat: 50,
+        //        lng: 50
+        //    };
+        //
+        //    var destination = {
+        //        lat: 76,
+        //        lng: 76
+        //    };
+        //
+        //    var stopB1a = {
+        //        id: 'sB1a',
+        //        name: 'Stop Before 1a',
+        //        lines: ['1'],
+        //        line: '1',
+        //        arrivals: ['05:40', '05:55', '06:05'],
+        //        departures: ['05:41', '05:56', '06:06'],
+        //        lat: 30,
+        //        lng: 30
+        //    };
+        //
+        //    var stop1a = {
+        //        id: 's1',
+        //        name: 'Stop 1',
+        //        lines: ['1', '2'],
+        //        line: '1',
+        //        arrivals: ['05:50', '06:05', '06:20'],
+        //        departures: ['05:51', '06:06', '06:21'],
+        //        lat: 49,
+        //        lng: 49
+        //    };
+        //
+        //    var stopI1a = {
+        //        id: 'sI1a',
+        //        name: 'Stop Intermediate 1a',
+        //        lines: ['1'],
+        //        line: '1',
+        //        arrivals: ['06:00', '06:15', '06:30'],
+        //        departures: ['06:01', '06:16', '06:31'],
+        //        lat: 60,
+        //        lng: 60
+        //    };
+        //
+        //    var stop2a = {
+        //        id: 's2',
+        //        name: 'Stop 2',
+        //        lines: ['1', '2'],
+        //        line: '1',
+        //        arrivals: ['06:10', '06:25', '06:40'],
+        //        departures: ['06:11','06:26','06:41'],
+        //        lat: 75,
+        //        lng: 75
+        //    };
+        //
+        //    var stopA2a = {
+        //        id: 'sA2a',
+        //        name: 'Stop After 2a',
+        //        lines: ['1'],
+        //        line: '1',
+        //        arrivals: ['06:20', '06:35', '06:45'],
+        //        departures: ['06:21', '06:36', '06:46'],
+        //        lat: 80,
+        //        lng: 80
+        //    };
+        //
+        //    var stopB1b = {
+        //        id: 'sB1b',
+        //        name: 'Stop Before 1b',
+        //        lines: ['2'],
+        //        line: '2',
+        //        arrivals: ['05:40', '05:55', '06:05'],
+        //        departures: ['05:41', '05:56', '06:06'],
+        //        lat: 25,
+        //        lng: 25
+        //    };
+        //
+        //    var stop1b = {
+        //        id: 's1',
+        //        name: 'Stop 1',
+        //        lines: ['1', '2'],
+        //        line: '2',
+        //        arrivals: ['05:52', '06:07', '06:22'],
+        //        departures: ['05:53', '06:08', '06:24'],
+        //        lat: 49,
+        //        lng: 49
+        //    };
+        //
+        //    var stopI1b = {
+        //        id: 'sI1b',
+        //        name: 'Stop Intermediate ba',
+        //        lines: ['2'],
+        //        line: '2',
+        //        arrivals: ['06:00', '06:15', '06:30'],
+        //        departures: ['06:01', '06:16', '06:31'],
+        //        lat: 62,
+        //        lng: 62
+        //    };
+        //
+        //
+        //    var stop2b = {
+        //        id: 's2',
+        //        name: 'Stop 2',
+        //        lines: ['1', '2'],
+        //        line: '2',
+        //        arrivals: ['06:08', '06:23', '06:38'],
+        //        departures: ['06:09','06:24','06:40'],
+        //        lat: 75,
+        //        lng: 75
+        //    };
+        //
+        //    var stopA2b = {
+        //        id: 'sA2b',
+        //        name: 'Stop After 2b',
+        //        lines: ['2'],
+        //        line: '2',
+        //        arrivals: ['06:20', '06:35', '06:45'],
+        //        departures: ['06:21', '06:36', '06:46'],
+        //        lat: 80,
+        //        lng: 80
+        //    };
+        //
+        //
+        //    var line1 = {
+        //        name: '1',
+        //        stops: [stopB1a, stop1a, stopI1a, stop2a, stopA2a]
+        //    };
+        //
+        //    var line2 = {
+        //        name: '2',
+        //        stops: [stopB1b, stop1b, stopI1b, stop2b]
+        //    };
+        //
+        //    var time = '2013-02-08 06:00';
+        //
+        //
+        //    var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
+        //
+        //    expect(journeyPlan.length).toBe(2);
+        //
+        //    var plan1 = journeyPlan[0];
+        //    expect(plan1.length).toBe(2);
+        //    var s1b = plan1[0];
+        //    var s2b = plan1[1];
+        //
+        //    expect(plan1.departureTime).toBe('06:08');
+        //    expect(plan1.departureStop).toBe('Stop 1');
+        //    expect(plan1.departureLine).toBe('2');
+        //
+        //    expect(plan1.arrivalTime).toBe('06:23');
+        //    expect(plan1.arrivalStop).toBe('Stop 2');
+        //    expect(plan1.arrivalLine).toBe('2');
+        //
+        //
+        //    expect(s1b.stop).toBe('Stop 1');
+        //    expect(s1b.departureTime).toBe('06:08');
+        //    expect(s1b.line).toBe('2');
+        //
+        //    expect(s2b.stop).toBe('Stop 2');
+        //    expect(s2b.arrivalTime).toBe('06:23');
+        //    expect(s2b.line).toBe('2');
+        //
+        //    var plan2 = journeyPlan[1];
+        //    expect(plan2.length).toBe(2);
+        //    var s1a = plan2[0];
+        //    var s2a = plan2[1];
+        //
+        //    expect(plan2.departureTime).toBe('06:06');
+        //    expect(plan2.departureStop).toBe('Stop 1');
+        //    expect(plan2.departureLine).toBe('1');
+        //
+        //    expect(plan2.arrivalTime).toBe('06:25');
+        //    expect(plan2.arrivalStop).toBe('Stop 2');
+        //    expect(plan2.arrivalLine).toBe('1');
+        //
+        //    expect(s1a.stop).toBe('Stop 1');
+        //    expect(s1a.departureTime).toBe('06:06');
+        //    expect(s1a.line).toBe('1');
+        //
+        //    expect(s2a.stop).toBe('Stop 2');
+        //    expect(s2a.arrivalTime).toBe('06:25');
+        //    expect(s2a.line).toBe('1');
+        //
+        //});
+
+        //it('should find a alternative routs without changes', function () {
         //
         //    var departure = {
         //        lat: 50,
@@ -91,34 +407,55 @@
         //
         //
         //    var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
-        //    //var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
         //
         //    expect(journeyPlan.length).toBe(2);
         //
-        //    var journey1 = journeyPlan[0];
-        //    expect(journey1.departure.stop).toBe('Stop 1');
-        //    expect(journey1.arrival.stop).toBe('Stop 2');
-        //    expect(journey1.departure.time).toBe('06:08');
-        //    expect(journey1.arrival.time).toBe('06:23');
-        //    expect(journey1.changes.length).toBe(0);
+        //    var plan1 = journeyPlan[0];
+        //    expect(plan1.length).toBe(2);
+        //    var s1b = plan1[0];
+        //    var s2b = plan1[1];
         //
-        //    var journey2 = journeyPlan[1];
-        //    expect(journey2.departure.stop).toBe('Stop 1');
-        //    expect(journey2.arrival.stop).toBe('Stop 2');
-        //    expect(journey2.departure.time).toBe('06:06');
-        //    expect(journey2.arrival.time).toBe('06:25');
-        //    expect(journey2.changes.length).toBe(0);
-        //    //expect(journeyPlan.departure.time).toBe('06:09');
-        //    //expect(journeyPlan.destination.time).toBe('06:23');
-        //    //expect(journeyPlan.destination.time).toBe('06:39');
-        //    //expect(journeyPlan.changes.length).toBe(1);
-        //    //expect(journeyPlan.changes[0].stop).toBe('Stop 2');
-        //    //expect(journeyPlan.changes[0].arrival).toBe('06:09');
-        //    //expect(journeyPlan.changes[0].departure).toBe('06:16');
+        //    expect(plan1.departureTime).toBe('06:08');
+        //    expect(plan1.departureStop).toBe('Stop 1');
+        //    expect(plan1.departureLine).toBe('2');
+        //
+        //    expect(plan1.arrivalTime).toBe('06:23');
+        //    expect(plan1.arrivalStop).toBe('Stop 2');
+        //    expect(plan1.arrivalLine).toBe('2');
+        //
+        //
+        //    expect(s1b.stop).toBe('Stop 1');
+        //    expect(s1b.departureTime).toBe('06:08');
+        //    expect(s1b.line).toBe('2');
+        //
+        //    expect(s2b.stop).toBe('Stop 2');
+        //    expect(s2b.arrivalTime).toBe('06:23');
+        //    expect(s2b.line).toBe('2');
+        //
+        //    var plan2 = journeyPlan[1];
+        //    expect(plan2.length).toBe(2);
+        //    var s1a = plan2[0];
+        //    var s2a = plan2[1];
+        //
+        //    expect(plan2.departureTime).toBe('06:06');
+        //    expect(plan2.departureStop).toBe('Stop 1');
+        //    expect(plan2.departureLine).toBe('1');
+        //
+        //    expect(plan2.arrivalTime).toBe('06:25');
+        //    expect(plan2.arrivalStop).toBe('Stop 2');
+        //    expect(plan2.arrivalLine).toBe('1');
+        //
+        //    expect(s1a.stop).toBe('Stop 1');
+        //    expect(s1a.departureTime).toBe('06:06');
+        //    expect(s1a.line).toBe('1');
+        //
+        //    expect(s2a.stop).toBe('Stop 2');
+        //    expect(s2a.arrivalTime).toBe('06:25');
+        //    expect(s2a.line).toBe('1');
         //
         //});
-
-        //it('should find a alternative routs with a change', function () {
+        //
+        //it('should find a route with a change', function () {
         //
         //
         //    var departure = {
@@ -131,24 +468,13 @@
         //        lng: 100
         //    };
         //
-        //    var stop1a = {
+        //    var stop1 = {
         //        id: 's1',
         //        name: 'Stop 1',
-        //        lines: ['1', '3'],
+        //        lines: ['1'],
         //        line: '1',
         //        arrivals: ['05:39', '05:59', '06:19'],
         //        departures: ['05:40', '06:00', '06:20'],
-        //        lat: 49,
-        //        lng: 49
-        //    };
-        //
-        //    var stop1b = {
-        //        id: 's1',
-        //        name: 'Stop 1',
-        //        lines: ['1', '3'],
-        //        line: '3',
-        //        arrivals: ['05:45', '06:05', '06:25'],
-        //        departures: ['05:46', '06:06', '06:26'],
         //        lat: 49,
         //        lng: 49
         //    };
@@ -175,29 +501,7 @@
         //        lng: 75
         //    };
         //
-        //    var stop4a = {
-        //        id: 's4',
-        //        name: 'Stop 4',
-        //        lines: ['2', '3'],
-        //        line: '3',
-        //        arrivals: ['05:50', '06:10', '06:30'],
-        //        departures: ['05:51', '06:11', '06:31'],
-        //        lat: 49,
-        //        lng: 49
-        //    };
-        //
-        //    var stop4b = {
-        //        id: 's4',
-        //        name: 'Stop 4',
-        //        lines: ['2', '3'],
-        //        line: '2',
-        //        arrivals: ['05:59', '06:19', '06:39'],
-        //        departures: ['06:00', '06:20', '06:40'],
-        //        lat: 49,
-        //        lng: 49
-        //    };
-        //
-        //    var stop3a = {
+        //    var stop3 = {
         //        id: 's3',
         //        name: 'Stop 3',
         //        lines: ['2'],
@@ -211,22 +515,12 @@
         //
         //    var line1 = {
         //        name: '1',
-        //        stops: [stop1a, stop2a]
+        //        stops: [stop1, stop2a]
         //    };
         //
         //    var line2 = {
         //        name: '2',
-        //        stops: [stop2b, stop3a]
-        //    };
-        //
-        //    var line3 = {
-        //        name: '3',
-        //        stops: [stop1b, stop3b]
-        //    };
-        //
-        //    var line4 = {
-        //        name: '4',
-        //        stops: [stop2b, stop3b]
+        //        stops: [stop2b, stop3]
         //    };
         //
         //    var time = '2013-02-08 05:50';
@@ -234,105 +528,40 @@
         //
         //    var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
         //
+        //    expect(journeyPlan.length).toBe(1);
+        //    var plan = journeyPlan[0];
+        //    expect(plan.length).toBe(4);
+        //    var s1 = plan[0];
+        //    var s2 = plan[1];
+        //    var s3 = plan[2];
+        //    var s4 = plan[3];
         //
-        //    expect(journeyPlan.departure.stop).toBe('Stop 1');
-        //    expect(journeyPlan.destination.stop).toBe('Stop 3');
-        //    expect(journeyPlan.departure.time).toBe('06:00');
-        //    expect(journeyPlan.destination.time).toBe('06:39');
-        //    expect(journeyPlan.changes.length).toBe(1);
-        //    expect(journeyPlan.changes[0].stop).toBe('Stop 2');
-        //    expect(journeyPlan.changes[0].arrival).toBe('06:09');
-        //    expect(journeyPlan.changes[0].departure).toBe('06:16');
+        //    expect(plan.departureTime).toBe('06:00');
+        //    expect(plan.departureStop).toBe('Stop 1');
+        //    expect(plan.departureLine).toBe('1');
+        //
+        //    expect(plan.arrivalTime).toBe('06:39');
+        //    expect(plan.arrivalStop).toBe('Stop 3');
+        //    expect(plan.arrivalLine).toBe('2');
+        //
+        //    expect(s1.stop).toBe('Stop 1');
+        //    expect(s1.departureTime).toBe('06:00');
+        //    expect(s1.line).toBe('1');
+        //
+        //    expect(s2.stop).toBe('Stop 2');
+        //    expect(s2.arrivalTime).toBe('06:09');
+        //    expect(s2.line).toBe('1');
+        //
+        //    expect(s3.stop).toBe('Stop 2');
+        //    expect(s3.departureTime).toBe('06:16');
+        //    expect(s3.line).toBe('2');
+        //
+        //    expect(s4.stop).toBe('Stop 3');
+        //    expect(s4.arrivalTime).toBe('06:39');
+        //    expect(s4.line).toBe('2');
         //
         //});
-
-        it('should find a route with a change', function () {
-
-
-            var departure = {
-                lat: 50,
-                lng: 50
-            };
-
-            var destination = {
-                lat: 100,
-                lng: 100
-            };
-
-            var stop1 = {
-                id: 's1',
-                name: 'Stop 1',
-                lines: ['1'],
-                line: '1',
-                arrivals: ['05:39', '05:59', '06:19'],
-                departures: ['05:40', '06:00', '06:20'],
-                lat: 49,
-                lng: 49
-            };
-
-            var stop2a = {
-                id: 's2',
-                name: 'Stop 2',
-                lines: ['1', '2'],
-                line: '1',
-                arrivals: ['05:49', '06:09', '06:19'],
-                departures: ['05:50','06:10','06:20'],
-                lat: 75,
-                lng: 75
-            };
-
-            var stop2b = {
-                id: 's2',
-                name: 'Stop 2',
-                lines: ['1', '2'],
-                line: '2',
-                arrivals: ['06:15'],
-                departures: ['06:16'],
-                lat: 75,
-                lng: 75
-            };
-
-            var stop3 = {
-                id: 's3',
-                name: 'Stop 3',
-                lines: ['2'],
-                line: '2',
-                arrivals: ['06:39'],
-                departures: ['06:40'],
-                lat: 99,
-                lng: 99
-            };
-
-
-            var line1 = {
-                name: '1',
-                stops: [stop1, stop2a]
-            };
-
-            var line2 = {
-                name: '2',
-                stops: [stop2b, stop3]
-            };
-
-            var time = '2013-02-08 05:50';
-
-
-            var journeyPlan = Service.getDirections(departure, destination, time, [line1, line2]);
-
-            expect(journeyPlan.length).toBe(1);
-            var journeyPlan1 = journeyPlan[0];
-
-            //expect(journeyPlan1.departure.stop).toBe('Stop 1');
-            //expect(journeyPlan1.arrival.stop).toBe('Stop 3');
-            //expect(journeyPlan1.departure.time).toBe('06:00');
-            //expect(journeyPlan1.arrival.time).toBe('06:39');
-            //expect(journeyPlan1.changes.length).toBe(1);
-            //expect(journeyPlan1.changes[0].stop).toBe('Stop 2');
-            //expect(journeyPlan1.changes[0].arrival).toBe('06:09');
-            //expect(journeyPlan1.changes[0].departure).toBe('06:16');
-
-        });
-
+        //
         //it('should find earliest possible connection for simple route', function () {
         //
         //    var departure = {
@@ -380,12 +609,16 @@
         //
         //
         //    expect(journeyPlan.length).toBe(1);
-        //    var journeyPlan1 = journeyPlan[0];
+        //    var plan = journeyPlan[0];
         //
-        //    expect(journeyPlan1.departure.stop).toBe('Stop 1');
-        //    expect(journeyPlan1.arrival.stop).toBe('Stop 2');
-        //    expect(journeyPlan1.departure.time).toBe('08:00');
-        //    expect(journeyPlan1.arrival.time).toBe('09:00');
+        //
+        //    expect(plan.departureTime).toBe('08:00');
+        //    expect(plan.departureStop).toBe('Stop 1');
+        //    expect(plan.departureLine).toBe('1');
+        //
+        //    expect(plan.arrivalTime).toBe('09:00');
+        //    expect(plan.arrivalStop).toBe('Stop 2');
+        //    expect(plan.arrivalLine).toBe('1');
         //});
         //
         //it('should find route on one line with follow on stops', function () {
@@ -471,12 +704,17 @@
         //    var journeyPlan = Service.getDirections(departure, destination, time, [line1]);
         //
         //    expect(journeyPlan.length).toBe(1);
-        //    var journeyPlan1 = journeyPlan[0];
+        //    var plan = journeyPlan[0];
         //
-        //    expect(journeyPlan1.departure.stop).toBe('Stop 2');
-        //    expect(journeyPlan1.arrival.stop).toBe('Stop 4');
-        //    expect(journeyPlan1.departure.time).toBe('06:20');
-        //    expect(journeyPlan1.arrival.time).toBe('07:00');
+        //    expect(plan.departureTime).toBe('06:20');
+        //    expect(plan.departureStop).toBe('Stop 2');
+        //    expect(plan.departureLine).toBe('1');
+        //
+        //    expect(plan.arrivalTime).toBe('07:00');
+        //    expect(plan.arrivalStop).toBe('Stop 4');
+        //    expect(plan.arrivalLine).toBe('1');
+        //
+        //
         //});
         //
         //it('should find route on one line with previous stop', function () {
@@ -547,12 +785,15 @@
         //    var journeyPlan = Service.getDirections(departure, destination, time, [line1]);
         //
         //    expect(journeyPlan.length).toBe(1);
-        //    var journeyPlan1 = journeyPlan[0];
+        //    var plan = journeyPlan[0];
         //
-        //    expect(journeyPlan1.departure.stop).toBe('Stop 2');
-        //    expect(journeyPlan1.arrival.stop).toBe('Stop 4');
-        //    expect(journeyPlan1.departure.time).toBe('06:20');
-        //    expect(journeyPlan1.arrival.time).toBe('07:00');
+        //    expect(plan.departureTime).toBe('06:20');
+        //    expect(plan.departureStop).toBe('Stop 2');
+        //    expect(plan.departureLine).toBe('1');
+        //
+        //    expect(plan.arrivalTime).toBe('07:00');
+        //    expect(plan.arrivalStop).toBe('Stop 4');
+        //    expect(plan.arrivalLine).toBe('1');
         //});
         //
         //it('should find route on one line with intermediate stop', function () {
@@ -613,12 +854,15 @@
         //
         //
         //    expect(journeyPlan.length).toBe(1);
-        //    var journeyPlan1 = journeyPlan[0];
+        //    var plan = journeyPlan[0];
         //
-        //    expect(journeyPlan1.departure.stop).toBe('Stop 1');
-        //    expect(journeyPlan1.arrival.stop).toBe('Stop 3');
-        //    expect(journeyPlan1.departure.time).toBe('06:00');
-        //    expect(journeyPlan1.arrival.time).toBe('07:00');
+        //    expect(plan.departureTime).toBe('06:00');
+        //    expect(plan.departureStop).toBe('Stop 1');
+        //    expect(plan.departureLine).toBe('1');
+        //
+        //    expect(plan.arrivalTime).toBe('07:00');
+        //    expect(plan.arrivalStop).toBe('Stop 3');
+        //    expect(plan.arrivalLine).toBe('1');
         //});
         //
         //it('should find simple route', function () {
@@ -667,13 +911,23 @@
         //    var journeyPlan = Service.getDirections(departure, destination, time, [line1]);
         //
         //    expect(journeyPlan.length).toBe(1);
-        //    var journeyPlan1 = journeyPlan[0];
+        //    var plan = journeyPlan[0];
+        //    expect(plan.length).toBe(2);
+        //    var s0 = plan[0];
+        //    var s1 = plan[1];
         //
+        //    expect(plan.departureTime).toBe('06:00');
+        //    expect(plan.departureStop).toBe('Stop 1');
+        //    expect(plan.departureLine).toBe('1');
         //
-        //    expect(journeyPlan1.departure.stop).toBe('Stop 1');
-        //    expect(journeyPlan1.arrival.stop).toBe('Stop 2');
-        //    expect(journeyPlan1.departure.time).toBe('06:00');
-        //    expect(journeyPlan1.arrival.time).toBe('07:00');
+        //    expect(plan.arrivalTime).toBe('07:00');
+        //    expect(plan.arrivalStop).toBe('Stop 2');
+        //    expect(plan.arrivalLine).toBe('1');
+        //
+        //    expect(s0.stop).toBe('Stop 1');
+        //    expect(s1.stop).toBe('Stop 2');
+        //    expect(s0.departureTime).toBe('06:00');
+        //    expect(s1.arrivalTime).toBe('07:00');
         //});
         //
 
