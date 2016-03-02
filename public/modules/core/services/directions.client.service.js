@@ -164,7 +164,8 @@ angular.module('core').service('DirectionsService', [
                         path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
 
                     } else {
-                       // _self.traverse(edge.to, stop, graph, path);
+                        console.log('x');
+                        _self.traverse(edge.to, stop, graph, path);
                     }
                 }
             });
