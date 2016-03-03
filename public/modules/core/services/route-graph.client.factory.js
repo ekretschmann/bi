@@ -40,6 +40,9 @@ angular.module('core').factory('RouteGraph', [
                         return line.name === linename;
                     });
 
+                    if (!line) {
+                        return [];
+                    }
 
                     return _.find(line.stops, function (stop) {
                         return stop.id === id;
@@ -49,7 +52,9 @@ angular.module('core').factory('RouteGraph', [
                 _.forEach(lines, function (line) {
                     _self.nodes.push({name: line.name, visited: false});
                     _.forEach(line.stops, function (arrivalStop) {
+
                         _.forEach(arrivalStop.lines, function (change) {
+
                             if (change !== line.name) {
 
                                 var departureStop = getStop(arrivalStop.id, change);
@@ -68,26 +73,38 @@ angular.module('core').factory('RouteGraph', [
 
             this.calculatePaths = function(start, stop) {
                 var path = [];
-                this.traverse(start, stop, path);
-                return path;
+                var paths = [];
+                _.forEach(this.nodes, function(node) {
+                    node.visited = false;
+                });
+                this.traverse(start, stop, path, paths);
+                return paths;
             };
 
-            this.traverse = function (start, stop, path) {
+            this.traverse = function (start, stop, path, paths) {
                 var _self = this;
                 var n = _self.getNode(start);
+
                 n.visited = true;
 
                 _.forEach(_self.getEdges(n), function (edge) {
 
+                    console.log('trying edge ',edge);
                     if (!_self.getNode(edge.to).visited) {
-                        console.log(stop, edge.to);
+
+
+                        console.log(edge.to, stop);
                         if (edge.to === stop) {
 
-                            path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
+                            console.log('pushing');
+                            path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                            paths.push(path);
+                            path = [];
 
                         } else {
-                            console.log('x');
-                            _self.traverse(edge.to, stop, path);
+                            console.log('recursion');
+                            path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                            _self.traverse(edge.to, stop, path, paths);
                         }
                     }
                 });

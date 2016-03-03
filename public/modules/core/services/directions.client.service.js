@@ -212,10 +212,10 @@ angular.module('core').service('DirectionsService', [
                         var path = [];
 
 
-                        routeGraph.traverse(departLine, arriveLine, path);
+                        path = routeGraph.calculatePaths(departLine, arriveLine)[0];
 
 
-                        if (path.length > 0) {
+                        if (path && path.length > 0) {
                             if (path[0].departureStop.id !== departLineStop.id) {
 
 
