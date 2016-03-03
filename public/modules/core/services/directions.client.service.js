@@ -2,8 +2,8 @@
 
 
 angular.module('core').service('DirectionsService', [
-    'lodash', '$moment',
-    function (_, moment) {
+    'lodash', '$moment', 'RouteGraph',
+    function (_, moment, RouteGraph) {
 
         this.getDirections = function (departure, arrival, time, lines) {
 
@@ -189,7 +189,11 @@ angular.module('core').service('DirectionsService', [
 
 
             var _self = this;
-            var graph = _self.getLineGraph(lines);
+
+            var routeGraph = RouteGraph.createNew(lines);
+
+            //console.log('aaaaa');
+            //var graph = _self.getLineGraph(lines);
 
             var changes = [];
             _.forEach(departStop.lines, function (departLine) {
@@ -208,7 +212,7 @@ angular.module('core').service('DirectionsService', [
                         var path = [];
 
 
-                        _self.traverse(departLine, arriveLine, graph, path);
+                        routeGraph.traverse(departLine, arriveLine, path);
 
 
                         if (path.length > 0) {
