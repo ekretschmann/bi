@@ -82,6 +82,14 @@ angular.module('core').factory('RouteGraph', [
                 return paths;
             };
 
+            this.printPath = function(path) {
+                console.log('');
+                _.forEach(path, function(leg) {
+                    console.log(leg.arrivalStop.id + leg.arrivalStop.line + ' - ' + leg.departureStop.id + leg.departureStop.line);
+                });
+
+            };
+
             this.traverse = function (start, stop, path, paths) {
                 var _self = this;
                 var n = _self.getNode(start);
@@ -96,22 +104,23 @@ angular.module('core').factory('RouteGraph', [
                         edge.visited = true;
                         console.log('pushing');
                         path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                        _self.printPath(path);
 
 
                         if (edge.to === stop) {
 
 
-                            console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
-
+                            console.log('solution found');
                             paths.push(_.cloneDeep(path));
                             //paths.push(path.pop());
 
                             path.pop();
-
+                            console.log('popping');
+                            _self.printPath(path);
                         } else {
                             console.log('recursion');
-                            console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
                             path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                            _self.printPath(path);
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
