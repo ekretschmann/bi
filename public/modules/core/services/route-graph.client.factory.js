@@ -50,7 +50,7 @@ angular.module('core').factory('RouteGraph', [
                 };
 
                 _.forEach(lines, function (line) {
-                    _self.nodes.push({name: line.name, visited: false});
+                    _self.nodes.push({name: line.name});
                     _.forEach(line.stops, function (arrivalStop) {
 
                         _.forEach(arrivalStop.lines, function (change) {
@@ -62,7 +62,8 @@ angular.module('core').factory('RouteGraph', [
                                     from: line.name,
                                     to: change,
                                     arrivalStop: arrivalStop,
-                                    departureStop: departureStop
+                                    departureStop: departureStop,
+                                    visited: false
                                 });
                             }
                         });
@@ -74,8 +75,8 @@ angular.module('core').factory('RouteGraph', [
             this.calculatePaths = function(start, stop) {
                 var path = [];
                 var paths = [];
-                _.forEach(this.nodes, function(node) {
-                    node.visited = false;
+                _.forEach(this.edges, function(edge) {
+                    edge.visited = false;
                 });
                 this.traverse(start, stop, path, paths);
                 return paths;
@@ -85,30 +86,38 @@ angular.module('core').factory('RouteGraph', [
                 var _self = this;
                 var n = _self.getNode(start);
 
-                n.visited = true;
+               // n.visited = true;
 
                 _.forEach(_self.getEdges(n), function (edge) {
 
-                    console.log('trying edge ',edge.from, edge.to);
-                    if (!_self.getNode(edge.to).visited) {
+                    //console.log('trying edge ',edge.from, edge.to);
+                    if (!edge.visited) {
 
+                        edge.visited = true;
+                        console.log('pushing');
+                        path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
 
 
                         if (edge.to === stop) {
 
 
-                            path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
-                            console.log('pushing ');
                             console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
-                            paths.push(path);
-                            path = [];
+
+                            paths.push(_.cloneDeep(path));
+                            //paths.push(path.pop());
+
+                            path.pop();
 
                         } else {
                             console.log('recursion');
                             console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
                             path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
                             _self.traverse(edge.to, stop, path, paths);
+
                         }
+
+                        path.pop();
+
                     }
                 });
             };
