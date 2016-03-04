@@ -89,20 +89,23 @@ angular.module('core').factory('RouteGraph', [
 
                 _.forEach(_self.getEdges(n), function (edge) {
 
-                    console.log('trying edge ',edge);
+                    console.log('trying edge ',edge.from, edge.to);
                     if (!_self.getNode(edge.to).visited) {
 
 
-                        console.log(edge.to, stop);
+
                         if (edge.to === stop) {
 
-                            console.log('pushing');
+
                             path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                            console.log('pushing ');
+                            console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
                             paths.push(path);
                             path = [];
 
                         } else {
                             console.log('recursion');
+                            console.log('  '+edge.arrivalStop.id+edge.arrivalStop.line+ ' - ' + edge.departureStop.id + edge.departureStop.line);
                             path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
                             _self.traverse(edge.to, stop, path, paths);
                         }
