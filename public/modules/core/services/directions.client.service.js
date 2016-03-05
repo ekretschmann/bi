@@ -111,7 +111,7 @@ angular.module('core').service('DirectionsService', [
                 getNode: function (name) {
                     return _.find(this.nodes, function (n) {
                         return n.name === name;
-                    })
+                    });
                 },
                 getEdges: function (n) {
                     return _.filter(this.edges, function (e) {
@@ -128,7 +128,7 @@ angular.module('core').service('DirectionsService', [
 
                 return _.find(line.stops, function (stop) {
                     return stop.id === id;
-                })
+                });
             };
 
             _.forEach(lines, function (line) {
@@ -264,7 +264,7 @@ angular.module('core').service('DirectionsService', [
             });
 
             return result;
-        }
+        };
 
 
     }

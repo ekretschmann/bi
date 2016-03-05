@@ -17,7 +17,7 @@
             RouteGraph = _RouteGraph_;
         }));
 
-        fit('should build graph with alternatives with more than one change', function () {
+        it('should build graph with alternatives with more than one change', function () {
 
 
             // line a: s1    s2           s4          s6

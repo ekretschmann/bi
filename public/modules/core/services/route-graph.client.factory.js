@@ -6,12 +6,6 @@ angular.module('core').factory('RouteGraph', [
     function (_, moment) {
 
 
-        return {
-            createNew: function (lines) {
-
-                return new RouteGraphInstance().init(lines);
-            }
-        };
 
 
         function RouteGraphInstance() {
@@ -23,7 +17,7 @@ angular.module('core').factory('RouteGraph', [
             this.getNode = function (name) {
                 return _.find(this.nodes, function (n) {
                     return n.name === name;
-                })
+                });
             };
 
             this.getEdges = function (n) {
@@ -46,7 +40,7 @@ angular.module('core').factory('RouteGraph', [
 
                     return _.find(line.stops, function (stop) {
                         return stop.id === id;
-                    })
+                    });
                 };
 
                 _.forEach(lines, function (line) {
@@ -132,6 +126,13 @@ angular.module('core').factory('RouteGraph', [
             };
 
         }
+
+        return {
+            createNew: function (lines) {
+
+                return new RouteGraphInstance().init(lines);
+            }
+        };
 
     }
 ]);
