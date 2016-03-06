@@ -17,7 +17,7 @@
             RouteGraph = _RouteGraph_;
         }));
 
-        it('should build graph with alternatives with more than one change', function () {
+        fit('should build graph with alternatives with more than one change', function () {
 
 
             // line a: s1    s2           s4          s6
@@ -31,16 +31,6 @@
             //         s1a - s2a - s2c - s4c - s4b - s6b - s6x - s9x
 
 
-            var result = [
-                [
-                    { arrivalStop: { id: 's2', line: 'a', lines: [ 'a', 'c' ] }, departureStop: { id: 's2', line: 'c', lines: [ 'a', 'c' ] } },
-                    { arrivalStop: { id: 's2', line: 'a', lines: [ 'a', 'c' ] }, departureStop: { id: 's2', line: 'c', lines: [ 'a', 'c' ] } },
-                    { arrivalStop: { id: 's4', line: 'c', lines: [ 'a', 'b', 'c' ] }, departureStop: { id: 's4', line: 'b', lines: [ 'a', 'b', 'c' ] } },
-                    { arrivalStop: { id: 's4', line: 'c', lines: [ 'a', 'b', 'c' ] }, departureStop: { id: 's4', line: 'b', lines: [ 'a', 'b', 'c' ] } },
-                    { arrivalStop: { id: 's6', line: 'b', lines: [ 'a', 'b', 'x' ] }, departureStop: { id: 's6', line: 'x', lines: [ 'a', 'b', 'x' ] } }
-                ], [
-                    { arrivalStop: { id: 's2', line: 'a', lines: [ 'a', 'c' ] }, departureStop: { id: 's2', line: 'c', lines: [ 'a', 'c' ] } },
-                    { arrivalStop: { id: 's6', line: 'a', lines: [ 'a', 'b', 'x' ] }, departureStop: { id: 's6', line: 'x', lines: [ 'a', 'b', 'x' ] } } ] ];
 
 
             var stop1a = {id: 's1', line: 'a', lines: ['a']};
@@ -112,20 +102,34 @@
 
 
             var paths = graph.calculatePaths('a', 'x');
-            //
-            //
-            //
-            //
-            //
-            //
-           // var expectedPath1 = [ {arrivalStop: stop4a, departureStop: stop4b}, {arrivalStop: stop6b, departureStop: stop6x} ];
+
+
+            //[
+            //    [ { arrivalStop: { id: 's2', line: 'a', lines: [ 'a', 'c' ] }, departureStop: { id: 's2', line: 'c', lines: [ 'a', 'c' ] } },
+            //        { arrivalStop: { id: 's4', line: 'c', lines: [ 'a', 'b', 'c' ] }, departureStop: { id: 's4', line: 'a', lines: [ 'a', 'b', 'c' ] } },
+            //        { arrivalStop: { id: 's6', line: 'a', lines: [ 'a', 'b', 'x' ] }, departureStop: { id: 's6', line: 'x', lines: [ 'a', 'b', 'x' ] } } ],
+            //    [ { arrivalStop: { id: 's2', line: 'a', lines: [ 'a', 'c' ] }, departureStop: { id: 's2', line: 'c', lines: [ 'a', 'c' ] } },
+            //        { arrivalStop: { id: 's4', line: 'c', lines: [ 'a', 'b', 'c' ] }, departureStop: { id: 's4', line: 'b', lines: [ 'a', 'b', 'c' ] } },
+            //        { arrivalStop: { id: 's6', line: 'b', lines: [ 'a', 'b', 'x' ] }, departureStop: { id: 's6', line: 'x', lines: [ 'a', 'b', 'x' ] } } ]
+            //]
+
+            //var expectedPath1 = [ {arrivalStop: stop4a, departureStop: stop4b}, {arrivalStop: stop6b, departureStop: stop6x} ];
             //var expectedPath2 = [ {arrivalStop: stop6a, departureStop: stop6x} ];
-            //
-            //
-            //
-            //
-           // expect(paths).toContain(expectedPath1);
-            //expect(paths).toContain(expectedPath2);
+            var expectedPath3 = [
+                {arrivalStop: stop2a, departureStop: stop2c},
+                {arrivalStop: stop4c, departureStop: stop4a},
+                {arrivalStop: stop6a, departureStop: stop6x},
+            ];
+            var expectedPath4 = [
+                {arrivalStop: stop2a, departureStop: stop2c},
+                {arrivalStop: stop4c, departureStop: stop4b},
+                {arrivalStop: stop6b, departureStop: stop6x},
+            ];
+
+
+
+            expect(paths).toContain(expectedPath3);
+            expect(paths).toContain(expectedPath4);
 
 
         });

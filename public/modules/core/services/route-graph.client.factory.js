@@ -6,12 +6,10 @@ angular.module('core').factory('RouteGraph', [
     function (_, moment) {
 
 
-
-
         function RouteGraphInstance() {
 
 
-            this.nodes= [];
+            this.nodes = [];
             this.edges = [];
 
             this.getNode = function (name) {
@@ -66,36 +64,41 @@ angular.module('core').factory('RouteGraph', [
                 return this;
             };
 
-            this.calculatePaths = function(start, stop) {
+            this.calculatePaths = function (start, stop) {
                 var path = [];
                 var paths = [];
-                _.forEach(this.edges, function(edge) {
+                _.forEach(this.edges, function (edge) {
                     edge.visited = false;
                 });
                 this.traverse(start, stop, path, paths);
                 return paths;
             };
 
-            this.printPath = function(path) {
-                console.log('');
-                _.forEach(path, function(leg) {
+            this.printPath = function (path) {
+
+                _.forEach(path, function (leg) {
                     console.log(leg.arrivalStop.id + leg.arrivalStop.line + ' - ' + leg.departureStop.id + leg.departureStop.line);
                 });
 
             };
 
+            this.canChange = function (destinationStopId, path) {
+                var result = true;
+                _.forEach(path, function (stop) {
+                    if (stop.arrivalStop.id === destinationStopId || stop.departureStop.id === destinationStopId) {
+                        result = false;
+                    }
+                });
+
+                return result;
+            };
+
             this.traverse = function (start, stop, path, paths) {
                 var _self = this;
                 var n = _self.getNode(start);
-
-               // n.visited = true;
-
                 _.forEach(_self.getEdges(n), function (edge) {
 
-                    //console.log('trying edge ',edge.from, edge.to);
-                    if (!edge.visited) {
-
-                        edge.visited = true;
+                    if (_self.canChange(edge.departureStop.id, path)) {
                         console.log('pushing');
                         path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
                         _self.printPath(path);
@@ -106,22 +109,20 @@ angular.module('core').factory('RouteGraph', [
 
                             console.log('solution found');
                             paths.push(_.cloneDeep(path));
-                            //paths.push(path.pop());
 
-                            path.pop();
-                            console.log('popping');
-                            _self.printPath(path);
                         } else {
                             console.log('recursion');
-                            path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
-                            _self.printPath(path);
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
 
-                        path.pop();
+                        console.log('popping');
 
+                        path.pop();
+                        _self.printPath(path);
                     }
+
+                    //console.log('  done ',edge.arrivalStop.id);
                 });
             };
 
