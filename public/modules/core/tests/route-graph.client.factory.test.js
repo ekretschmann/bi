@@ -226,11 +226,7 @@
             var paths = graph.calculatePaths('a', 'c');
             expect(paths.length).toBe(1);
 
-            var expectedPath1 = [
-                {arrivalStop: stop2a, departureStop: stop2b},
-                {arrivalStop: stop3b, departureStop: stop3c}
-            ];
-
+            var expectedPath1 = [edge2ab, edge3bc];
 
             expect(paths).toContain(expectedPath1);
 
@@ -277,14 +273,8 @@
 
             var paths = graph.calculatePaths('a', 'b');
 
-            var expectedPath1 = [
-                {arrivalStop: stop1a, departureStop: stop1b}
-            ];
-
-
-            var expectedPath2 = [
-                {arrivalStop: stop4a, departureStop: stop4b}
-            ];
+            var expectedPath1 = [edge1ab];
+            var expectedPath2 = [edge4ab];
 
             expect(paths).toContain(expectedPath1);
             expect(paths).toContain(expectedPath2);
@@ -323,9 +313,7 @@
 
 
             var paths = graph.calculatePaths('a', 'b');
-            var expectedPath1 = [
-                {arrivalStop: stop2a, departureStop: stop2b}
-            ];
+            var expectedPath1 = [edge2ab];
             expect(paths).toContain(expectedPath1);
 
         });

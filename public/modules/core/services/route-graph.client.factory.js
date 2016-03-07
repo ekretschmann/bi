@@ -98,9 +98,9 @@ angular.module('core').factory('RouteGraph', [
                     }
                 });
 
-                //if (result && backToLine)  {
-                //    console.log('switching back');
-                //}
+                if (result)  {
+                    console.log('  arrival line',edge.arrivalStop.line);
+                }
 
 
                 return result;
@@ -113,7 +113,7 @@ angular.module('core').factory('RouteGraph', [
 
                     if (_self.canChange(edge, path)) {
                         console.log('pushing');
-                        path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
+                        path.push(edge);
                         _self.printPath(path);
 
 
