@@ -12,15 +12,15 @@ angular.module('core').factory('RouteGraph', [
             this.nodes = [];
             this.edges = [];
 
-            this.getNode = function (name) {
+            this.getNode = function (id) {
                 return _.find(this.nodes, function (n) {
-                    return n.name === name;
+                    return n.id === id;
                 });
             };
 
             this.getEdges = function (n) {
                 return _.filter(this.edges, function (e) {
-                    return e.from === n.name;
+                    return e.from === n.id;
                 });
             };
 
@@ -29,7 +29,7 @@ angular.module('core').factory('RouteGraph', [
 
                 var getStop = function (id, linename) {
                     var line = _.find(lines, function (line) {
-                        return line.name === linename;
+                        return line.id === linename;
                     });
 
                     if (!line) {
@@ -42,16 +42,16 @@ angular.module('core').factory('RouteGraph', [
                 };
 
                 _.forEach(lines, function (line) {
-                    _self.nodes.push({name: line.name});
+                    _self.nodes.push({id: line.id});
                     _.forEach(line.stops, function (arrivalStop) {
 
                         _.forEach(arrivalStop.lines, function (change) {
 
-                            if (change !== line.name) {
+                            if (change !== line.id) {
 
                                 var departureStop = getStop(arrivalStop.id, change);
                                 _self.edges.push({
-                                    from: line.name,
+                                    from: line.id,
                                     to: change,
                                     arrivalStop: arrivalStop,
                                     departureStop: departureStop,
@@ -82,13 +82,26 @@ angular.module('core').factory('RouteGraph', [
 
             };
 
-            this.canChange = function (destinationStopId, path) {
+            this.canChange = function (edge, path) {
                 var result = true;
+                //var backToLine;
+
+
+
                 _.forEach(path, function (stop) {
-                    if (stop.arrivalStop.id === destinationStopId || stop.departureStop.id === destinationStopId) {
+                    //if (stop.departureStop.line ===  edge.arrivalStop.line) {
+                    //    backToLine = true;
+                    //
+                    //}
+                    if (stop.arrivalStop.id === edge.arrivalStop.id || stop.departureStop.id === edge.arrivalStop.id) {
                         result = false;
                     }
                 });
+
+                //if (result && backToLine)  {
+                //    console.log('switching back');
+                //}
+
 
                 return result;
             };
@@ -98,7 +111,7 @@ angular.module('core').factory('RouteGraph', [
                 var n = _self.getNode(start);
                 _.forEach(_self.getEdges(n), function (edge) {
 
-                    if (_self.canChange(edge.departureStop.id, path)) {
+                    if (_self.canChange(edge, path)) {
                         console.log('pushing');
                         path.push({arrivalStop: edge.arrivalStop, departureStop: edge.departureStop});
                         _self.printPath(path);
