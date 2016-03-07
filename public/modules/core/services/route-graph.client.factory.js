@@ -11,6 +11,7 @@ angular.module('core').factory('RouteGraph', [
 
             this.nodes = [];
             this.edges = [];
+            this.lines;
 
             this.getNode = function (id) {
                 return _.find(this.nodes, function (n) {
@@ -25,6 +26,7 @@ angular.module('core').factory('RouteGraph', [
             };
 
             this.init = function (lines) {
+                this.lines = lines;
                 var _self = this;
 
                 var getStop = function (id, linename) {
@@ -54,8 +56,7 @@ angular.module('core').factory('RouteGraph', [
                                     from: line.id,
                                     to: change,
                                     arrivalStop: arrivalStop,
-                                    departureStop: departureStop,
-                                    visited: false
+                                    departureStop: departureStop
                                 });
                             }
                         });
@@ -67,9 +68,7 @@ angular.module('core').factory('RouteGraph', [
             this.calculatePaths = function (start, stop) {
                 var path = [];
                 var paths = [];
-                _.forEach(this.edges, function (edge) {
-                    edge.visited = false;
-                });
+
                 this.traverse(start, stop, path, paths);
                 return paths;
             };
@@ -86,20 +85,47 @@ angular.module('core').factory('RouteGraph', [
                 var result = true;
                 //var backToLine;
 
-
+                var _self = this;
 
                 _.forEach(path, function (stop) {
-                    //if (stop.departureStop.line ===  edge.arrivalStop.line) {
-                    //    backToLine = true;
-                    //
-                    //}
                     if (stop.arrivalStop.id === edge.arrivalStop.id || stop.departureStop.id === edge.arrivalStop.id) {
                         result = false;
                     }
                 });
 
-                if (result)  {
-                    console.log('  arrival line',edge.arrivalStop.line);
+                var isBefore = function (stopa, stopb, line) {
+                    var founda = false;
+                    var foundb = false;
+                    var result = false;
+                    _.forEach(line.stops, function (stop) {
+                        if (stop.id === stopa.id) {
+                            founda = true;
+                        }
+                        if (stop.id === stopb.id) {
+                            foundb = true;
+                        }
+
+                        if (founda && !foundb) {
+                            //console.log('     disallowed');
+                            result = true;
+                        }
+                    });
+                    return result;
+                };
+
+                if (result && path.length > 0) {
+                    var foundLoop = false;
+                    _.forEach(_self.lines, function (line) {
+                        _.forEach(path, function (pathStop) {
+                            foundLoop = isBefore(edge.departureStop, pathStop.departureStop, line);
+                            console.log('  '+edge.departureStop.id+ ' '+pathStop.departureStop.id+ ' '+line.id+' '+foundLoop);
+                        });
+                    });
+
+                    if (foundLoop) {
+                        console.log('disallowed');
+                        result = false;
+                    }
                 }
 
 
