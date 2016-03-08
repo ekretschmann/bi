@@ -17,21 +17,108 @@
             RouteGraph = _RouteGraph_;
         }));
 
-        fit('should build graph with alternatives with more than one change', function () {
-
+        it('should build graph with alternatives with more than one change with buses running both ways', function () {
 
             // line a: s1    s2           s4          s6
             // line b:                    s4          s6
             // line c:       s2           s4
             // line x:                                s6    s9
 
-            // routes: s1a - s6a - s6x - s9x
-            //         s1a - s4a - s4b - s6b - s6x - s9x
-            //         s1a - s2a - s2c - s4c - s4a - s6a - s6x - s9x
+            // routes: s1a - s2a - s2c - s4c - s4a - s6a - s6x - s9x
             //         s1a - s2a - s2c - s4c - s4b - s6b - s6x - s9x
+            //         s1a - s4a - s4b - s6b - s6x - s9x
+            //         s1a - s6a - s6x - s9x
+
+            var stop1ao = {id: 's1', line: 'ao', lines: ['ao', 'ai']};
+            var stop2ao = {id: 's2', line: 'ao', lines: ['ao', 'ai', 'co', 'ci']};
+            var stop2co = {id: 's2', line: 'co', lines: ['ao', 'ai', 'co', 'ci']};
+            var stop4ao = {id: 's4', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop4bo = {id: 's4', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop4co = {id: 's4', line: 'co', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop6ao = {id: 's6', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
+            var stop6bo = {id: 's6', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
+            var stop6xo = {id: 's6', line: 'xo', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
+            var stop9xo = {id: 's9', line: 'xo', lines: ['xo']};
+
+            var stop1ai = {id: 's1', line: 'ai', lines: ['ai']};
+            var stop2ai = {id: 's2', line: 'ai', lines: ['ai', 'ci']};
+            var stop2ci = {id: 's2', line: 'ci', lines: ['ai', 'ci']};
+            var stop4ai = {id: 's4', line: 'ai', lines: ['ai', 'b1', 'ci']};
+            var stop4b1 = {id: 's4', line: 'b1', lines: ['ai', 'b1', 'ci']};
+            var stop4ci = {id: 's4', line: 'ci', lines: ['ai', 'b1', 'ci']};
+            var stop6ai = {id: 's6', line: 'ai', lines: ['ai', 'b1', 'xi']};
+            var stop6b1 = {id: 's6', line: 'b1', lines: ['ai', 'b1', 'xi']};
+            var stop6xi = {id: 's6', line: 'xi', lines: ['ai', 'b1', 'xi']};
+            var stop9xi = {id: 's9', line: 'xi', lines: ['xi']};
 
 
+            var linea = {id: 'a', stops: [stop1a, stop2a, stop4a, stop6a]};
+            var lineb = {id: 'b', stops: [stop4b, stop6b]};
+            var linec = {id: 'c', stops: [stop2c, stop4c]};
+            var linex = {id: 'x', stops: [stop6x, stop9x]};
 
+
+            var graph = RouteGraph.createNew([linea, lineb, linec, linex]);
+            expect(graph.nodes.length).toBe(4);
+            expect(graph.edges.length).toBe(14);
+
+            var edge2ac = {from: stop2a.line, to: stop2c.line, arrivalStop: stop2a, departureStop: stop2c};
+            var edge2ca = {from: stop2c.line, to: stop2a.line, arrivalStop: stop2c, departureStop: stop2a};
+            var edge4ab = {from: stop4a.line, to: stop4b.line, arrivalStop: stop4a, departureStop: stop4b};
+            var edge4ba = {from: stop4b.line, to: stop4a.line, arrivalStop: stop4b, departureStop: stop4a};
+            var edge4ac = {from: stop4a.line, to: stop4c.line, arrivalStop: stop4a, departureStop: stop4c};
+            var edge4ca = {from: stop4c.line, to: stop4a.line, arrivalStop: stop4c, departureStop: stop4a};
+            var edge4bc = {from: stop4b.line, to: stop4c.line, arrivalStop: stop4b, departureStop: stop4c};
+            var edge4cb = {from: stop4c.line, to: stop4b.line, arrivalStop: stop4c, departureStop: stop4b};
+            var edge6ab = {from: stop6a.line, to: stop6b.line, arrivalStop: stop6a, departureStop: stop6b};
+            var edge6ba = {from: stop6b.line, to: stop6a.line, arrivalStop: stop6b, departureStop: stop6a};
+            var edge6ax = {from: stop6a.line, to: stop6x.line, arrivalStop: stop6a, departureStop: stop6x};
+            var edge6xa = {from: stop6x.line, to: stop6a.line, arrivalStop: stop6x, departureStop: stop6a};
+            var edge6bx = {from: stop6b.line, to: stop6x.line, arrivalStop: stop6b, departureStop: stop6x};
+            var edge6xb = {from: stop6x.line, to: stop6b.line, arrivalStop: stop6x, departureStop: stop6b};
+
+
+            expect(graph.edges).toContain(edge2ac);
+            expect(graph.edges).toContain(edge2ca);
+            expect(graph.edges).toContain(edge4ab);
+            expect(graph.edges).toContain(edge4ba);
+            expect(graph.edges).toContain(edge4ac);
+            expect(graph.edges).toContain(edge4ca);
+            expect(graph.edges).toContain(edge4bc);
+            expect(graph.edges).toContain(edge4cb);
+            expect(graph.edges).toContain(edge6ab);
+            expect(graph.edges).toContain(edge6ba);
+            expect(graph.edges).toContain(edge6ax);
+            expect(graph.edges).toContain(edge6xa);
+            expect(graph.edges).toContain(edge6bx);
+            expect(graph.edges).toContain(edge6xb);
+
+
+            var paths = graph.calculatePaths('a', 'x');
+
+            var expectedPath1 = [edge2ac, edge4ca, edge6ax];
+            var expectedPath2 = [edge2ac, edge4cb, edge6bx];
+            var expectedPath3 = [edge4ab, edge6bx];
+            var expectedPath4 = [edge6ax];
+            expect(paths).toContain(expectedPath1);
+            expect(paths).toContain(expectedPath2);
+            expect(paths).toContain(expectedPath3);
+            expect(paths).toContain(expectedPath4);
+
+
+        });
+
+        it('should build graph with alternatives with more than one change', function () {
+
+            // line a: s1    s2           s4          s6
+            // line b:                    s4          s6
+            // line c:       s2           s4
+            // line x:                                s6    s9
+
+            // routes: s1a - s2a - s2c - s4c - s4a - s6a - s6x - s9x
+            //         s1a - s2a - s2c - s4c - s4b - s6b - s6x - s9x
+            //         s1a - s4a - s4b - s6b - s6x - s9x
+            //         s1a - s6a - s6x - s9x
 
             var stop1a = {id: 's1', line: 'a', lines: ['a']};
             var stop2a = {id: 's2', line: 'a', lines: ['a', 'c']};
@@ -88,19 +175,12 @@
 
             var paths = graph.calculatePaths('a', 'x');
 
-            var expectedPath3 = [
-                {arrivalStop: stop2a, departureStop: stop2c},
-                {arrivalStop: stop4c, departureStop: stop4a},
-                {arrivalStop: stop6a, departureStop: stop6x},
-            ];
-            var expectedPath4 = [
-                {arrivalStop: stop2a, departureStop: stop2c},
-                {arrivalStop: stop4c, departureStop: stop4b},
-                {arrivalStop: stop6b, departureStop: stop6x},
-            ];
-
-
-
+            var expectedPath1 = [edge2ac, edge4ca, edge6ax];
+            var expectedPath2 = [edge2ac, edge4cb, edge6bx];
+            var expectedPath3 = [edge4ab, edge6bx];
+            var expectedPath4 = [edge6ax];
+            expect(paths).toContain(expectedPath1);
+            expect(paths).toContain(expectedPath2);
             expect(paths).toContain(expectedPath3);
             expect(paths).toContain(expectedPath4);
 
@@ -295,6 +375,51 @@
             var expectedPath1 = [edge2ab];
             expect(paths).toContain(expectedPath1);
 
+        });
+
+        fit('should not overshoot and come back', function () {
+
+            // line a  : s1    s2
+            // line b-o:       s2    s3    s4
+            // line b-i:       s4    s3    s2
+            // line c: :             s3          s5
+
+            // routes: s1a - s2a - s2b - s3b - s3c - s5
+
+            var stop1a  = {id: 's1', line: 'a', lines: ['a']};
+
+            var stop2a  = {id: 's2', line: 'a', lines: ['a', 'b-o', 'b-i']};
+            var stop2bo  = {id: 's2', line: 'b-o', lines: ['a', 'b-o', 'b-i']};
+            var stop2bi  = {id: 's2', line: 'b-i', lines: ['a', 'b-o', 'b-i']};
+
+            var stop3bo = {id: 's3', line: 'b-o', lines: ['b-o', 'b-i', 'c']};
+            var stop3bi = {id: 's3', line: 'b-i', lines: ['b-o', 'b-i', 'c']};
+            var stop3c  = {id: 's3', line: 'c', lines: ['b-o', 'b-i', 'c']};
+
+            var stop4bo = {id: 's4', line: 'b-o', lines: ['b-o', 'b-i']};
+            var stop4bi = {id: 's4', line: 'b-i', lines: ['b-o', 'b-i']};
+
+            var stop5c = {id: 's5', line: 'c', lines: ['c']};
+
+            var linea = {id: 'a', stops: [stop1a, stop2a] };
+            var linebo = {id: 'b-o', stops: [stop2bo, stop3bo, stop4bo] };
+            var linebi = {id: 'b-i', stops: [stop4bi, stop3bi, stop2bi] };
+            var linec = {id: 'c', stops: [stop3c, stop5c] };
+
+            var graph = RouteGraph.createNew([linea, linebo, linebi, linec]);
+
+            var edge2a_bo = {from: stop2a.line, to: stop2bo.line, arrivalStop: stop2a, departureStop: stop2bo};
+            var edge3bo_c = {from: stop3bo.line, to: stop3c.line, arrivalStop: stop3bo, departureStop: stop3c};
+
+            //expect(graph.nodes.length).toBe(2);
+            //expect(graph.nodes).toContain({id: 'a-o'});
+            //expect(graph.nodes).toContain({id: 'a-i'});
+            //expect(graph.edges.length).toBe(0);
+
+            var paths = graph.calculatePaths('a', 'c');
+            expect(paths.length).toBe(1);
+            var expectedPath1 = [edge2a_bo, edge3bo_c];
+            expect(paths).toContain(expectedPath1);
         });
 
         it('should build trival graph with one node and no edges', function () {

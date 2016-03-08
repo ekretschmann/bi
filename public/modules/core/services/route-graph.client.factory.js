@@ -94,18 +94,27 @@ angular.module('core').factory('RouteGraph', [
                 });
 
                 var isBefore = function (stopa, stopb, line) {
-                    var founda = false;
-                    var foundb = false;
+                    //var founda = false;
+                    //var foundb = false;
+                    var state = 'init';
                     var result = false;
                     _.forEach(line.stops, function (stop) {
-                        if (stop.id === stopa.id) {
-                            founda = true;
+                        if (stop.id === stopa.id && state === 'init') {
+                            if (state === 'init') {
+                                state = 'found a';
+                            } else if (state === 'found b') {
+                                state = 'found b before a';
+                            }
                         }
                         if (stop.id === stopb.id) {
-                            foundb = true;
+                            if (state === 'init') {
+                                state = 'found b';
+                            } else if (state === 'found a') {
+                                state = 'found a before b';
+                            }
                         }
 
-                        if (founda && !foundb) {
+                        if (state === 'found a before b') {
                             //console.log('     disallowed');
                             result = true;
                         }
@@ -115,15 +124,31 @@ angular.module('core').factory('RouteGraph', [
 
                 if (result && path.length > 0) {
                     var foundLoop = false;
-                    _.forEach(_self.lines, function (line) {
-                        _.forEach(path, function (pathStop) {
-                            foundLoop = isBefore(edge.departureStop, pathStop.departureStop, line);
-                            console.log('  '+edge.departureStop.id+ ' '+pathStop.departureStop.id+ ' '+line.id+' '+foundLoop);
+
+                    var usedLines = _.filter(_self.lines, function (line) {
+                        var result = false;
+                        _.forEach(path, function (stop) {
+                            if (stop.departureStop.line === line.id) {
+                                result = true;
+                            }
+                        });
+                        return result;
+                    });
+
+                    _.forEach(path, function (pathStop) {
+
+
+
+                        _.forEach(usedLines, function (line) {
+
+
+                            foundLoop = foundLoop || isBefore(edge.departureStop, pathStop.departureStop, line);
+                            //console.log('  '+edge.departureStop.id+ ' '+pathStop.departureStop.id+ ' '+line.id+' '+foundLoop);
                         });
                     });
 
                     if (foundLoop) {
-                        console.log('disallowed');
+                        //console.log('disallowed');
                         result = false;
                     }
                 }
