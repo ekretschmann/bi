@@ -19,6 +19,7 @@
 
         it('should build graph with alternatives with more than one change with buses running both ways', function () {
 
+
             // line a: s1    s2           s4          s6
             // line b:                    s4          s6
             // line c:       s2           s4

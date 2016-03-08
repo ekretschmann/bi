@@ -110,19 +110,19 @@ angular.module('core').service('DirectionsService', [
                 edges: [],
                 getNode: function (name) {
                     return _.find(this.nodes, function (n) {
-                        return n.name === name;
+                        return n.id === name;
                     });
                 },
                 getEdges: function (n) {
                     return _.filter(this.edges, function (e) {
-                        return e.from === n.name;
+                        return e.from === n.id;
                     });
                 }
             };
 
             var getStop = function (id, linename) {
                 var line = _.find(lines, function (line) {
-                    return line.name === linename;
+                    return line.id === linename;
                 });
 
 
@@ -132,14 +132,14 @@ angular.module('core').service('DirectionsService', [
             };
 
             _.forEach(lines, function (line) {
-                graph.nodes.push({name: line.name, visited: false});
+                graph.nodes.push({name: line.id, visited: false});
                 _.forEach(line.stops, function (arrivalStop) {
                     _.forEach(arrivalStop.lines, function (change) {
-                        if (change !== line.name) {
+                        if (change !== line.id) {
 
                             var departureStop = getStop(arrivalStop.id, change);
                             graph.edges.push({
-                                from: line.name,
+                                from: line.id,
                                 to: change,
                                 arrivalStop: arrivalStop,
                                 departureStop: departureStop
@@ -177,7 +177,7 @@ angular.module('core').service('DirectionsService', [
             var getStop = function (departStop, departLine) {
 
                 var line = _.find(lines, function (l) {
-                    return l.name === departLine;
+                    return l.id === departLine;
                 });
 
 
