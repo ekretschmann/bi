@@ -35,47 +35,49 @@
             var stop4ao = {id: 's4', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
             var stop4bo = {id: 's4', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
             var stop4co = {id: 's4', line: 'co', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop6ao = {id: 's6', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
-            var stop6bo = {id: 's6', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
-            var stop6xo = {id: 's6', line: 'xo', lines: ['ao', 'ai', 'bo', 'bi', 'xo']};
-            var stop9xo = {id: 's9', line: 'xo', lines: ['xo']};
+            var stop6ao = {id: 's6', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop6bo = {id: 's6', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop6xo = {id: 's6', line: 'xo', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop9xo = {id: 's9', line: 'xo', lines: ['xo', 'xi']};
 
-            var stop1ai = {id: 's1', line: 'ai', lines: ['ai']};
-            var stop2ai = {id: 's2', line: 'ai', lines: ['ai', 'ci']};
-            var stop2ci = {id: 's2', line: 'ci', lines: ['ai', 'ci']};
-            var stop4ai = {id: 's4', line: 'ai', lines: ['ai', 'b1', 'ci']};
-            var stop4b1 = {id: 's4', line: 'b1', lines: ['ai', 'b1', 'ci']};
-            var stop4ci = {id: 's4', line: 'ci', lines: ['ai', 'b1', 'ci']};
-            var stop6ai = {id: 's6', line: 'ai', lines: ['ai', 'b1', 'xi']};
-            var stop6b1 = {id: 's6', line: 'b1', lines: ['ai', 'b1', 'xi']};
-            var stop6xi = {id: 's6', line: 'xi', lines: ['ai', 'b1', 'xi']};
-            var stop9xi = {id: 's9', line: 'xi', lines: ['xi']};
+            var stop1ai = {id: 's1', line: 'ai', lines: ['ao', 'ai']};
+            var stop2ai = {id: 's2', line: 'ai', lines: ['ao', 'ai', 'co', 'ci']};
+            var stop2ci = {id: 's2', line: 'ci', lines: ['ao', 'ai', 'co', 'ci']};
+            var stop4ai = {id: 's4', line: 'ai', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop4bi = {id: 's4', line: 'bi', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop4ci = {id: 's4', line: 'ci', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
+            var stop6ai = {id: 's6', line: 'ai', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop6bi = {id: 's6', line: 'bi', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop6xi = {id: 's6', line: 'xi', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
+            var stop9xi = {id: 's9', line: 'xi', lines: ['xo', 'xi']};
+
+            var lineao = {id: 'ao', stops: [stop1ao, stop2ao, stop4ao, stop6ao]};
+            var linebo = {id: 'bo', stops: [stop4bo, stop6bo]};
+            var lineco = {id: 'co', stops: [stop2co, stop4co]};
+            var linexo = {id: 'xo', stops: [stop6xo, stop9xo]};
+
+            var lineai = {id: 'ai', stops: [stop1ai, stop2ai, stop4ai, stop6ai]};
+            var linebi = {id: 'bi', stops: [stop4bi, stop6bi]};
+            var lineci = {id: 'ci', stops: [stop2ci, stop4ci]};
+            var linexi = {id: 'xi', stops: [stop6xi, stop9xi]};
 
 
-            var linea = {id: 'a', stops: [stop1a, stop2a, stop4a, stop6a]};
-            var lineb = {id: 'b', stops: [stop4b, stop6b]};
-            var linec = {id: 'c', stops: [stop2c, stop4c]};
-            var linex = {id: 'x', stops: [stop6x, stop9x]};
+            var graph = RouteGraph.createNew([lineao, linebo, lineco, linexo, lineai, linebi, lineci, linexi]);
 
-
-            var graph = RouteGraph.createNew([linea, lineb, linec, linex]);
-            expect(graph.nodes.length).toBe(4);
-            expect(graph.edges.length).toBe(14);
-
-            var edge2ac = {from: stop2a.line, to: stop2c.line, arrivalStop: stop2a, departureStop: stop2c};
-            var edge2ca = {from: stop2c.line, to: stop2a.line, arrivalStop: stop2c, departureStop: stop2a};
-            var edge4ab = {from: stop4a.line, to: stop4b.line, arrivalStop: stop4a, departureStop: stop4b};
-            var edge4ba = {from: stop4b.line, to: stop4a.line, arrivalStop: stop4b, departureStop: stop4a};
-            var edge4ac = {from: stop4a.line, to: stop4c.line, arrivalStop: stop4a, departureStop: stop4c};
-            var edge4ca = {from: stop4c.line, to: stop4a.line, arrivalStop: stop4c, departureStop: stop4a};
-            var edge4bc = {from: stop4b.line, to: stop4c.line, arrivalStop: stop4b, departureStop: stop4c};
-            var edge4cb = {from: stop4c.line, to: stop4b.line, arrivalStop: stop4c, departureStop: stop4b};
-            var edge6ab = {from: stop6a.line, to: stop6b.line, arrivalStop: stop6a, departureStop: stop6b};
-            var edge6ba = {from: stop6b.line, to: stop6a.line, arrivalStop: stop6b, departureStop: stop6a};
-            var edge6ax = {from: stop6a.line, to: stop6x.line, arrivalStop: stop6a, departureStop: stop6x};
-            var edge6xa = {from: stop6x.line, to: stop6a.line, arrivalStop: stop6x, departureStop: stop6a};
-            var edge6bx = {from: stop6b.line, to: stop6x.line, arrivalStop: stop6b, departureStop: stop6x};
-            var edge6xb = {from: stop6x.line, to: stop6b.line, arrivalStop: stop6x, departureStop: stop6b};
+            var edge2ca = {from: stop2co.line, to: stop2ao.line, arrivalStop: stop2co, departureStop: stop2ao};
+            var edge4ab = {from: stop4ao.line, to: stop4bo.line, arrivalStop: stop4ao, departureStop: stop4bo};
+            var edge4ba = {from: stop4bo.line, to: stop4ao.line, arrivalStop: stop4bo, departureStop: stop4ao};
+            var edge4ac = {from: stop4ao.line, to: stop4co.line, arrivalStop: stop4ao, departureStop: stop4co};
+            var edge4ca = {from: stop4co.line, to: stop4ao.line, arrivalStop: stop4co, departureStop: stop4ao};
+            var edge4bc = {from: stop4bo.line, to: stop4co.line, arrivalStop: stop4bo, departureStop: stop4co};
+            var edge4cb = {from: stop4co.line, to: stop4bo.line, arrivalStop: stop4co, departureStop: stop4bo};
+            var edge6ab = {from: stop6ao.line, to: stop6bo.line, arrivalStop: stop6ao, departureStop: stop6bo};
+            var edge6ba = {from: stop6bo.line, to: stop6ao.line, arrivalStop: stop6bo, departureStop: stop6ao};
+            var edge6ax = {from: stop6ao.line, to: stop6xo.line, arrivalStop: stop6ao, departureStop: stop6xo};
+            var edge6xa = {from: stop6xo.line, to: stop6ao.line, arrivalStop: stop6xo, departureStop: stop6ao};
+            var edge6bx = {from: stop6bo.line, to: stop6xo.line, arrivalStop: stop6bo, departureStop: stop6xo};
+            var edge6xb = {from: stop6xo.line, to: stop6bo.line, arrivalStop: stop6xo, departureStop: stop6bo};
+            var edge2ac = {from: stop2ao.line, to: stop2co.line, arrivalStop: stop2ao, departureStop: stop2co};
 
 
             expect(graph.edges).toContain(edge2ac);
@@ -94,7 +96,7 @@
             expect(graph.edges).toContain(edge6xb);
 
 
-            var paths = graph.calculatePaths('a', 'x');
+            var paths = graph.calculatePaths('ao', 'xo');
 
             var expectedPath1 = [edge2ac, edge4ca, edge6ax];
             var expectedPath2 = [edge2ac, edge4cb, edge6bx];
@@ -377,7 +379,7 @@
 
         });
 
-        fit('should not overshoot and come back', function () {
+        it('should not overshoot and come back', function () {
 
             // line a  : s1    s2
             // line b-o:       s2    s3    s4

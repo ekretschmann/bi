@@ -163,27 +163,27 @@ angular.module('core').factory('RouteGraph', [
                 _.forEach(_self.getEdges(n), function (edge) {
 
                     if (_self.canChange(edge, path)) {
-                        console.log('pushing');
+                        //console.log('pushing');
                         path.push(edge);
-                        _self.printPath(path);
+                        //_self.printPath(path);
 
 
                         if (edge.to === stop) {
 
 
-                            console.log('solution found');
+                            //console.log('solution found');
                             paths.push(_.cloneDeep(path));
 
                         } else {
-                            console.log('recursion');
+                            //console.log('recursion');
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
 
-                        console.log('popping');
+                        //console.log('popping');
 
                         path.pop();
-                        _self.printPath(path);
+                        //_self.printPath(path);
                     }
 
                     //console.log('  done ',edge.arrivalStop.id);
