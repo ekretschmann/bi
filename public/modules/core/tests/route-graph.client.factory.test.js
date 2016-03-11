@@ -30,27 +30,27 @@
             //         s1a - s4a - s4b - s6b - s6x - s9x
             //         s1a - s6a - s6x - s9x
 
-            var stop1ao = {id: 's1', line: 'ao', lines: ['ao', 'ai']};
-            var stop2ao = {id: 's2', line: 'ao', lines: ['ao', 'ai', 'co', 'ci']};
-            var stop2co = {id: 's2', line: 'co', lines: ['ao', 'ai', 'co', 'ci']};
-            var stop4ao = {id: 's4', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop4bo = {id: 's4', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop4co = {id: 's4', line: 'co', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop6ao = {id: 's6', line: 'ao', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop6bo = {id: 's6', line: 'bo', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop6xo = {id: 's6', line: 'xo', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop9xo = {id: 's9', line: 'xo', lines: ['xo', 'xi']};
+            var stop1ao = {id: 's1', line: 'ao'};
+            var stop2ao = {id: 's2', line: 'ao'};
+            var stop2co = {id: 's2', line: 'co'};
+            var stop4ao = {id: 's4', line: 'ao'};
+            var stop4bo = {id: 's4', line: 'bo'};
+            var stop4co = {id: 's4', line: 'co'};
+            var stop6ao = {id: 's6', line: 'ao'};
+            var stop6bo = {id: 's6', line: 'bo'};
+            var stop6xo = {id: 's6', line: 'xo'};
+            var stop9xo = {id: 's9', line: 'xo'};
 
-            var stop1ai = {id: 's1', line: 'ai', lines: ['ao', 'ai']};
-            var stop2ai = {id: 's2', line: 'ai', lines: ['ao', 'ai', 'co', 'ci']};
-            var stop2ci = {id: 's2', line: 'ci', lines: ['ao', 'ai', 'co', 'ci']};
-            var stop4ai = {id: 's4', line: 'ai', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop4bi = {id: 's4', line: 'bi', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop4ci = {id: 's4', line: 'ci', lines: ['ao', 'ai', 'bo', 'bi', 'co', 'ci']};
-            var stop6ai = {id: 's6', line: 'ai', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop6bi = {id: 's6', line: 'bi', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop6xi = {id: 's6', line: 'xi', lines: ['ao', 'ai', 'bo', 'bi', 'xo', 'xi']};
-            var stop9xi = {id: 's9', line: 'xi', lines: ['xo', 'xi']};
+            var stop1ai = {id: 's1', line: 'ai'};
+            var stop2ai = {id: 's2', line: 'ai'};
+            var stop2ci = {id: 's2', line: 'ci'};
+            var stop4ai = {id: 's4', line: 'ai'};
+            var stop4bi = {id: 's4', line: 'bi'};
+            var stop4ci = {id: 's4', line: 'ci'};
+            var stop6ai = {id: 's6', line: 'ai'};
+            var stop6bi = {id: 's6', line: 'bi'};
+            var stop6xi = {id: 's6', line: 'xi'};
+            var stop9xi = {id: 's9', line: 'xi'};
 
             var lineao = {id: 'ao', stops: [stop1ao, stop2ao, stop4ao, stop6ao]};
             var linebo = {id: 'bo', stops: [stop4bo, stop6bo]};
@@ -123,16 +123,16 @@
             //         s1a - s4a - s4b - s6b - s6x - s9x
             //         s1a - s6a - s6x - s9x
 
-            var stop1a = {id: 's1', line: 'a', lines: ['a']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a', 'c']};
-            var stop2c = {id: 's2', line: 'c', lines: ['a', 'c']};
-            var stop4a = {id: 's4', line: 'a', lines: ['a', 'b', 'c']};
-            var stop4b = {id: 's4', line: 'b', lines: ['a', 'b', 'c']};
-            var stop4c = {id: 's4', line: 'c', lines: ['a', 'b', 'c']};
-            var stop6a = {id: 's6', line: 'a', lines: ['a', 'b', 'x']};
-            var stop6b = {id: 's6', line: 'b', lines: ['a', 'b', 'x']};
-            var stop6x = {id: 's6', line: 'x', lines: ['a', 'b', 'x']};
-            var stop9x = {id: 's9', line: 'x', lines: ['x']};
+            var stop1a = {id: 's1', line: 'a'};
+            var stop2a = {id: 's2', line: 'a'};
+            var stop2c = {id: 's2', line: 'c'};
+            var stop4a = {id: 's4', line: 'a'};
+            var stop4b = {id: 's4', line: 'b'};
+            var stop4c = {id: 's4', line: 'c'};
+            var stop6a = {id: 's6', line: 'a'};
+            var stop6b = {id: 's6', line: 'b'};
+            var stop6x = {id: 's6', line: 'x'};
+            var stop9x = {id: 's9', line: 'x'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a, stop4a, stop6a]};
             var lineb = {id: 'b', stops: [stop4b, stop6b]};
@@ -198,13 +198,13 @@
 
             // routes: s1a - s2a - s2c - s4c
 
-            var stop1a = {id: 's1', line: 'a', lines: ['a']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a', 'b', 'c']};
-            var stop2b = {id: 's2', line: 'b', lines: ['a', 'b', 'c']};
-            var stop2c = {id: 's2', line: 'c', lines: ['a', 'b', 'c']};
-            var stop3a = {id: 's3', line: 'a', lines: ['a', 'b']};
-            var stop3b = {id: 's3', line: 'b', lines: ['a', 'b']};
-            var stop4c = {id: 's4', line: 'c', lines: ['c']};
+            var stop1a = {id: 's1', line: 'a'};
+            var stop2a = {id: 's2', line: 'a'};
+            var stop2b = {id: 's2', line: 'b'};
+            var stop2c = {id: 's2', line: 'c'};
+            var stop3a = {id: 's3', line: 'a'};
+            var stop3b = {id: 's3', line: 'b'};
+            var stop4c = {id: 's4', line: 'c'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a, stop3a]};
             var lineb = {id: 'b', stops: [stop2b, stop3b]};
@@ -253,12 +253,12 @@
 
             // routes: s1a - s2a - s2b - s3b - s3c - s4c
 
-            var stop1a = {id: 's1', line: 'a', lines: ['a']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a', 'b']};
-            var stop2b = {id: 's2', line: 'b', lines: ['a', 'b']};
-            var stop3b = {id: 's3', line: 'b', lines: ['b', 'c']};
-            var stop3c = {id: 's3', line: 'c', lines: ['b', 'c']};
-            var stop4c = {id: 's4', line: 'c', lines: ['c']};
+            var stop1a = {id: 's1', line: 'a'};
+            var stop2a = {id: 's2', line: 'a'};
+            var stop2b = {id: 's2', line: 'b'};
+            var stop3b = {id: 's3', line: 'b'};
+            var stop3c = {id: 's3', line: 'c'};
+            var stop4c = {id: 's4', line: 'c'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a]};
             var lineb = {id: 'b', stops: [stop2b, stop3b]};
@@ -303,12 +303,12 @@
             // routes: s1a - s2a - s4b
             // routes: s1a - s4a - s4b
 
-            var stop1a = {id: 's1', line: 'a', lines: ['a', 'b']};
-            var stop1b = {id: 's1', line: 'b', lines: ['a', 'b']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a']};
-            var stop3b = {id: 's3', line: 'b', lines: ['b']};
-            var stop4a = {id: 's4', line: 'a', lines: ['a', 'b']};
-            var stop4b = {id: 's4', line: 'b', lines: ['a', 'b']};
+            var stop1a = {id: 's1', line: 'a'};
+            var stop1b = {id: 's1', line: 'b'};
+            var stop2a = {id: 's2', line: 'a'};
+            var stop3b = {id: 's3', line: 'b'};
+            var stop4a = {id: 's4', line: 'a'};
+            var stop4b = {id: 's4', line: 'b'};
 
 
             var linea = {id: 'a', stops: [stop1a, stop2a, stop4a]};
@@ -351,10 +351,10 @@
 
             // routes: s1a - s2a - s2b - s3b
 
-            var stop1a = {id: 's1', line: 'a', lines: ['a']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a', 'b']};
-            var stop2b = {id: 's2', line: 'b', lines: ['a', 'b']};
-            var stop3b = {id: 's3', line: 'b', lines: ['b']};
+            var stop1a = {id: 's1', line: 'a'};
+            var stop2a = {id: 's2', line: 'a'};
+            var stop2b = {id: 's2', line: 'b'};
+            var stop3b = {id: 's3', line: 'b'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a]};
             var lineb = {id: 'b', stops: [stop2b, stop3b]};
@@ -389,20 +389,20 @@
 
             // routes: s1a - s2a - s2b - s3b - s3c - s5
 
-            var stop1a  = {id: 's1', line: 'a', lines: ['a']};
+            var stop1a  = {id: 's1', line: 'a'};
 
-            var stop2a  = {id: 's2', line: 'a', lines: ['a', 'b-o', 'b-i']};
-            var stop2bo  = {id: 's2', line: 'b-o', lines: ['a', 'b-o', 'b-i']};
-            var stop2bi  = {id: 's2', line: 'b-i', lines: ['a', 'b-o', 'b-i']};
+            var stop2a  = {id: 's2', line: 'a'};
+            var stop2bo  = {id: 's2', line: 'b-o'};
+            var stop2bi  = {id: 's2', line: 'b-i'};
 
-            var stop3bo = {id: 's3', line: 'b-o', lines: ['b-o', 'b-i', 'c']};
-            var stop3bi = {id: 's3', line: 'b-i', lines: ['b-o', 'b-i', 'c']};
-            var stop3c  = {id: 's3', line: 'c', lines: ['b-o', 'b-i', 'c']};
+            var stop3bo = {id: 's3', line: 'b-o'};
+            var stop3bi = {id: 's3', line: 'b-i'};
+            var stop3c  = {id: 's3', line: 'c'};
 
-            var stop4bo = {id: 's4', line: 'b-o', lines: ['b-o', 'b-i']};
-            var stop4bi = {id: 's4', line: 'b-i', lines: ['b-o', 'b-i']};
+            var stop4bo = {id: 's4', line: 'b-o'};
+            var stop4bi = {id: 's4', line: 'b-i'};
 
-            var stop5c = {id: 's5', line: 'c', lines: ['c']};
+            var stop5c = {id: 's5', line: 'c'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a] };
             var linebo = {id: 'b-o', stops: [stop2bo, stop3bo, stop4bo] };
@@ -430,8 +430,8 @@
             // line a: s1    s2
             // routes: none
 
-            var stop1a = { id: 's1', line: 'a', lines: ['a']};
-            var stop2a = {id: 's2', line: 'a', lines: ['a']};
+            var stop1a = { id: 's1', line: 'a'};
+            var stop2a = {id: 's2', line: 'a'};
 
             var linea = {id: 'a', stops: [stop1a, stop2a] };
 

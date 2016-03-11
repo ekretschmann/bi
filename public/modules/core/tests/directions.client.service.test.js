@@ -26,62 +26,62 @@
             var arrival = {lat: 76, lng: 76};
 
             var stopB1a = {
-                id: 'sB1a', name: 'Stop Before 1a', line: '1', lines: ['1'],
+                id: 'sB1a', name: 'Stop Before 1a', line: '1',
                 arrivals: ['05:40', '05:55', '06:05'], departures: ['05:41', '05:56', '06:06'],
                 lat: 30, lng: 30
             };
 
             var stop1a = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1', '2'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:50', '06:05', '06:20'], departures: ['05:51', '06:06', '06:21'],
                 lat: 49, lng: 49
             };
 
             var stopI1a = {
-                id: 'sI1a', name: 'Stop Intermediate 1a', line: '1', lines: ['1'],
+                id: 'sI1a', name: 'Stop Intermediate 1a', line: '1',
                 arrivals: ['06:00', '06:15', '06:30'], departures: ['06:01', '06:16', '06:31'],
                 lat: 60, lng: 60
             };
 
             var stop2a = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['06:10', '06:25', '06:40'], departures: ['06:11','06:26','06:41'],
                 lat: 75, lng: 75
             };
 
             var stopA2a = {
-                id: 'sA2a', name: 'Stop After 2a', line: '1', lines: ['1'],
+                id: 'sA2a', name: 'Stop After 2a', line: '1',
                 arrivals: ['06:20', '06:35', '06:45'], departures: ['06:21', '06:36', '06:46'],
                 lat: 80, lng: 80
             };
 
             var stopB1b = {
-                id: 'sB1b', name: 'Stop Before 1b', line: '2', lines: ['2'],
+                id: 'sB1b', name: 'Stop Before 1b', line: '2',
                 arrivals: ['05:40', '05:55', '06:05'], departures: ['05:41', '05:56', '06:06'],
                 lat: 25, lng: 25
             };
 
             var stop1b = {
-                id: 's1', name: 'Stop 1', line: '2', lines: ['1', '2'],
+                id: 's1', name: 'Stop 1', line: '2',
                 arrivals: ['05:52', '06:07', '06:22'], departures: ['05:53', '06:08', '06:24'],
                 lat: 49, lng: 49
             };
 
             var stopI1b = {
-                id: 'sI1b', name: 'Stop Intermediate ba', line: '2', lines: ['2'],
+                id: 'sI1b', name: 'Stop Intermediate ba', line: '2',
                 arrivals: ['06:00', '06:15', '06:30'], departures: ['06:01', '06:16', '06:31'],
                 lat: 62, lng: 62
             };
 
 
             var stop2b = {
-                id: 's2', name: 'Stop 2', line: '2', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '2',
                 arrivals: ['06:08', '06:23', '06:38'], departures: ['06:09','06:24','06:40'],
                 lat: 75, lng: 75
             };
 
             var stopA2b = {
-                id: 'sA2b', name: 'Stop After 2b', line: '2', lines: ['2'],
+                id: 'sA2b', name: 'Stop After 2b', line: '2',
                 arrivals: ['06:20', '06:35', '06:45'], departures: ['06:21', '06:36', '06:46'],
                 lat: 80, lng: 80
             };
@@ -149,25 +149,25 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1a = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1', '2'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:50', '06:05', '06:20'], departures: ['05:51', '06:06', '06:21'],
                 lat: 49, lng: 49
             };
 
             var stop1b = {
-                id: 's1', name: 'Stop 1', line: '2', lines: ['1', '2'],
+                id: 's1', name: 'Stop 1', line: '2',
                 arrivals: ['05:52', '06:07', '06:22'], departures: ['05:53', '06:08', '06:24'],
                 lat: 49, lng: 49
             };
 
             var stop2a = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['06:10', '06:25', '06:40'], departures: ['06:11','06:26','06:41'],
                 lat: 75, lng: 75
             };
 
             var stop2b = {
-                id: 's2', name: 'Stop 2', line: '2', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '2',
                 arrivals: ['06:08', '06:23', '06:38'], departures: ['06:09','06:24','06:40'],
                 lat: 75, lng: 75
             };
@@ -235,25 +235,25 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:39', '05:59', '06:19'], departures: ['05:40', '06:00', '06:20'],
                 lat: 49, lng: 49
             };
 
             var stop2a = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['05:49', '06:09', '06:19'], departures: ['05:50','06:10','06:20'],
                 lat: 75, lng: 75
             };
 
             var stop2b = {
-                id: 's2', name: 'Stop 2', line: '2', lines: ['1', '2'],
+                id: 's2', name: 'Stop 2', line: '2',
                 arrivals: ['06:15'], departures: ['06:16'],
                 lat: 75, lng: 75
             };
 
             var stop3 = {
-                id: 's3', name: 'Stop 3', line: '2', lines: ['2'],
+                id: 's3', name: 'Stop 3', line: '2',
                 arrivals: ['06:39'], departures: ['06:40'],
                 lat: 99, lng: 99
             };
@@ -307,13 +307,13 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:59', '07:59', '09:59'], departures: ['06:00', '08:00', '10:00'],
                 lat: 10, lng: 10
             };
 
             var stop2 = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['07:00', '09:00', '11:00'], departures: ['07:01', '09:01', '11:01'],
                 lat: 90, lng: 90
             };
@@ -346,31 +346,31 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:59'], departures: ['06:00'],
                 lat: 10, lng: 10
             };
 
             var stop2 = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['06:19'], departures: ['06:20'],
                 lat: 30, lng: 30
             };
 
             var stop3 = {
-                id: 's3', name: 'Stop 3', line: '1', lines: ['1'],
+                id: 's3', name: 'Stop 3', line: '1',
                 arrivals: ['06:39'], departures: ['06:40'],
                 lat: 60, lng: 60
             };
 
             var stop4 = {
-                id: 's4', name: 'Stop 4', line: '1', lines: ['1'],
+                id: 's4', name: 'Stop 4', line: '1',
                 arrivals: ['07:00'], departures: ['07:01'],
                 lat: 90, lng: 90
             };
 
             var stop5 = {
-                id: 's5', name: 'Stop 5', line: '1', lines: ['1'],
+                id: 's5', name: 'Stop 5', line: '1',
                 arrivals: ['07:20'], departures: ['07:21'],
                 lat: 120, lng: 120
             };
@@ -401,25 +401,25 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:59'], departures: ['06:00'],
                 lat: 10, lng: 10
             };
 
             var stop2 = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['06:19'], departures: ['06:20'],
                 lat: 30, lng: 30
             };
 
             var stop3 = {
-                id: 's3', name: 'Stop 3',line: '1', lines: ['1'],
+                id: 's3', name: 'Stop 3',line: '1',
                 arrivals: ['06:40'], departures: ['06:41'],
                 lat: 60, lng: 60
             };
 
             var stop4 = {
-                id: 's4', name: 'Stop 4', line: '1', lines: ['1'],
+                id: 's4', name: 'Stop 4', line: '1',
                 arrivals: ['07:00'], departures: ['07:21'],
                 lat: 90, lng: 90
             };
@@ -451,19 +451,19 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:59'], departures: ['06:00'],
                 lat: 10, lng: 10
             };
 
             var stop2 = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['06:29'], departures: ['06:30'],
                 lat: 10, lng: 10
             };
 
             var stop3 = {
-                id: 's3', name: 'Stop 3', line: '1', lines: ['1'],
+                id: 's3', name: 'Stop 3', line: '1',
                 arrivals: ['07:00'], departures: ['07:01'],
                 lat: 90, lng: 90
             };
@@ -495,13 +495,13 @@
             var arrival = {lat: 100, lng: 100};
 
             var stop1 = {
-                id: 's1', name: 'Stop 1', line: '1', lines: ['1'],
+                id: 's1', name: 'Stop 1', line: '1',
                 arrivals: ['05:59'], departures: ['06:00'],
                 lat: 10, lng: 10
             };
 
             var stop2 = {
-                id: 's2', name: 'Stop 2', line: '1', lines: ['1'],
+                id: 's2', name: 'Stop 2', line: '1',
                 arrivals: ['07:00'], departures: ['07:01'],
                 lat: 90, lng: 90
             };
