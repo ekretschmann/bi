@@ -5,12 +5,9 @@ angular.module('core').service('DirectionsService', [
     'lodash', '$moment', 'RouteGraph',
     function (_, moment, RouteGraph) {
 
-        this.getDirections = function (departure, arrival, time, lines) {
 
-
-            var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
-            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, lines);
-            var paths = this.getChangeStopsForAllLines(departStop, arriveStop, time, lines);
+        this.getDirectionsBetweenStops = function(departureStop, arrivalStop, time, lines) {
+            var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines);
 
             var journeyTime = moment(time);
 
@@ -18,6 +15,7 @@ angular.module('core').service('DirectionsService', [
             var journeyPlan = [];
             var _self = this;
             _.forEach(paths, function (path) {
+
 
 
                 var arrivalTime;
@@ -62,6 +60,14 @@ angular.module('core').service('DirectionsService', [
                 return c[c.length - 1].arrivalTime;
             });
 
+        };
+
+        this.getDirections = function (departure, arrival, time, lines) {
+
+
+            var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
+            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, lines);
+            return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines);
 
         };
 
@@ -158,7 +164,7 @@ angular.module('core').service('DirectionsService', [
             _.forEach(graph.getEdges(n), function (edge) {
 
                 if (!graph.getNode(edge.to).visited) {
-                    console.log(stop, edge.to);
+                    //console.log(stop, edge.to);
                     if (edge.to === stop) {
 
                         path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
@@ -173,6 +179,7 @@ angular.module('core').service('DirectionsService', [
 
         this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines) {
 
+           // console.log(lines);
 
             var getStop = function (departStop, departLine) {
 
@@ -192,6 +199,11 @@ angular.module('core').service('DirectionsService', [
 
             var routeGraph = RouteGraph.createNew(lines);
 
+
+           // console.log(departStop);
+           // console.log(arriveStop);
+            //console.log(routeGraph);
+
             //console.log('aaaaa');
             //var graph = _self.getLineGraph(lines);
 
@@ -203,6 +215,9 @@ angular.module('core').service('DirectionsService', [
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
 
+                    //console.log('xxxxx');
+                    //console.log(departLineStop);
+                    //console.log(arriveLineStop);
 
                     if (departLine === arriveLine) {
 

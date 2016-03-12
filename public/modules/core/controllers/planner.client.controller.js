@@ -2,8 +2,8 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'DirectionsService',
-        function ($scope, $http, $timeout, $window, _, Authentication, Locations, DirectionsService) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
@@ -25,10 +25,18 @@ angular.module('core').controller('PlannerController',
 
             $scope.calculateDirections = function () {
 
-                console.log($scope.nearestBusstopFrom.info);
-                console.log($scope.nearestBusstopTo.info);
 
-                DirectionsService.getDirections($scope.nearestBusstopFrom, $scope.nearestBusstopTo, $scope.locations);
+                if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
+                    //console.log($scope.nearestBusstopFrom);
+                    //console.log($scope.nearestBusstopTo);
+
+                    var journeys = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
+
+
+                    console.log(journeys);
+
+                }
+
 
                 //var minDistance = 100;
                 //var minLoc;
@@ -71,7 +79,46 @@ angular.module('core').controller('PlannerController',
                 $scope.instruction = 'Select Departure';
                 $scope.fromInput = true;
 
-                $scope.locations = Locations.query();
+                //  $scope.locations = Locations.query();
+
+                //$scope.busstops = {};
+                // figure out line graph with intersection stops
+                Buslines.query(function (lines) {
+                    var stops = {};
+                    $scope.buslines = [];
+                    _.forEach(lines, function (line) {
+
+
+                        _.forEach(line.stops, function (stop) {
+                            if (stops[stop._id]) {
+                                stops[stop._id].lines.push(line._id);
+                            } else {
+                                stop.lines = [line._id];
+
+                                stop.id = stop._id;
+                                stops[stop._id] = stop;
+                            }
+
+
+                        });
+
+                    });
+
+                    _.forEach(lines, function (line) {
+                        var busline = {
+                            id: line._id,
+                            name: line.name,
+                            stops: []
+                        };
+                        $scope.buslines.push(busline);
+                        _.forEach(line.stops, function (stop) {
+                            var stopCopy = _.cloneDeep(stop);
+                            stopCopy.line = busline.id;
+                            busline.stops.push(stopCopy);
+                        });
+                    });
+                    //  console.log($scope.buslines);
+                });
 
             };
 
@@ -200,12 +247,12 @@ angular.module('core').controller('PlannerController',
 
                 $scope.fromInput = true;
                 $scope.toInput = false;
-                    $timeout(function () {
-                        var element = $window.document.getElementById('from-input');
-                        if (element) {
-                            element.focus();
-                        }
-                    });
+                $timeout(function () {
+                    var element = $window.document.getElementById('from-input');
+                    if (element) {
+                        element.focus();
+                    }
+                });
 
             };
 
@@ -213,41 +260,59 @@ angular.module('core').controller('PlannerController',
             $scope.toggleTo = function () {
                 $scope.fromInput = false;
                 $scope.toInput = true;
-                    $timeout(function () {
-                        var element = $window.document.getElementById('to-input');
-                        if (element) {
-                            element.focus();
+                $timeout(function () {
+                    var element = $window.document.getElementById('to-input');
+                    if (element) {
+                        element.focus();
+                    }
+                });
+            };
+
+            $scope.findNearestBusstops = function (lat, lng) {
+                var minLoc;
+                var minDistance = Number.MAX_VALUE;
+
+
+                _.forEach($scope.buslines, function (line) {
+                    _.forEach(line.stops, function (stop) {
+
+                        // move this into a util service
+                        var distance = Math.sqrt((stop.lat - lat) * (stop.lat - lat) + (stop.lng - lng) * (stop.lng - lng));
+                        if (distance < minDistance) {
+                            minLoc = stop;
+                            minDistance = distance;
                         }
                     });
-            };
+                });
 
-            $scope.findNearestBusstops = function(lat, lng) {
-                var minLoc;
-                var minDistance = 10000;
-                for (var i = 0; i < $scope.locations.length; i++) {
-
-                    var loc = $scope.locations[i];
-                    var distance = Math.sqrt((loc.lat - lat) * (loc.lat - lat) + (loc.lng - lng) * (loc.lng - lng));
-                    if (distance < minDistance) {
-                        minLoc = loc;
-                        minDistance = distance;
-                    }
-                }
 
                 return minLoc;
-                //return {
-                //    lat: minLoc.lat,
-                //    lng: minLoc.lng,
-                //    icon: {
-                //        type: 'div',
-                //        html: '<div class="test-icon"></div>',
-                //        className: 'map-marker test-icon'
-                //    },
-                //    message: minLoc.name + ' lines:' + minLoc.info
-                //};
+
             };
 
-            $scope.selectFrom = function(leafEvent) {
+            $scope.getLineName = function (lineId) {
+                var result = '';
+                _.forEach($scope.buslines, function (line) {
+                    if (line.id === lineId) {
+                        result = line.name;
+                    }
+                });
+                return result;
+            };
+
+            $scope.getStopInfo = function (stop) {
+
+                var result = 'Lines: ';
+                _.forEach(stop.lines, function (line, index) {
+                    result += $scope.getLineName(line);
+                    if (index < stop.lines.length - 1) {
+                        result += ', ';
+                    }
+                });
+                return result;
+            };
+
+            $scope.selectFrom = function (leafEvent) {
                 if (!$scope.startMarker) {
                     $scope.startMarker = {
                         lat: leafEvent.latlng.lat,
@@ -278,17 +343,33 @@ angular.module('core').controller('PlannerController',
                 $scope.toggleTo();
 
                 $scope.nearestBusstopFrom = $scope.findNearestBusstops($scope.from.lat, $scope.from.lng);
-                $scope.markers.push({
-                        lat: $scope.nearestBusstopFrom.lat,
-                        lng: $scope.nearestBusstopFrom.lng,
-                        icon: {
-                            type: 'div',
-                            html: '<div class="bus-icon"></div>',
-                            className: 'map-marker bus-icon'
-                        },
-                        message: $scope.nearestBusstopFrom.name + ' lines:' + $scope.nearestBusstopFrom.info
-                    }
-                );
+
+                if ($scope.nearestBusstopFrom) {
+
+                    var html = '<div>';
+                    html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
+                    html += '<div>' + $scope.getStopInfo($scope.nearestBusstopFrom) + '</div>';
+                    html += '</div>';
+                    $scope.markers.push({
+                            lat: $scope.nearestBusstopFrom.lat,
+                            lng: $scope.nearestBusstopFrom.lng,
+                            icon: {
+                                type: 'div',
+                                html: '<div class="bus-icon"></div>',
+                                className: 'map-marker bus-icon'
+                            },
+                            //label: {
+                            //    message: 'Hey, drag me if you want',
+                            //    options: {
+                            //        noHide: true
+                            //    }
+                            //},
+                            focus: true,
+
+                            message: html
+                        }
+                    );
+                }
 
             };
 
@@ -334,17 +415,26 @@ angular.module('core').controller('PlannerController',
                     $scope.toInput = false;
 
                     $scope.nearestBusstopTo = $scope.findNearestBusstops($scope.to.lat, $scope.to.lng);
-                    $scope.markers.push({
-                            lat: $scope.nearestBusstopTo.lat,
-                            lng: $scope.nearestBusstopTo.lng,
-                            icon: {
-                                type: 'div',
-                                html: '<div class="bus-icon"></div>',
-                                className: 'map-marker bus-icon'
-                            },
-                            message: $scope.nearestBusstopTo.name + ' lines:' + $scope.nearestBusstopTo.info
-                        }
-                    );
+
+                    var html = '<div>';
+                    html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
+                    html += '<div>' + $scope.getStopInfo($scope.nearestBusstopTo) + '</div>';
+                    html += '</div>';
+                    if ($scope.nearestBusstopTo) {
+                        $scope.markers.push({
+                                lat: $scope.nearestBusstopTo.lat,
+                                lng: $scope.nearestBusstopTo.lng,
+                                icon: {
+                                    type: 'div',
+                                    html: '<div class="bus-icon"></div>',
+                                    className: 'map-marker bus-icon'
+                                },
+                                focus: true,
+                                message: html
+                            }
+                        )
+                        ;
+                    }
                 }
             });
 
