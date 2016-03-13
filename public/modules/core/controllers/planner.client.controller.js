@@ -23,6 +23,17 @@ angular.module('core').controller('PlannerController',
                 }
             };
 
+
+            $scope.getLine= function(lineId) {
+                return _.find($scope.buslines, function(line) {
+                    return line;
+                });
+            };
+
+            $scope.drawJourney = function(journey) {
+
+            };
+
             $scope.calculateDirections = function () {
 
 
@@ -32,8 +43,9 @@ angular.module('core').controller('PlannerController',
 
                     var journeys = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
 
+                    $scope.drawJourney(journeys[0]);
 
-                    console.log(journeys);
+                    console.log(journeys[0].departureLine);
 
                 }
 
@@ -355,8 +367,8 @@ angular.module('core').controller('PlannerController',
                             lng: $scope.nearestBusstopFrom.lng,
                             icon: {
                                 type: 'div',
-                                html: '<div class="bus-icon"></div>',
-                                className: 'map-marker bus-icon'
+                                html: '<div class="busstop-route-start-icon"></div>',
+                                className: 'map-marker busstop-route-start-icon'
                             },
                             //label: {
                             //    message: 'Hey, drag me if you want',
@@ -426,8 +438,8 @@ angular.module('core').controller('PlannerController',
                                 lng: $scope.nearestBusstopTo.lng,
                                 icon: {
                                     type: 'div',
-                                    html: '<div class="bus-icon"></div>',
-                                    className: 'map-marker bus-icon'
+                                    html: '<div class="busstop-route-end-icon"></div>',
+                                    className: 'map-marker busstop-route-end-icon'
                                 },
                                 focus: true,
                                 message: html
