@@ -17,9 +17,10 @@ angular.module('core').controller('PlannerController',
                     //console.log($scope.nearestBusstopFrom);
                     //console.log($scope.nearestBusstopTo);
 
-                    var journeys = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
+                    var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
 
-                    RouteRenderService.drawJourney(journeys[0], $scope.buslines, $scope.markers, $scope.paths);
+
+                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
 
                     //console.log(journeys[0].departureLine);
 

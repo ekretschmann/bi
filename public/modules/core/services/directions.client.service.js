@@ -12,14 +12,16 @@ angular.module('core').service('DirectionsService', [
             var journeyTime = moment(time);
 
 
-            var journeyPlan = [];
+            var journeyPlan = {};
+            journeyPlan.options = [];
             var _self = this;
             _.forEach(paths, function (path) {
 
 
 
                 var arrivalTime;
-                var changes = [];
+                var itinerary = {};
+                itinerary.changes = [];
 
                 _.forEach(path, function (change) {
 
@@ -27,38 +29,44 @@ angular.module('core').service('DirectionsService', [
                     var departureTime = _self.getNextDeparture(change.departureStop, journeyTime);
                     var currentTime = departureTime;
                     arrivalTime = _self.getArrival(change.departureStop, currentTime, change.arrivalStop);
-                    changes.push({
-                        stop: change.departureStop.name,
+                    itinerary.changes.push({
+                        stopId: change.departureStop.id,
+                        stopName: change.departureStop.name,
                         departureTime: departureTime,
                         line: change.departureStop.line
                     });
 
-                    changes.push({
-                        stop: change.arrivalStop.name,
+                    itinerary.changes.push({
+                        stopId: change.arrivalStop.id,
+                        stopName: change.arrivalStop.name,
                         arrivalTime: arrivalTime,
                         line: change.arrivalStop.line
                     });
                 });
 
 
-                changes.departureTime = changes[0].departureTime;
-                changes.departureStop = changes[0].stop;
-                changes.departureLine = changes[0].line;
+                itinerary.departureTime = itinerary.changes[0].departureTime;
+                itinerary.departureStopId = itinerary.changes[0].stopId;
+                itinerary.departureStopName = itinerary.changes[0].stopName;
+                itinerary.departureLine = itinerary.changes[0].line;
 
 
-                var lastIndex = changes.length - 1;
-                changes.arrivalTime = changes[lastIndex].arrivalTime;
-                changes.arrivalStop = changes[lastIndex].stop;
-                changes.arrivalLine = changes[lastIndex].line;
-                journeyPlan.push(changes);
+                var lastIndex = itinerary.changes.length - 1;
+                itinerary.arrivalTime = itinerary.changes[lastIndex].arrivalTime;
+                itinerary.arrivalStopName = itinerary.changes[lastIndex].stopName;
+                itinerary.arrivalStopId = itinerary.changes[lastIndex].stopId;
+                itinerary.arrivalLine = itinerary.changes[lastIndex].line;
+                journeyPlan.options.push(itinerary);
 
             });
 
 
-            return _.sortBy(journeyPlan, function (c) {
+            journeyPlan.options = _.sortBy(journeyPlan.options, function (c) {
 
-                return c[c.length - 1].arrivalTime;
+                return c.arrivalTime;
             });
+
+            return journeyPlan;
 
         };
 
