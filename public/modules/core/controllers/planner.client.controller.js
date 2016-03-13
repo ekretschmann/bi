@@ -31,6 +31,40 @@ angular.module('core').controller('PlannerController',
             };
 
             $scope.drawJourney = function(journey) {
+                var line = $scope.getLine(journey.departureLine);
+
+                var latlngs = [];
+
+
+                _.forEach(line.stops, function(stop) {
+                   // console.log(stop);
+                    $scope.markers.push({
+                            lat: stop.lat,
+                            lng: stop.lng,
+                            icon: {
+                                type: 'div',
+                                html: '<div class="busstop-icon"></div>',
+                                className: 'map-marker busstop-icon'
+                            }
+                            //label: {
+                            //    message: 'Hey, drag me if you want',
+                            //    options: {
+                            //        noHide: true
+                            //    }
+                            //},
+                            //focus: true,
+                            //
+                            //message: html
+                        }
+                    );
+                    latlngs.push({lat: stop.lat, lng:stop.lng});
+                });
+                $scope.paths.p1 = {
+                    color: 'blue',
+                    weight: 2,
+                    type: 'polyline',
+                    latlngs:  latlngs
+                };
 
             };
 
@@ -45,34 +79,12 @@ angular.module('core').controller('PlannerController',
 
                     $scope.drawJourney(journeys[0]);
 
-                    console.log(journeys[0].departureLine);
+                    //console.log(journeys[0].departureLine);
 
                 }
 
 
-                //var minDistance = 100;
-                //var minLoc;
-                //Locations.query(function (locations) {
-                //    for (var i = 0; i < locations.length; i++) {
-                //        var loc = locations[i];
-                //        var distance = Math.sqrt((loc.lat - $scope.from.lat) * (loc.lat - $scope.from.lat) + (loc.lng - $scope.from.lng) * (loc.lng - $scope.from.lng));
-                //        if (distance < minDistance) {
-                //            minLoc = loc;
-                //            minDistance = distance;
-                //        }
-                //    }
-                //    $scope.nearestStop = {
-                //        lat: minLoc.lat,
-                //        lng: minLoc.lng,
-                //        icon: {
-                //            type: 'div',
-                //            html: '<div class="test-icon"></div>',
-                //            className: 'map-marker test-icon'
-                //        },
-                //        message: minLoc.name + ' lines:' + minLoc.info
-                //    };
-                //    $scope.markers.push($scope.nearestStop);
-                //});
+
 
             };
 
