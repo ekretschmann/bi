@@ -2,71 +2,13 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService',
-        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService', 'RouteRenderService',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService, RouteRenderService) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
 
-            var icons = {
-                blue: {
-                    type: 'div',
-                    iconSize: [10, 10],
-                    className: 'blue',
-                    iconAnchor: [5, 5]
-                },
-                red: {
-                    type: 'div',
-                    iconSize: [10, 10],
-                    className: 'red',
-                    iconAnchor: [5, 5]
-                }
-            };
 
-
-            $scope.getLine= function(lineId) {
-                return _.find($scope.buslines, function(line) {
-                    return line;
-                });
-            };
-
-            $scope.drawJourney = function(journey) {
-                var line = $scope.getLine(journey.departureLine);
-
-                var latlngs = [];
-
-
-                _.forEach(line.stops, function(stop) {
-                   // console.log(stop);
-                    $scope.markers.push({
-                            lat: stop.lat,
-                            lng: stop.lng,
-                            icon: {
-                                type: 'div',
-                                html: '<div class="busstop-icon"></div>',
-                                className: 'map-marker busstop-icon'
-                            }
-                            //label: {
-                            //    message: 'Hey, drag me if you want',
-                            //    options: {
-                            //        noHide: true
-                            //    }
-                            //},
-                            //focus: true,
-                            //
-                            //message: html
-                        }
-                    );
-                    latlngs.push({lat: stop.lat, lng:stop.lng});
-                });
-                $scope.paths.p1 = {
-                    color: 'blue',
-                    weight: 2,
-                    type: 'polyline',
-                    latlngs:  latlngs
-                };
-
-            };
 
             $scope.calculateDirections = function () {
 
@@ -77,7 +19,7 @@ angular.module('core').controller('PlannerController',
 
                     var journeys = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
 
-                    $scope.drawJourney(journeys[0]);
+                    RouteRenderService.drawJourney(journeys[0], $scope.buslines, $scope.markers, $scope.paths);
 
                     //console.log(journeys[0].departureLine);
 
