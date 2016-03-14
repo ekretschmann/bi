@@ -14,16 +14,16 @@ angular.module('core').controller('PlannerController',
 
 
                 if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
-                    //console.log($scope.nearestBusstopFrom);
-                    //console.log($scope.nearestBusstopTo);
+                    console.log($scope.nearestBusstopFrom);
+                    console.log($scope.nearestBusstopTo);
 
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
 
-                    console.log(journey.options[0]);
+                    //console.log(journey.options[0]);
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
 
-                    //console.log(journey.options[0]);
+                    console.log(journey.options[0]);
 
                     //console.log('xxxxx');
                     //console.log($scope.markers);
@@ -55,7 +55,7 @@ angular.module('core').controller('PlannerController',
                 //$scope.busstops = {};
                 // figure out line graph with intersection stops
                 Buslines.query(function (lines) {
-
+                    $scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines);
                 });
 
             };

@@ -13,18 +13,13 @@ angular.module('core').service('BuslinesToNetworkCalculator', [
 
             _.forEach(lines, function (line) {
                 _.forEach(line.stops, function (stop) {
-                    //console.log(stop.name, stop._id);
                     if (stops[stop._id]) {
-
-                        //console.log('xxxxx');
-                        //console.log(stops[stop._id]);
                         stops[stop._id].lines.push(line._id);
                     } else {
                         stop.lines = [line._id];
                         stop.id = stop._id;
                         stops[stop._id] = stop;
                     }
-                    //console.log(stop.lines);
                 });
             });
 
@@ -36,8 +31,7 @@ angular.module('core').service('BuslinesToNetworkCalculator', [
                 };
                 result.push(busline);
                 _.forEach(line.stops, function (stop) {
-                    //console.log(stop.name, stop.lines);
-                    var stopCopy = _.cloneDeep(stop);
+                    var stopCopy = _.cloneDeep(stops[stop._id]);
                     stopCopy.line = busline.id;
                     busline.stops.push(stopCopy);
                 });
