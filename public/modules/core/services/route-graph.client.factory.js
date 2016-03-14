@@ -20,6 +20,7 @@ angular.module('core').factory('RouteGraph', [
 
             this.getEdges = function (n) {
                 return _.filter(this.edges, function (e) {
+
                     return e.from === n.id;
                 });
             };
@@ -64,14 +65,15 @@ angular.module('core').factory('RouteGraph', [
                 };
 
                 var calculateEdges = function() {
+
                     _.forEach(lines, function (line) {
+
                         _self.nodes.push({id: line.id});
                         _.forEach(line.stops, function (arrivalStop) {
 
                             _.forEach(arrivalStop.lines, function (change) {
 
                                 if (change !== line.id) {
-
                                     var departureStop = getStop(arrivalStop.id, change);
                                     _self.edges.push({
                                         from: line.id,
@@ -97,6 +99,7 @@ angular.module('core').factory('RouteGraph', [
                 var paths = [];
 
                 this.traverse(start, stop, path, paths);
+
                 return paths;
             };
 
@@ -142,7 +145,6 @@ angular.module('core').factory('RouteGraph', [
                         }
 
                         if (state === 'found a before b') {
-                            //console.log('     disallowed');
                             result = true;
                         }
                     });
@@ -170,12 +172,10 @@ angular.module('core').factory('RouteGraph', [
 
 
                             foundLoop = foundLoop || isBefore(edge.departureStop, pathStop.departureStop, line);
-                            //console.log('  '+edge.departureStop.id+ ' '+pathStop.departureStop.id+ ' '+line.id+' '+foundLoop);
                         });
                     });
 
                     if (foundLoop) {
-                        //console.log('disallowed');
                         result = false;
                     }
                 }
@@ -189,31 +189,24 @@ angular.module('core').factory('RouteGraph', [
                 var n = _self.getNode(start);
                 _.forEach(_self.getEdges(n), function (edge) {
 
+
                     if (_self.canChange(edge, path)) {
-                        //console.log('pushing');
                         path.push(edge);
-                        //_self.printPath(path);
 
 
                         if (edge.to === stop) {
 
-
-                            //console.log('solution found');
                             paths.push(_.cloneDeep(path));
 
                         } else {
-                            //console.log('recursion');
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
 
-                        //console.log('popping');
 
                         path.pop();
-                        //_self.printPath(path);
                     }
 
-                    //console.log('  done ',edge.arrivalStop.id);
                 });
             };
 

@@ -58,21 +58,20 @@ angular.module('core').controller('PlannerController',
                     var stops = {};
                     $scope.buslines = [];
                     _.forEach(lines, function (line) {
-
-
                         _.forEach(line.stops, function (stop) {
+                            console.log(stop.name, stop._id);
                             if (stops[stop._id]) {
+
+                                console.log('xxxxx');
+                                console.log(stops[stop._id]);
                                 stops[stop._id].lines.push(line._id);
                             } else {
                                 stop.lines = [line._id];
-
                                 stop.id = stop._id;
                                 stops[stop._id] = stop;
                             }
-
-
+                            console.log(stop.lines);
                         });
-
                     });
 
                     _.forEach(lines, function (line) {
@@ -83,12 +82,13 @@ angular.module('core').controller('PlannerController',
                         };
                         $scope.buslines.push(busline);
                         _.forEach(line.stops, function (stop) {
+                            //console.log(stop.name, stop.lines);
                             var stopCopy = _.cloneDeep(stop);
                             stopCopy.line = busline.id;
                             busline.stops.push(stopCopy);
                         });
                     });
-                    //  console.log($scope.buslines);
+                    //console.log($scope.buslines);
                 });
 
             };

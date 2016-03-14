@@ -119,72 +119,72 @@ angular.module('core').service('DirectionsService', [
 
         };
 
-        this.getLineGraph = function (lines) {
-            var graph = {
-                nodes: [],
-                edges: [],
-                getNode: function (name) {
-                    return _.find(this.nodes, function (n) {
-                        return n.id === name;
-                    });
-                },
-                getEdges: function (n) {
-                    return _.filter(this.edges, function (e) {
-                        return e.from === n.id;
-                    });
-                }
-            };
+        //this.getLineGraph = function (lines) {
+        //    var graph = {
+        //        nodes: [],
+        //        edges: [],
+        //        getNode: function (name) {
+        //            return _.find(this.nodes, function (n) {
+        //                return n.id === name;
+        //            });
+        //        },
+        //        getEdges: function (n) {
+        //            return _.filter(this.edges, function (e) {
+        //                return e.from === n.id;
+        //            });
+        //        }
+        //    };
+        //
+        //    var getStop = function (id, linename) {
+        //        var line = _.find(lines, function (line) {
+        //            return line.id === linename;
+        //        });
+        //
+        //
+        //        return _.find(line.stops, function (stop) {
+        //            return stop.id === id;
+        //        });
+        //    };
+        //
+        //    _.forEach(lines, function (line) {
+        //        graph.nodes.push({name: line.id, visited: false});
+        //        _.forEach(line.stops, function (arrivalStop) {
+        //            _.forEach(arrivalStop.lines, function (change) {
+        //                if (change !== line.id) {
+        //
+        //                    var departureStop = getStop(arrivalStop.id, change);
+        //                    graph.edges.push({
+        //                        from: line.id,
+        //                        to: change,
+        //                        arrivalStop: arrivalStop,
+        //                        departureStop: departureStop
+        //                    });
+        //                }
+        //            });
+        //        });
+        //    });
+        //    return graph;
+        //};
 
-            var getStop = function (id, linename) {
-                var line = _.find(lines, function (line) {
-                    return line.id === linename;
-                });
-
-
-                return _.find(line.stops, function (stop) {
-                    return stop.id === id;
-                });
-            };
-
-            _.forEach(lines, function (line) {
-                graph.nodes.push({name: line.id, visited: false});
-                _.forEach(line.stops, function (arrivalStop) {
-                    _.forEach(arrivalStop.lines, function (change) {
-                        if (change !== line.id) {
-
-                            var departureStop = getStop(arrivalStop.id, change);
-                            graph.edges.push({
-                                from: line.id,
-                                to: change,
-                                arrivalStop: arrivalStop,
-                                departureStop: departureStop
-                            });
-                        }
-                    });
-                });
-            });
-            return graph;
-        };
-
-        this.traverse = function (start, stop, graph, path) {
-            var n = graph.getNode(start);
-            n.visited = true;
-            var _self = this;
-            _.forEach(graph.getEdges(n), function (edge) {
-
-                if (!graph.getNode(edge.to).visited) {
-                    //console.log(stop, edge.to);
-                    if (edge.to === stop) {
-
-                        path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
-
-                    } else {
-                        console.log('x');
-                        _self.traverse(edge.to, stop, graph, path);
-                    }
-                }
-            });
-        };
+        //this.traverse = function (start, stop, graph, path) {
+        //    var n = graph.getNode(start);
+        //    n.visited = true;
+        //    var _self = this;
+        //    _.forEach(graph.getEdges(n), function (edge) {
+        //
+        //        if (!graph.getNode(edge.to).visited) {
+        //            //console.log(stop, edge.to);
+        //            if (edge.to === stop) {
+        //
+        //                path.push({departureStop: edge.departureStop, arrivalStop: edge.arrivalStop});
+        //
+        //            } else {
+        //                console.log('x');
+        //                _self.traverse(edge.to, stop, graph, path);
+        //            }
+        //        }
+        //    });
+        //};
 
         this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines) {
 
@@ -217,7 +217,7 @@ angular.module('core').service('DirectionsService', [
             //var graph = _self.getLineGraph(lines);
 
             var changes = [];
-          //  console.log(departStop);
+
             _.forEach(departStop.lines, function (departLine) {
 
 
@@ -238,6 +238,7 @@ angular.module('core').service('DirectionsService', [
 
 
                         path = routeGraph.calculatePaths(departLine, arriveLine)[0];
+
 
 
                         if (path && path.length > 0) {
