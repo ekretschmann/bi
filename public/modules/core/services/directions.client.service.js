@@ -9,6 +9,7 @@ angular.module('core').service('DirectionsService', [
         this.getDirectionsBetweenStops = function(departureStop, arrivalStop, time, lines) {
             var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines);
 
+
             var journeyTime = moment(time);
 
 

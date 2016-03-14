@@ -32,6 +32,7 @@
 
             var buslines = [];
             buslines.push({
+                id: '1',
                 stops: [
                     {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
                     {id: '2a', name: 'Stop 2a', lat: 110, lng: 120},
@@ -83,6 +84,7 @@
 
             var buslines = [];
             buslines.push({
+                id: '1',
                 stops: [
                     {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
                     {id: '2a', name: 'Stop 2a', lat: 110, lng: 110},
@@ -141,6 +143,7 @@
 
             var buslines = [];
             buslines.push({
+                id: '1',
                 stops: [
                     {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
                     {id: '2a', name: 'Stop 2a', lat: 110, lng: 110},
@@ -178,6 +181,7 @@
 
         });
 
+
         it('should render trivial route', function () {
 
             var journey = {
@@ -191,6 +195,7 @@
 
             var buslines = [];
             buslines.push({
+                id: '1',
                 stops: [
                     {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
                     {id: '2a', name: 'Stop 2a', lat: 110, lng: 110}

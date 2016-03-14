@@ -26,7 +26,7 @@ angular.module('core').service('RouteRenderService', [
 
             this.getLine = function (lineId) {
                 return _.find(this.buslines, function (line) {
-                    return line;
+                    return line.id === lineId;
                 });
             };
 
@@ -65,6 +65,7 @@ angular.module('core').service('RouteRenderService', [
             this.buslines = buslines;
             var line = this.getLine(journey.departureLine);
 
+
             var journeyLatlngs = [];
 
             var foundDepartureStop = false;
@@ -72,6 +73,7 @@ angular.module('core').service('RouteRenderService', [
 
 
             _.forEach(line.stops, function (stop) {
+
 
 
                 if (stop.id === journey.departureStopId) {
