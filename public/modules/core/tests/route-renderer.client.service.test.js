@@ -19,6 +19,79 @@
             Service = _RouteRenderService_;
         }));
 
+        it('should render route with a change', function () {
+
+            var journey = {
+                arrivalLine: 'b', arrivalStopId: '5b', arrivalTime: '06:10',
+                departureLine: 'a', departureStopId: '1a', departureTime: '06:00',
+                changes: [
+                    {departureTime: '06:10', line: 'a', stop: '1a'},
+                    {arrivalTime: '06:20', line: 'a', stop: '3ab'},
+                    {departureTime: '06:30', line: 'b', stop: '3aba'},
+                    {arrivalTime: '06:40', line: 'B', stop: '5a'}
+                ]};
+
+
+            var buslines = [];
+            buslines.push({
+                id: 'a',
+                stops: [
+                    {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
+                    {id: '2a', name: 'Stop 2a', lat: 110, lng: 120},
+                    {id: '3ab', name: 'Stop 3ab', lat: 120, lng: 140},
+                    {id: '4a', name: 'Stop 4a', lat: 130, lng: 160},
+                    {id: '5a', name: 'Stop 5a', lat: 140, lng: 180}
+                ]
+            });
+
+            buslines.push({
+                id: 'b',
+                stops: [
+                    {id: '1b', name: 'Stop 1b', lat: 800, lng: 100},
+                    {id: '2b', name: 'Stop 2b', lat: 100, lng: 120},
+                    {id: '3ab', name: 'Stop 3ab', lat: 120, lng: 140},
+                    {id: '4b', name: 'Stop 4b', lat: 140, lng: 160},
+                    {id: '5b', name: 'Stop 5b', lat: 160, lng: 180}
+                ]
+            });
+
+            var markers = [];
+            var paths = {};
+            Service.drawJourney(journey, buslines, markers, paths);
+
+            var expectedStartMarker = {
+                lat: 100, lng: 100, icon: Service.busstopDepartureIcon
+            };
+
+            var expectedBusstopMarker1 = {
+                lat: 110, lng: 120, icon: Service.busstopIcon
+            };
+
+            var expectedChangeMarker = {
+                lat: 120, lng: 140, icon: Service.busstopChangelIcon
+            };
+
+            var expectedBusstopMarker2 = {
+                lat: 130, lng: 160, icon: Service.busstopIcon
+            };
+
+            var expectedEndMarker = {
+                lat: 140, lng: 180, icon: Service.busstopArrivalIcon
+            };
+
+            expect(markers.length).toBe(5);
+            expect(markers).toContain(expectedStartMarker);
+            expect(markers).toContain(expectedBusstopMarker1);
+            expect(markers).toContain(expectedChangeMarker);
+            //expect(markers).toContain(expectedEndMarker);
+            //
+            //expect(paths.journey.latlngs.length).toBe(3);
+            //expect(paths.journey.latlngs[0]).toEqual({lat: 120, lng: 140});
+            //expect(paths.journey.latlngs[1]).toEqual({lat: 130, lng: 160});
+            //expect(paths.journey.latlngs[2]).toEqual({lat: 140, lng: 180});
+
+        });
+
         it('should render one line route with previous stop', function () {
 
             var journey = {

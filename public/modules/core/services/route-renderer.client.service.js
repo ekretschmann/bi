@@ -22,6 +22,12 @@ angular.module('core').service('RouteRenderService', [
             className: 'map-marker busstop-arrival-icon'
         };
 
+        this.busstopChangelIcon = {
+            type: 'div',
+            html: '<div class="busstop-change-icon"></div>',
+            className: 'map-marker busstop-change-icon'
+        };
+
         this.journey =
 
             this.getLine = function (lineId) {
