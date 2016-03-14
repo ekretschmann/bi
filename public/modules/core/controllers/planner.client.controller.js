@@ -2,8 +2,8 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService', 'RouteRenderService',
-        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService, RouteRenderService) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService', 'RouteRenderService', 'BuslinesToNetworkCalculator',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService, RouteRenderService, BuslinesToNetworkCalculator) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
@@ -55,40 +55,7 @@ angular.module('core').controller('PlannerController',
                 //$scope.busstops = {};
                 // figure out line graph with intersection stops
                 Buslines.query(function (lines) {
-                    var stops = {};
-                    $scope.buslines = [];
-                    _.forEach(lines, function (line) {
-                        _.forEach(line.stops, function (stop) {
-                            console.log(stop.name, stop._id);
-                            if (stops[stop._id]) {
 
-                                console.log('xxxxx');
-                                console.log(stops[stop._id]);
-                                stops[stop._id].lines.push(line._id);
-                            } else {
-                                stop.lines = [line._id];
-                                stop.id = stop._id;
-                                stops[stop._id] = stop;
-                            }
-                            console.log(stop.lines);
-                        });
-                    });
-
-                    _.forEach(lines, function (line) {
-                        var busline = {
-                            id: line._id,
-                            name: line.name,
-                            stops: []
-                        };
-                        $scope.buslines.push(busline);
-                        _.forEach(line.stops, function (stop) {
-                            //console.log(stop.name, stop.lines);
-                            var stopCopy = _.cloneDeep(stop);
-                            stopCopy.line = busline.id;
-                            busline.stops.push(stopCopy);
-                        });
-                    });
-                    //console.log($scope.buslines);
                 });
 
             };

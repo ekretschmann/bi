@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    describe('DirectionsService', function () {
+    describe('BuslinesToNetworkCalculator', function () {
         //Initialize global variables
         var Service;
 
@@ -14,15 +14,52 @@
 
 
 
-        beforeEach(inject(function (_DirectionsService_) {
+        beforeEach(inject(function (_BuslinesToNetworkCalculator_) {
 
-            Service = _DirectionsService_;
+            Service = _BuslinesToNetworkCalculator_;
         }));
 
 
-        it('should find a alternative routs without changes with intermediate stops', function () {
+        fit('should calculate two intersecting lines', function () {
+            var stop1a = {_id: 's1a', line: 'a'};
+            var stop2a = {_id: 's2ab', line: 'a'};
+            var stop3a = {_id: 's3a', line: 'a'};
+
+            var stop1b = {_id: 's1b', line: 'b'};
+            var stop2b = {_id: 's2ab', line: 'b'};
+            var stop3b = {_id: 's3b', line: 'b'};
+
+            var linea = {_id: 'a', stops: [stop1a, stop2a, stop3a]};
+            var lineb = {_id: 'b', stops: [stop1b, stop2b, stop3b]};
+
+            var network = Service.calculateNetwork([linea, lineb]);
+
+            expect(network.length).toBe(2);
+            expect(network[0].id).toBe('a');
+            expect(network[0].stops).toContain({_id: 's1a', id: 's1a', line: 'a', lines: ['a']});
+            expect(network[0].stops).toContain({_id: 's2ab', id: 's2ab', line: 'a', lines: ['a', 'b']});
+            expect(network[0].stops).toContain({_id: 's3a', id: 's3a', line: 'a', lines: ['a']});
+
+            expect(network[1].id).toBe('b');
+            expect(network[1].stops).toContain({_id: 's1b', id: 's1b', line: 'b', lines: ['b']});
+            expect(network[1].stops).toContain({_id: 's2ab', id: 's2ab', line: 'b', lines: ['a', 'b']});
+            expect(network[1].stops).toContain({_id: 's3b', id: 's3b', line: 'b', lines: ['b']});
+        });
 
 
+        fit('should calculate trivial network', function () {
+            var stop1a = {_id: 's1', line: '1'};
+            var stop2a = {_id: 's2', line: '1'};
+
+            var line1 = {_id: '1', stops: [stop1a, stop2a]};
+
+            var network = Service.calculateNetwork([line1]);
+            console.log(network);
+
+            expect(network.length).toBe(1);
+            expect(network[0].id).toBe('1');
+            expect(network[0].stops).toContain({_id: 's1', id: 's1', line: '1', lines: ['1']});
+            expect(network[0].stops).toContain({_id: 's2', id: 's2', line: '1', lines: ['1']});
         });
 
 
