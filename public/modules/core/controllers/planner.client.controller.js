@@ -22,8 +22,11 @@ angular.module('core').controller('PlannerController',
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
 
-                    //console.log(journeys[0].departureLine);
+                    //console.log(journey.options[0]);
 
+                    //console.log('xxxxx');
+                    //console.log($scope.markers);
+                    //console.log($scope.markers.length);
                 }
 
 
@@ -310,33 +313,33 @@ angular.module('core').controller('PlannerController',
                 $scope.toggleTo();
 
                 $scope.nearestBusstopFrom = $scope.findNearestBusstops($scope.from.lat, $scope.from.lng);
+                //
+                //if ($scope.nearestBusstopFrom) {
 
-                if ($scope.nearestBusstopFrom) {
-
-                    var html = '<div>';
-                    html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
-                    html += '<div>' + $scope.getStopInfo($scope.nearestBusstopFrom) + '</div>';
-                    html += '</div>';
-                    $scope.markers.push({
-                            lat: $scope.nearestBusstopFrom.lat,
-                            lng: $scope.nearestBusstopFrom.lng,
-                            icon: {
-                                type: 'div',
-                                html: '<div class="busstop-route-start-icon"></div>',
-                                className: 'map-marker busstop-route-start-icon'
-                            },
-                            //label: {
-                            //    message: 'Hey, drag me if you want',
-                            //    options: {
-                            //        noHide: true
-                            //    }
-                            //},
-                            focus: true,
-
-                            message: html
-                        }
-                    );
-                }
+                    //var html = '<div>';
+                    //html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
+                    //html += '<div>' + $scope.getStopInfo($scope.nearestBusstopFrom) + '</div>';
+                    //html += '</div>';
+                    //$scope.markers.push({
+                    //        lat: $scope.nearestBusstopFrom.lat,
+                    //        lng: $scope.nearestBusstopFrom.lng,
+                    //        icon: {
+                    //            type: 'div',
+                    //            html: '<div class="busstop-departure-icon"></div>',
+                    //            className: 'map-marker busstop-departure-icon'
+                    //        },
+                    //        //label: {
+                    //        //    message: 'Hey, drag me if you want',
+                    //        //    options: {
+                    //        //        noHide: true
+                    //        //    }
+                    //        //},
+                    //        focus: true,
+                    //
+                    //        message: html
+                    //    }
+                    //);
+                //}
 
             };
 
@@ -383,25 +386,25 @@ angular.module('core').controller('PlannerController',
 
                     $scope.nearestBusstopTo = $scope.findNearestBusstops($scope.to.lat, $scope.to.lng);
 
-                    var html = '<div>';
-                    html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
-                    html += '<div>' + $scope.getStopInfo($scope.nearestBusstopTo) + '</div>';
-                    html += '</div>';
-                    if ($scope.nearestBusstopTo) {
-                        $scope.markers.push({
-                                lat: $scope.nearestBusstopTo.lat,
-                                lng: $scope.nearestBusstopTo.lng,
-                                icon: {
-                                    type: 'div',
-                                    html: '<div class="busstop-route-end-icon"></div>',
-                                    className: 'map-marker busstop-route-end-icon'
-                                },
-                                focus: true,
-                                message: html
-                            }
-                        )
-                        ;
-                    }
+                    //var html = '<div>';
+                    //html += '<div>' + $scope.nearestBusstopFrom.name + '</div>';
+                    //html += '<div>' + $scope.getStopInfo($scope.nearestBusstopTo) + '</div>';
+                    //html += '</div>';
+                    //if ($scope.nearestBusstopTo) {
+                    //    $scope.markers.push({
+                    //            lat: $scope.nearestBusstopTo.lat,
+                    //            lng: $scope.nearestBusstopTo.lng,
+                    //            icon: {
+                    //                type: 'div',
+                    //                html: '<div class="busstop-arrival-icon"></div>',
+                    //                className: 'map-marker busstop-arrival-icon'
+                    //            },
+                    //            focus: true,
+                    //            message: html
+                    //        }
+                    //    )
+                    //    ;
+                    //}
                 }
             });
 

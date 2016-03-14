@@ -65,7 +65,7 @@ angular.module('core').service('RouteRenderService', [
             this.buslines = buslines;
             var line = this.getLine(journey.departureLine);
 
-            var latlngs = [];
+            var journeyLatlngs = [];
 
             var foundDepartureStop = false;
             var foundArrivalStop = false;
@@ -73,28 +73,31 @@ angular.module('core').service('RouteRenderService', [
 
             _.forEach(line.stops, function (stop) {
 
-                if (stop.id === journey.departureStop) {
+
+                if (stop.id === journey.departureStopId) {
                     _self.drawDepartureIcon(markerScope, stop);
                     foundDepartureStop = true;
-                } else if (stop.id === journey.arrivalStop) {
+                    journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
+                } else if (stop.id === journey.arrivalStopId) {
                     _self.drawArrivalIcon(markerScope, stop);
                     foundArrivalStop = true;
+                    journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
                 } else if(foundDepartureStop && !foundArrivalStop) {
                     _self.drawBusstopIcon(markerScope, stop);
-                    latlngs.push({lat: stop.lat, lng: stop.lng});
+                    journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
                 }
 
-
-
-
             });
+
             pathScope.journey = {
                 color: '#5B79BA',
                 weight: 1,
                 type: 'polyline',
-                latlngs: latlngs
+                latlngs: journeyLatlngs
             };
 
+
+            //console.log(markerScope);
 
         };
 

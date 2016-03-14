@@ -216,6 +216,7 @@ angular.module('core').service('DirectionsService', [
             //var graph = _self.getLineGraph(lines);
 
             var changes = [];
+          //  console.log(departStop);
             _.forEach(departStop.lines, function (departLine) {
 
 

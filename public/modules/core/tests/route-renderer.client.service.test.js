@@ -19,12 +19,120 @@
             Service = _RouteRenderService_;
         }));
 
-
-        fit('should render trivial route with one intermediary stop', function () {
+        it('should render one line route with previous stop', function () {
 
             var journey = {
-                arrivalLine: '1', arrivalStop: '3a', arrivalTime: '06:10',
-                departureLine: '1', departureStop: '1a', departureTime: '06:00',
+                arrivalLine: '1', arrivalStopId: '5a', arrivalTime: '06:10',
+                departureLine: '1', departureStopId: '3a', departureTime: '06:00',
+                changes: [
+                    {departureTime: '06:11', line: '1', stop: '3a'},
+                    {arrivalTime: '06:50', line: '1', stop: '5a'}
+                ]};
+
+
+            var buslines = [];
+            buslines.push({
+                stops: [
+                    {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
+                    {id: '2a', name: 'Stop 2a', lat: 110, lng: 120},
+                    {id: '3a', name: 'Stop 3a', lat: 120, lng: 140},
+                    {id: '4a', name: 'Stop 4a', lat: 130, lng: 160},
+                    {id: '5a', name: 'Stop 5a', lat: 140, lng: 180}
+                ]
+            });
+
+            var markers = [];
+            var paths = {};
+            Service.drawJourney(journey, buslines, markers, paths);
+
+            var expectedStartMarker = {
+                lat: 120, lng: 140, icon: Service.busstopDepartureIcon
+            };
+
+            var expectedBusstopMarker = {
+                lat: 130, lng: 160, icon: Service.busstopIcon
+            };
+
+
+            var expectedEndMarker = {
+                lat: 140, lng: 180, icon: Service.busstopArrivalIcon
+            };
+
+            expect(markers.length).toBe(3);
+            expect(markers).toContain(expectedStartMarker);
+            expect(markers).toContain(expectedBusstopMarker);
+            expect(markers).toContain(expectedEndMarker);
+
+            expect(paths.journey.latlngs.length).toBe(3);
+            expect(paths.journey.latlngs[0]).toEqual({lat: 120, lng: 140});
+            expect(paths.journey.latlngs[1]).toEqual({lat: 130, lng: 160});
+            expect(paths.journey.latlngs[2]).toEqual({lat: 140, lng: 180});
+
+        });
+
+        it('should render one line route with two intermediary stop', function () {
+
+            var journey = {
+                arrivalLine: '1', arrivalStopId: '4a', arrivalTime: '06:10',
+                departureLine: '1', departureStopId: '1a', departureTime: '06:00',
+                changes: [
+                    {departureTime: '06:11', line: '1', stop: '1a'},
+                    {arrivalTime: '06:50', line: '1', stop: '4a'}
+                ]};
+
+
+            var buslines = [];
+            buslines.push({
+                stops: [
+                    {id: '1a', name: 'Stop 1a', lat: 100, lng: 100},
+                    {id: '2a', name: 'Stop 2a', lat: 110, lng: 110},
+                    {id: '3a', name: 'Stop 3a', lat: 120, lng: 120},
+                    {id: '4a', name: 'Stop 3a', lat: 130, lng: 150}
+                ]
+            });
+
+            var markers = [];
+            var paths = {};
+            Service.drawJourney(journey, buslines, markers, paths);
+
+            var expectedStartMarker = {
+                lat: 100, lng: 100, icon: Service.busstopDepartureIcon
+            };
+
+            var expectedBusstopMarker1 = {
+                lat: 110, lng: 110, icon: Service.busstopIcon
+            };
+
+            var expectedBusstopMarker2 = {
+                lat: 120, lng: 120, icon: Service.busstopIcon
+            };
+
+            var expectedEndMarker = {
+                lat: 130, lng: 150, icon: Service.busstopArrivalIcon
+            };
+
+            expect(markers.length).toBe(4);
+            expect(markers).toContain(expectedStartMarker);
+            expect(markers).toContain(expectedBusstopMarker1);
+            expect(markers).toContain(expectedBusstopMarker2);
+            expect(markers).toContain(expectedEndMarker);
+
+
+            expect(paths.journey.latlngs.length).toBe(4);
+            expect(paths.journey.latlngs[0]).toEqual({lat: 100, lng: 100});
+            expect(paths.journey.latlngs[1]).toEqual({lat: 110, lng: 110});
+            expect(paths.journey.latlngs[2]).toEqual({lat: 120, lng: 120});
+            expect(paths.journey.latlngs[3]).toEqual({lat: 130, lng: 150});
+
+
+        });
+
+
+        it('should render one line route with one intermediary stop', function () {
+
+            var journey = {
+                arrivalLine: '1', arrivalStopId: '3a', arrivalTime: '06:10',
+                departureLine: '1', departureStopId: '1a', departureTime: '06:00',
                 changes: [
                     {departureTime: '06:11', line: '1', stop: '1a'},
                     {arrivalTime: '06:50', line: '1', stop: '3a'}
@@ -62,19 +170,19 @@
             expect(markers).toContain(expectedEndMarker);
 
 
-            //expect(paths.journey.latlngs.length).toBe(2);
-            //expect(paths.journey.latlngs[0]).toEqual({lat: 100, lng: 100});
-            //expect(paths.journey.latlngs[1]).toEqual({lat: 110, lng: 110});
-            //expect(paths.journey.latlngs[2]).toEqual({lat: 120, lng: 120});
-            //console.log(paths.journey.latlngs);
+            expect(paths.journey.latlngs.length).toBe(3);
+            expect(paths.journey.latlngs[0]).toEqual({lat: 100, lng: 100});
+            expect(paths.journey.latlngs[1]).toEqual({lat: 110, lng: 110});
+            expect(paths.journey.latlngs[2]).toEqual({lat: 120, lng: 120});
+
 
         });
 
         it('should render trivial route', function () {
 
             var journey = {
-            arrivalLine: '1', arrivalStop: '2a', arrivalTime: '06:10',
-            departureLine: '1', departureStop: '1a', departureTime: '06:00',
+            arrivalLine: '1', arrivalStopId: '2a', arrivalTime: '06:10',
+            departureLine: '1', departureStopId: '1a', departureTime: '06:00',
             changes: [
                 {departureTime: '06:11', line: '1', stop: '1a'},
                 {arrivalTime: '06:50', line: '1', stop: '2a'}
@@ -109,7 +217,6 @@
             expect(paths.journey.latlngs.length).toBe(2);
             expect(paths.journey.latlngs[0]).toEqual({lat: 100, lng: 100});
             expect(paths.journey.latlngs[1]).toEqual({lat: 110, lng: 110});
-            //console.log(paths.journey.latlngs);
 
         });
 
