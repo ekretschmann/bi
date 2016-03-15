@@ -25,10 +25,10 @@
                 arrivalLine: 'b', arrivalStopId: '5b', arrivalTime: '06:10',
                 departureLine: 'a', departureStopId: '1a', departureTime: '06:00',
                 changes: [
-                    {departureTime: '06:10', line: 'a', stop: '1a'},
-                    {arrivalTime: '06:20', line: 'a', stop: '3ab'},
-                    {departureTime: '06:30', line: 'b', stop: '3ab'},
-                    {arrivalTime: '06:40', line: 'b', stop: '5b'}
+                    {departureTime: '06:10', line: 'a', stopId: '1a'},
+                    {arrivalTime: '06:20', line: 'a', stopId: '3ab'},
+                    {departureTime: '06:30', line: 'b', stopId: '3ab'},
+                    {arrivalTime: '06:40', line: 'b', stopId: '5b'}
                 ]};
 
 
@@ -101,8 +101,8 @@
                 arrivalLine: '1', arrivalStopId: '5a', arrivalTime: '06:10',
                 departureLine: '1', departureStopId: '3a', departureTime: '06:00',
                 changes: [
-                    {departureTime: '06:11', line: '1', stop: '3a'},
-                    {arrivalTime: '06:50', line: '1', stop: '5a'}
+                    {departureTime: '06:11', line: '1', stopId: '3a'},
+                    {arrivalTime: '06:50', line: '1', stopId: '5a'}
                 ]};
 
 
@@ -153,8 +153,8 @@
                 arrivalLine: '1', arrivalStopId: '4a', arrivalTime: '06:10',
                 departureLine: '1', departureStopId: '1a', departureTime: '06:00',
                 changes: [
-                    {departureTime: '06:11', line: '1', stop: '1a'},
-                    {arrivalTime: '06:50', line: '1', stop: '4a'}
+                    {departureTime: '06:11', line: '1', stopId: '1a'},
+                    {arrivalTime: '06:50', line: '1', stopId: '4a'}
                 ]};
 
 
@@ -212,8 +212,8 @@
                 arrivalLine: '1', arrivalStopId: '3a', arrivalTime: '06:10',
                 departureLine: '1', departureStopId: '1a', departureTime: '06:00',
                 changes: [
-                    {departureTime: '06:11', line: '1', stop: '1a'},
-                    {arrivalTime: '06:50', line: '1', stop: '3a'}
+                    {departureTime: '06:11', line: '1', stopId: '1a'},
+                    {arrivalTime: '06:50', line: '1', stopId: '3a'}
                 ]};
 
 
@@ -264,8 +264,8 @@
             arrivalLine: '1', arrivalStopId: '2a', arrivalTime: '06:10',
             departureLine: '1', departureStopId: '1a', departureTime: '06:00',
             changes: [
-                {departureTime: '06:11', line: '1', stop: '1a'},
-                {arrivalTime: '06:50', line: '1', stop: '2a'}
+                {departureTime: '06:11', line: '1', stopId: '1a'},
+                {arrivalTime: '06:50', line: '1', stopId: '2a'}
             ]};
 
 
