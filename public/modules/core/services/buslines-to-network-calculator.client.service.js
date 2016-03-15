@@ -37,7 +37,7 @@ angular.module('core').service('BuslinesToNetworkCalculator', [
                 });
             });
             return result;
-        }
+        };
 
     }
 ]);

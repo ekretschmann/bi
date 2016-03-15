@@ -86,22 +86,27 @@ angular.module('core').service('RouteRenderService', [
 
 
             var drawConnection = function (lineId, departureStop, arrivalStop, drawDepartureStop, drawArrivalStop, journeyLatlngs) {
+
+
                 var line = _self.getLine(lineId);
 
+                console.log(lineId);
+                console.log(line);
+                console.log(departureStop);
                 var foundDepartureStop = false;
                 var foundArrivalStop = false;
 
-                //console.log(line.stops);
 
                 _.forEach(line.stops, function (stop) {
 
-                    if (stop.id === departureStop.stop) {
+                    if (stop.id === departureStop.stopId) {
                         if (drawDepartureStop) {
+                            console.log('drawing departure stop');
                             _self.drawDepartureIcon(markerScope, stop);
                         }
                         foundDepartureStop = true;
 
-                    } else if (stop.id === arrivalStop.stop) {
+                    } else if (stop.id === arrivalStop.stopId) {
                         if (drawArrivalStop) {
                             _self.drawArrivalIcon(markerScope, stop);
                             journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
@@ -122,6 +127,8 @@ angular.module('core').service('RouteRenderService', [
 
             var journeyLatlngs = [];
             _.forEach(journey.changes, function (change, index) {
+
+                console.log(change);
 
                 if (isDepartureStop) {
                     departureStop = change;
