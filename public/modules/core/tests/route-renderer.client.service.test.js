@@ -19,7 +19,7 @@
             Service = _RouteRenderService_;
         }));
 
-        it('should render route with a change', function () {
+        fit('should render route with a change', function () {
 
             var journey = {
                 arrivalLine: 'b', arrivalStopId: '5b', arrivalTime: '06:10',
@@ -27,8 +27,8 @@
                 changes: [
                     {departureTime: '06:10', line: 'a', stop: '1a'},
                     {arrivalTime: '06:20', line: 'a', stop: '3ab'},
-                    {departureTime: '06:30', line: 'b', stop: '3aba'},
-                    {arrivalTime: '06:40', line: 'B', stop: '5a'}
+                    {departureTime: '06:30', line: 'b', stop: '3ab'},
+                    {arrivalTime: '06:40', line: 'b', stop: '5b'}
                 ]};
 
 
@@ -68,22 +68,23 @@
             };
 
             var expectedChangeMarker = {
-                lat: 120, lng: 140, icon: Service.busstopChangelIcon
+                lat: 120, lng: 140, icon: Service.busstopChangeIcon
             };
 
             var expectedBusstopMarker2 = {
-                lat: 130, lng: 160, icon: Service.busstopIcon
+                lat: 140, lng: 160, icon: Service.busstopIcon
             };
 
             var expectedEndMarker = {
-                lat: 140, lng: 180, icon: Service.busstopArrivalIcon
+                lat: 160, lng: 180, icon: Service.busstopArrivalIcon
             };
 
             expect(markers.length).toBe(5);
             expect(markers).toContain(expectedStartMarker);
             expect(markers).toContain(expectedBusstopMarker1);
             expect(markers).toContain(expectedChangeMarker);
-            //expect(markers).toContain(expectedEndMarker);
+            expect(markers).toContain(expectedBusstopMarker2);
+            expect(markers).toContain(expectedEndMarker);
             //
             //expect(paths.journey.latlngs.length).toBe(3);
             //expect(paths.journey.latlngs[0]).toEqual({lat: 120, lng: 140});
