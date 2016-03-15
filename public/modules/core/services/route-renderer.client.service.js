@@ -85,49 +85,42 @@ angular.module('core').service('RouteRenderService', [
             var isDepartureStop = true;
 
 
-            var drawConnection = function (lineId, departureStop, arrivalStop, drawDepartureStop, drawArrivalStop) {
+            var drawConnection = function (lineId, departureStop, arrivalStop, drawDepartureStop, drawArrivalStop, journeyLatlngs) {
                 var line = _self.getLine(lineId);
-                var journeyLatlngs = [];
 
                 var foundDepartureStop = false;
                 var foundArrivalStop = false;
 
-                console.log(lineId);
                 //console.log(line.stops);
 
                 _.forEach(line.stops, function (stop) {
 
-                    console.log(arrivalStop.stop, stop.id);
-
                     if (stop.id === departureStop.stop) {
                         if (drawDepartureStop) {
-                            console.log('drawing departure');
                             _self.drawDepartureIcon(markerScope, stop);
                         }
                         foundDepartureStop = true;
-                        journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
+
                     } else if (stop.id === arrivalStop.stop) {
                         if (drawArrivalStop) {
-                            console.log('drawing arrival');
                             _self.drawArrivalIcon(markerScope, stop);
+                            journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
                         } else {
-                            console.log('drawing change');
                             _self.drawChangeIcon(markerScope, stop);
-
                         }
-
                         foundArrivalStop = true;
-                        journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
                     } else if (foundDepartureStop && !foundArrivalStop) {
-                        console.log('drawing stop');
                         _self.drawBusstopIcon(markerScope, stop);
-                        journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
                     }
 
+                    if (foundDepartureStop && !foundArrivalStop) {
+                        journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
+                    }
                 });
 
             };
 
+            var journeyLatlngs = [];
             _.forEach(journey.changes, function (change, index) {
 
                 if (isDepartureStop) {
@@ -136,7 +129,7 @@ angular.module('core').service('RouteRenderService', [
                     arrivalStop = change;
                     var drawArrivalStop = index >= journey.changes.length -1;
                     var drawDepartureStop = index === 1;
-                    drawConnection(change.line, departureStop, arrivalStop, drawDepartureStop, drawArrivalStop);
+                    drawConnection(change.line, departureStop, arrivalStop, drawDepartureStop, drawArrivalStop, journeyLatlngs);
 
                 }
                 isDepartureStop = !isDepartureStop;
@@ -144,12 +137,12 @@ angular.module('core').service('RouteRenderService', [
             });
 
 
-            //pathScope.journey = {
-            //    color: '#5B79BA',
-            //    weight: 1,
-            //    type: 'polyline',
-            //    latlngs: journeyLatlngs
-            //};
+            pathScope.journey = {
+                color: '#5B79BA',
+                weight: 1,
+                type: 'polyline',
+                latlngs: journeyLatlngs
+            };
 
 
             //console.log(markerScope);

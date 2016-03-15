@@ -86,10 +86,12 @@
             expect(markers).toContain(expectedBusstopMarker2);
             expect(markers).toContain(expectedEndMarker);
             //
-            //expect(paths.journey.latlngs.length).toBe(3);
-            //expect(paths.journey.latlngs[0]).toEqual({lat: 120, lng: 140});
-            //expect(paths.journey.latlngs[1]).toEqual({lat: 130, lng: 160});
-            //expect(paths.journey.latlngs[2]).toEqual({lat: 140, lng: 180});
+            expect(paths.journey.latlngs.length).toBe(5);
+            expect(paths.journey.latlngs[0]).toEqual({lat: 100, lng: 100});
+            expect(paths.journey.latlngs[1]).toEqual({lat: 110, lng: 120});
+            expect(paths.journey.latlngs[2]).toEqual({lat: 120, lng: 140});
+            expect(paths.journey.latlngs[3]).toEqual({lat: 140, lng: 160});
+            expect(paths.journey.latlngs[4]).toEqual({lat: 160, lng: 180});
 
         });
 
