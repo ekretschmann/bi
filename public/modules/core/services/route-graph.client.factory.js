@@ -77,13 +77,10 @@ angular.module('core').factory('RouteGraph', [
                             //if (!arrivalStop.processed) {
                                 _.forEach(arrivalStop.lines, function (change) {
                                     if (change !== line.id) {
-                                        var departureStop = getStop(arrivalStop.id, change);
-                                        //var departureStop = stops[change];
                                         _self.edges.push({
                                             from: line.id,
                                             to: change,
-                                            arrivalStop: arrivalStop,
-                                            departureStop: stops[departureStop]
+                                            stop: arrivalStop
                                         });
                                     }
                                 });
@@ -124,7 +121,8 @@ angular.module('core').factory('RouteGraph', [
                 var _self = this;
 
                 _.forEach(path, function (stop) {
-                    if (stop.arrivalStop.id === edge.arrivalStop.id || stop.departureStop.id === edge.arrivalStop.id) {
+
+                    if (stop.stop.id === edge.stop.id) {
                         result = false;
                     }
                 });
@@ -135,14 +133,15 @@ angular.module('core').factory('RouteGraph', [
                     var state = 'init';
                     var result = false;
                     _.forEach(line.stops, function (stop) {
-                        if (stop.id === stopa.id && state === 'init') {
+
+                        if (stop === stopa && state === 'init') {
                             if (state === 'init') {
                                 state = 'found a';
                             } else if (state === 'found b') {
                                 state = 'found b before a';
                             }
                         }
-                        if (stop.id === stopb.id) {
+                        if (stop === stopb) {
                             if (state === 'init') {
                                 state = 'found b';
                             } else if (state === 'found a') {
@@ -163,7 +162,7 @@ angular.module('core').factory('RouteGraph', [
                     var usedLines = _.filter(_self.lines, function (line) {
                         var result = false;
                         _.forEach(path, function (stop) {
-                            if (stop.departureStop.line === line.id) {
+                            if (stop.stop.lines.indexOf(line.id) >-1) {
                                 result = true;
                             }
                         });
