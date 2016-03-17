@@ -248,7 +248,7 @@
             var graph = RouteGraph.createNew([linea, linebo, linebi, linec], stops);
 
             var edge2a_bo = {from: 'a', to: 'b-o', stop: stop2};
-            var edge3bo_c = {from: 'b-o', to: 'a', stop: stop3};
+            var edge3bo_c = {from: 'b-o', to: 'c', stop: stop3};
 
             //expect(graph.nodes.length).toBe(2);
             //expect(graph.nodes).toContain({id: 'a-o'});

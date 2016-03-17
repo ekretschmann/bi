@@ -101,6 +101,7 @@ angular.module('core').factory('RouteGraph', [
                 var path = [];
                 var paths = [];
 
+
                 this.traverse(start, stop, path, paths);
 
                 return paths;
@@ -116,22 +117,7 @@ angular.module('core').factory('RouteGraph', [
 
             this.canChange = function (edge, path) {
                 var result = true;
-                //var backToLine;
-
-                //console.log('xxxxxxx');
-                //console.log(edge);
-                //console.log(path);
-
                 var _self = this;
-
-                //_.forEach(path, function (stop) {
-                //
-                //    console.log(stop.stop.id);
-                //    console.log(edge.stop.id);
-                //    if (stop.stop.id === edge.stop.id) {
-                //        result = false;
-                //    }
-                //});
 
                 var isBefore = function (stopa, stopb, line) {
                     //var founda = false;
@@ -193,6 +179,8 @@ angular.module('core').factory('RouteGraph', [
 
                         _.forEach(usedLines, function (line) {
 
+
+                            //console.log(edge.stop.id, pathStop.stop.id, line.id, isBefore(edge.stop, pathStop.stop, line));
                             foundLoop = foundLoop || isBefore(edge.stop, pathStop.stop, line);
 
                         });
@@ -209,26 +197,39 @@ angular.module('core').factory('RouteGraph', [
 
             this.traverse = function (start, stop, path, paths) {
 
+                console.log('traverse');
+                console.log(start);
+                console.log(stop);
+                console.log(path);
+                console.log(paths);
+
                 var _self = this;
                 var n = _self.getNode(start);
                 _.forEach(_self.getEdges(n), function (edge) {
 
-
+                    console.log('  trying edge');
+                    console.log('  '+edge.from+' - '+edge.to+' - '+edge.stop.id);
 
                     if (_self.canChange(edge, path)) {
+
+                        console.log('    can change');
 
                         path.push(edge);
                         if (edge.to === stop) {
 
+                            console.log('   found ed stop, pushing');
                             paths.push(_.cloneDeep(path));
 
                         } else {
+                            console.log('    not the end stop, recursion ....');
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
 
 
                         path.pop();
+                    } else {
+                        console.log('    can NOT change');
                     }
 
                 });
