@@ -27,8 +27,9 @@ angular.module('core').factory('RouteGraph', [
 
 
 
-            this.init = function (lines) {
+            this.init = function (lines, stops) {
                 this.lines = lines;
+                this.stops = stops;
                 var _self = this;
 
                 var getStop = function (id, linename) {
@@ -36,59 +37,64 @@ angular.module('core').factory('RouteGraph', [
                         return line.id === linename;
                     });
 
+
+
                     if (!line) {
                         return [];
                     }
 
                     return _.find(line.stops, function (stop) {
-                        return stop.id === id;
+                        return stop === id;
                     });
                 };
 
-                var addLinesToStops = function() {
-                    var stops = {};
+                var addLinesToStops = function(lines, stops) {
+
                     _.forEach(lines, function (line) {
-                        _.forEach(line.stops, function (stop) {
-                            if (stops[stop.id]) {
-                                stops[stop.id].push(line.id);
+
+
+                        _.forEach(line.stops, function (stopId) {
+                            var stop = stops[stopId];
+                            if (stop.lines) {
+                                stop.lines.push(line.id);
                             } else {
-                                stops[stop.id] = [line.id];
+                                stop.lines = [line.id];
                             }
                         });
                     });
-
-                    _.forEach(lines, function (line) {
-                        _.forEach(line.stops, function (stop) {
-                            stop.lines = stops[stop.id];
-                        });
-                    });
                 };
 
-                var calculateEdges = function() {
+                var calculateEdges = function(lines, stops) {
 
                     _.forEach(lines, function (line) {
 
                         _self.nodes.push({id: line.id});
-                        _.forEach(line.stops, function (arrivalStop) {
 
-                            _.forEach(arrivalStop.lines, function (change) {
+                        _.forEach(line.stops, function (arrivalStopId) {
 
-                                if (change !== line.id) {
-                                    var departureStop = getStop(arrivalStop.id, change);
-                                    _self.edges.push({
-                                        from: line.id,
-                                        to: change,
-                                        arrivalStop: arrivalStop,
-                                        departureStop: departureStop
-                                    });
-                                }
-                            });
+                            var arrivalStop = stops[arrivalStopId];
+                            //console.log(arrivalStop);
+                            //if (!arrivalStop.processed) {
+                                _.forEach(arrivalStop.lines, function (change) {
+                                    if (change !== line.id) {
+                                        var departureStop = getStop(arrivalStop.id, change);
+                                        //var departureStop = stops[change];
+                                        _self.edges.push({
+                                            from: line.id,
+                                            to: change,
+                                            arrivalStop: arrivalStop,
+                                            departureStop: stops[departureStop]
+                                        });
+                                    }
+                                });
+                                //arrivalStop.processed = true;
+                            //}
                         });
                     });
                 };
 
-                addLinesToStops();
-                calculateEdges();
+                addLinesToStops(lines, stops);
+                calculateEdges(lines, stops);
 
 
                 return this;
@@ -185,6 +191,7 @@ angular.module('core').factory('RouteGraph', [
             };
 
             this.traverse = function (start, stop, path, paths) {
+
                 var _self = this;
                 var n = _self.getNode(start);
                 _.forEach(_self.getEdges(n), function (edge) {
@@ -213,9 +220,9 @@ angular.module('core').factory('RouteGraph', [
         }
 
         return {
-            createNew: function (lines) {
+            createNew: function (lines, stops) {
 
-                return new RouteGraphInstance().init(lines);
+                return new RouteGraphInstance().init(lines, stops);
             }
         };
 
