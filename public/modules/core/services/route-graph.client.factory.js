@@ -181,6 +181,7 @@ angular.module('core').factory('RouteGraph', [
 
                     if (_self.canChange(edge, path)) {
 
+
                         path.push(edge);
                         if (edge.to === stop) {
                             paths.push(_.cloneDeep(path));
