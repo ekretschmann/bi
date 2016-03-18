@@ -489,7 +489,7 @@
             expect(option.arrivalLine).toBe('1');
         });
 
-        it('should find simple route', function () {
+        fit('should find simple route', function () {
 
             var departure = {lat: 0, lng: 0};
             var arrival = {lat: 100, lng: 100};
@@ -506,13 +506,14 @@
                 lat: 90, lng: 90
             };
 
-            var line1 = {id: '1', stops: [stop1, stop2]};
+            var stops = {s1: stop1, s2:stop2};
+            var line1 = {id: '1', stops: ['s1', 's2']};
 
 
             var time = '2013-02-08 05:40';
 
 
-            var journeyPlan = Service.getDirections(departure, arrival, time, [line1]);
+            var journeyPlan = Service.getDirections(departure, arrival, time, [line1], stops);
 
 
 

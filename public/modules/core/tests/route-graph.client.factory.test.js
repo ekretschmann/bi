@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    fdescribe('RouteGraph', function () {
+    describe('RouteGraph', function () {
         //Initialize global variables
         var RouteGraph;
 

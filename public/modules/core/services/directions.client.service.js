@@ -6,8 +6,9 @@ angular.module('core').service('DirectionsService', [
     function (_, moment, RouteGraph) {
 
 
-        this.getDirectionsBetweenStops = function(departureStop, arrivalStop, time, lines) {
-            var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines);
+        this.getDirectionsBetweenStops = function (departureStop, arrivalStop, time, lines, stops) {
+            var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines, stops);
+
 
 
             var journeyTime = moment(time);
@@ -19,12 +20,12 @@ angular.module('core').service('DirectionsService', [
             _.forEach(paths, function (path) {
 
 
-
                 var arrivalTime;
                 var itinerary = {};
                 itinerary.changes = [];
 
                 _.forEach(path, function (change) {
+
 
 
                     var departureTime = _self.getNextDeparture(change.departureStop, journeyTime);
@@ -71,12 +72,12 @@ angular.module('core').service('DirectionsService', [
 
         };
 
-        this.getDirections = function (departure, arrival, time, lines) {
+        this.getDirections = function (departure, arrival, time, lines, stops) {
 
 
-            var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
-            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, lines);
-            return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines);
+            var departStop = this.getClosestStop(departure.lat, departure.lng, stops);
+            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, stops);
+            return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines, stops);
 
         };
 
@@ -84,6 +85,7 @@ angular.module('core').service('DirectionsService', [
 
             var departureTime = '';
             var minDifference = Number.MAX_VALUE;
+
 
 
             _.forEach(departStop.departures, function (departure) {
@@ -120,7 +122,7 @@ angular.module('core').service('DirectionsService', [
         };
 
 
-        this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines) {
+        this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines, stops) {
 
             var getStop = function (departStop, departLine) {
 
@@ -129,8 +131,8 @@ angular.module('core').service('DirectionsService', [
                 });
 
 
-                return _.find(line.stops, function (stop) {
-                    return stop.id === departStop.id;
+                return _.find(stops, function (stop) {
+                    return stop.id === stop.id;
                 });
 
             };
@@ -138,7 +140,7 @@ angular.module('core').service('DirectionsService', [
 
             var _self = this;
 
-            var routeGraph = RouteGraph.createNew(lines);
+            var routeGraph = RouteGraph.createNew(lines, stops);
 
 
             var changes = [];
@@ -150,9 +152,6 @@ angular.module('core').service('DirectionsService', [
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
 
-                    //console.log('xxxxx');
-                    //console.log(departLineStop);
-                    //console.log(arriveLineStop);
 
                     if (departLine === arriveLine) {
 
@@ -165,10 +164,8 @@ angular.module('core').service('DirectionsService', [
                         path = routeGraph.calculatePaths(departLine, arriveLine)[0];
 
 
-
                         if (path && path.length > 0) {
                             if (path[0].departureStop.id !== departLineStop.id) {
-
 
 
                                 var change = [];
@@ -194,24 +191,22 @@ angular.module('core').service('DirectionsService', [
         };
 
 
-        this.getClosestStop = function (lat, lng, lines) {
+        this.getClosestStop = function (lat, lng, stops) {
 
 
             var minDistance = Number.MAX_VALUE;
             var result;
 
-            _.forEach(lines, function (line) {
-                _.forEach(line.stops, function (stop) {
-                    var distance = Math.sqrt(
-                        (lat - stop.lat) * (lat - stop.lat) +
-                        (lng - stop.lng) * (lng - stop.lng)
-                    );
+            _.forEach(stops, function (stop) {
+                var distance = Math.sqrt(
+                    (lat - stop.lat) * (lat - stop.lat) +
+                    (lng - stop.lng) * (lng - stop.lng)
+                );
 
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        result = stop;
-                    }
-                });
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    result = stop;
+                }
             });
 
             return result;
