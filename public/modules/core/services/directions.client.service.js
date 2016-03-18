@@ -6,8 +6,9 @@ angular.module('core').service('DirectionsService', [
     function (_, moment, RouteGraph) {
 
 
-        this.getDirectionsBetweenStops = function(departureStop, arrivalStop, time, lines) {
-            var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines);
+        this.getDirectionsBetweenStops = function (departureStop, arrivalStop, time, lines, stops) {
+            var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines, stops);
+
 
 
             var journeyTime = moment(time);
@@ -19,7 +20,6 @@ angular.module('core').service('DirectionsService', [
             _.forEach(paths, function (path) {
 
 
-
                 var arrivalTime;
                 var itinerary = {};
                 itinerary.changes = [];
@@ -27,20 +27,22 @@ angular.module('core').service('DirectionsService', [
                 _.forEach(path, function (change) {
 
 
-                    var departureTime = _self.getNextDeparture(change.departureStop, journeyTime);
-                    var currentTime = departureTime;
-                    arrivalTime = _self.getArrival(change.departureStop, currentTime, change.arrivalStop);
+                    var line = _.find(lines, function(l) {return l.id === change.line;});
+                    var schedule = _self.getScheduledTimes(change.departureStop, change.arrivalStop, journeyTime, line);
+
+
+
                     itinerary.changes.push({
                         stopId: change.departureStop.id,
                         stopName: change.departureStop.name,
-                        departureTime: departureTime,
-                        line: change.departureStop.line
+                        departureTime: schedule.departureTime,
+                        line: change.line
                     });
 
                     itinerary.changes.push({
                         stopId: change.arrivalStop.id,
                         stopName: change.arrivalStop.name,
-                        arrivalTime: arrivalTime,
+                        arrivalTime: schedule.arrivalTime,
                         line: change.arrivalStop.line
                     });
                 });
@@ -71,22 +73,37 @@ angular.module('core').service('DirectionsService', [
 
         };
 
-        this.getDirections = function (departure, arrival, time, lines) {
+        this.getDirections = function (departure, arrival, time, lines, stops) {
 
 
-            var departStop = this.getClosestStop(departure.lat, departure.lng, lines);
-            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, lines);
-            return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines);
+            var departStop = this.getClosestStop(departure.lat, departure.lng, stops);
+            var arriveStop = this.getClosestStop(arrival.lat, arrival.lng, stops);
+            return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines, stops);
 
         };
 
-        this.getNextDeparture = function (departStop, earliestTravel) {
+        this.getScheduledTimes = function (departStop, arriveStop, earliestTravel, line) {
+
+           // console.log('xxxx');
+            //console.log(departStop, earliestTravel, line);
+
+
+            var departures = [];
+            _.forEach(line.stops, function(stop, index) {
+                //console.log(stop, departStop);
+                if(stop === departStop.id) {
+                    //console.log(line.times[index]);
+                    departures.push(line.runtimes[0]);
+                }
+            });
 
             var departureTime = '';
             var minDifference = Number.MAX_VALUE;
 
 
-            _.forEach(departStop.departures, function (departure) {
+
+            var scheduleIndex = -1;
+            _.forEach(departures, function (departure, index) {
 
                 var hours = departure.split(':')[0];
                 var minutes = departure.split(':')[1];
@@ -96,31 +113,46 @@ angular.module('core').service('DirectionsService', [
                 if (diff > 0 && diff < minDifference) {
                     minDifference = diff;
                     departureTime = departure;
+                    scheduleIndex = index;
                 }
             });
-            return departureTime;
 
-        };
-
-
-        this.getArrival = function (departStop, time, arriveStop) {
-
-            //var line = _.find(lines, function(line) {
-            //    return route[0] === line.name;
-            //});
-
-
-            for (var i = 0; i < departStop.departures.length; i++) {
-                if (departStop.departures[i] === time) {
-                    return arriveStop.arrivals[i];
+            _.forEach(line.stops, function(stop, index) {
+                if(stop === arriveStop.id) {
+                    var departure = line.runtimes[scheduleIndex];
+                    var hours = departure.split(':')[0];
+                    var minutes = Number(departure.split(':')[1])+line.times[index];
+                    var arrivalMoment = earliestTravel.clone();
+                    arrivalMoment.hours(hours).minutes(minutes);
                 }
-            }
-
+            });
+            return {
+                departureTime: departureTime,
+                arrivalTime: departureTime
+            };
 
         };
 
 
-        this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines) {
+        //this.getArrival = function (departStop, time, arriveStop, line) {
+        //
+        //    _.forEach(line.stops, function(stop, index) {
+        //        if(stop === departStop.id) {
+        //
+        //        }
+        //    });
+        //
+        //    for (var i = 0; i < departStop.departures.length; i++) {
+        //        if (departStop.departures[i] === time) {
+        //            return arriveStop.arrivals[i];
+        //        }
+        //    }
+        //
+        //
+        //};
+
+
+        this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines, stops) {
 
             var getStop = function (departStop, departLine) {
 
@@ -129,8 +161,8 @@ angular.module('core').service('DirectionsService', [
                 });
 
 
-                return _.find(line.stops, function (stop) {
-                    return stop.id === departStop.id;
+                return _.find(stops, function (stop) {
+                    return departStop.id === stop.id;
                 });
 
             };
@@ -138,7 +170,7 @@ angular.module('core').service('DirectionsService', [
 
             var _self = this;
 
-            var routeGraph = RouteGraph.createNew(lines);
+            var routeGraph = RouteGraph.createNew(lines, stops);
 
 
             var changes = [];
@@ -147,16 +179,19 @@ angular.module('core').service('DirectionsService', [
 
 
                 _.forEach(arriveStop.lines, function (arriveLine) {
+
+
+
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
 
-                    //console.log('xxxxx');
-                    //console.log(departLineStop);
-                    //console.log(arriveLineStop);
-
                     if (departLine === arriveLine) {
 
-                        changes.push([{departureStop: departLineStop, arrivalStop: arriveLineStop}]);
+                        changes.push([{
+                            departureStop: departLineStop,
+                            arrivalStop: arriveLineStop,
+                            line: departLine
+                        }]);
                     } else {
 
                         var path = [];
@@ -165,14 +200,15 @@ angular.module('core').service('DirectionsService', [
                         path = routeGraph.calculatePaths(departLine, arriveLine)[0];
 
 
-
                         if (path && path.length > 0) {
                             if (path[0].departureStop.id !== departLineStop.id) {
 
 
-
                                 var change = [];
-                                change.push({departureStop: departLineStop, arrivalStop: path[0].arrivalStop});
+                                change.push({
+                                    departureStop: departLineStop,
+                                    arrivalStop: path[0].arrivalStop
+                                });
                                 //for (var i=1; i<path.length; i++) {
                                 //    change.push({departureStop: path[i].departureStop, arrivalStop: path[i].arrivalStop});
                                 //}
@@ -194,24 +230,22 @@ angular.module('core').service('DirectionsService', [
         };
 
 
-        this.getClosestStop = function (lat, lng, lines) {
+        this.getClosestStop = function (lat, lng, stops) {
 
 
             var minDistance = Number.MAX_VALUE;
             var result;
 
-            _.forEach(lines, function (line) {
-                _.forEach(line.stops, function (stop) {
-                    var distance = Math.sqrt(
-                        (lat - stop.lat) * (lat - stop.lat) +
-                        (lng - stop.lng) * (lng - stop.lng)
-                    );
+            _.forEach(stops, function (stop) {
+                var distance = Math.sqrt(
+                    (lat - stop.lat) * (lat - stop.lat) +
+                    (lng - stop.lng) * (lng - stop.lng)
+                );
 
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        result = stop;
-                    }
-                });
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    result = stop;
+                }
             });
 
             return result;
