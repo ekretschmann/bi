@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    describe('RouteGraph', function () {
+    fdescribe('RouteGraph', function () {
         //Initialize global variables
         var RouteGraph;
 
@@ -224,7 +224,7 @@
             expect(paths).toContain(expectedPath1);
         });
 
-        fit('should not overshoot and come back', function () {
+        it('should not overshoot and come back', function () {
 
             // line a  : s1    s2
             // line b-o:       s2    s3    s4
@@ -257,10 +257,9 @@
 
             var paths = graph.calculatePaths('a', 'c');
 
-            console.log(paths);
-            //expect(paths.length).toBe(1);
-            //var expectedPath1 = [edge2a_bo, edge3bo_c];
-            //expect(paths).toContain(expectedPath1);
+            expect(paths.length).toBe(1);
+            var expectedPath1 = [edge2a_bo, edge3bo_c];
+            expect(paths).toContain(expectedPath1);
         });
 
 
@@ -398,7 +397,7 @@
         });
 
 
-        fit('should build trival graph with one node and no edges', function () {
+        it('should build trival graph with one node and no edges', function () {
 
             // line a: s1    s2
             // routes: none

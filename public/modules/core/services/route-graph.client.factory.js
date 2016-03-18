@@ -73,8 +73,6 @@ angular.module('core').factory('RouteGraph', [
                         _.forEach(line.stops, function (arrivalStopId) {
 
                             var arrivalStop = stops[arrivalStopId];
-                            //console.log(arrivalStop);
-                            //if (!arrivalStop.processed) {
                                 _.forEach(arrivalStop.lines, function (change) {
                                     if (change !== line.id) {
                                         _self.edges.push({
@@ -84,8 +82,6 @@ angular.module('core').factory('RouteGraph', [
                                         });
                                     }
                                 });
-                                //arrivalStop.processed = true;
-                            //}
                         });
                     });
                 };
@@ -107,23 +103,16 @@ angular.module('core').factory('RouteGraph', [
                 return paths;
             };
 
-            this.printPath = function (path) {
-
-                _.forEach(path, function (leg) {
-                    console.log(leg.arrivalStop.id + leg.arrivalStop.line + ' - ' + leg.departureStop.id + leg.departureStop.line);
-                });
-
-            };
 
             this.canChange = function (edge, path) {
                 var result = true;
                 var _self = this;
 
-                var isBefore = function (stopa, stopb, line) {
-                    //var founda = false;
-                    //var foundb = false;
+                var isBefore = function (stopa, stopb, lineId) {
 
-
+                    var line = _.find(_self.lines, function(l) {
+                        return l.id === lineId;
+                    });
 
                     if (stopa.id === stopb.id ) {
                         return true;
@@ -160,27 +149,16 @@ angular.module('core').factory('RouteGraph', [
                 if (path.length > 0) {
                     var foundLoop = false;
 
-                    var usedLines = _.filter(_self.lines, function (line) {
-                        var result = false;
-                        _.forEach(path, function (option) {
-                            if (option.stop.lines.indexOf(line.id) >-1) {
-                                result = true;
-                            }
-                        });
-                        return result;
+                    var usedLines = [];
+                    _.forEach(path, function (option) {
+                        usedLines.push(option.from);
+                        usedLines.push(option.to);
                     });
-
-
-
 
                     _.forEach(path, function (pathStop) {
 
-
-
                         _.forEach(usedLines, function (line) {
 
-
-                            //console.log(edge.stop.id, pathStop.stop.id, line.id, isBefore(edge.stop, pathStop.stop, line));
                             foundLoop = foundLoop || isBefore(edge.stop, pathStop.stop, line);
 
                         });
@@ -189,47 +167,31 @@ angular.module('core').factory('RouteGraph', [
                     if (foundLoop) {
                         result = false;
                     }
+
                 }
 
-                //console.log(result);
                 return result;
             };
 
             this.traverse = function (start, stop, path, paths) {
 
-                console.log('traverse');
-                console.log(start);
-                console.log(stop);
-                console.log(path);
-                console.log(paths);
-
                 var _self = this;
                 var n = _self.getNode(start);
                 _.forEach(_self.getEdges(n), function (edge) {
 
-                    console.log('  trying edge');
-                    console.log('  '+edge.from+' - '+edge.to+' - '+edge.stop.id);
-
                     if (_self.canChange(edge, path)) {
-
-                        console.log('    can change');
 
                         path.push(edge);
                         if (edge.to === stop) {
-
-                            console.log('   found ed stop, pushing');
                             paths.push(_.cloneDeep(path));
 
                         } else {
-                            console.log('    not the end stop, recursion ....');
                             _self.traverse(edge.to, stop, path, paths);
 
                         }
 
 
                         path.pop();
-                    } else {
-                        console.log('    can NOT change');
                     }
 
                 });
