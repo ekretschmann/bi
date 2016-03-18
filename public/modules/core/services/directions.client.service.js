@@ -27,6 +27,7 @@ angular.module('core').service('DirectionsService', [
                 _.forEach(path, function (change) {
 
 
+
                     var line = _.find(lines, function(l) {return l.id === change.line;});
                     var schedule = _self.getScheduledTimes(change.departureStop, change.arrivalStop, journeyTime, line);
 
@@ -43,7 +44,7 @@ angular.module('core').service('DirectionsService', [
                         stopId: change.arrivalStop.id,
                         stopName: change.arrivalStop.name,
                         arrivalTime: schedule.arrivalTime,
-                        line: change.arrivalStop.line
+                        line: change.line
                     });
                 });
 
@@ -82,6 +83,8 @@ angular.module('core').service('DirectionsService', [
 
         };
 
+
+
         this.getScheduledTimes = function (departStop, arriveStop, earliestTravel, line) {
 
            // console.log('xxxx');
@@ -90,10 +93,9 @@ angular.module('core').service('DirectionsService', [
 
             var departures = [];
             _.forEach(line.stops, function(stop, index) {
-                //console.log(stop, departStop);
                 if(stop === departStop.id) {
-                    //console.log(line.times[index]);
                     departures.push(line.runtimes[0]);
+
                 }
             });
 
@@ -117,6 +119,7 @@ angular.module('core').service('DirectionsService', [
                 }
             });
 
+            var arrivalTime;
             _.forEach(line.stops, function(stop, index) {
                 if(stop === arriveStop.id) {
                     var departure = line.runtimes[scheduleIndex];
@@ -124,11 +127,23 @@ angular.module('core').service('DirectionsService', [
                     var minutes = Number(departure.split(':')[1])+line.times[index];
                     var arrivalMoment = earliestTravel.clone();
                     arrivalMoment.hours(hours).minutes(minutes);
+
+                    var hoursString = arrivalMoment.hours()+'';
+                    var minutesString = arrivalMoment.minutes()+'';
+
+                    if (hours.length === 1) {
+                        hours = '0'+hours;
+                    }
+
+                    if (minutes.length === 1) {
+                        minutes = '0'+minutes;
+                    }
+                    arrivalTime = hours+':'+minutes;
                 }
             });
             return {
                 departureTime: departureTime,
-                arrivalTime: departureTime
+                arrivalTime: arrivalTime
             };
 
         };

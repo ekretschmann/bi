@@ -115,7 +115,7 @@ angular.module('core').service('RouteRenderService', [
                     }
 
                     if (foundDepartureStop && !foundArrivalStop) {
-                        journeyLatlngs.push({lat: stop.lat, lng: stop.lng});
+                        journeyLatlngs.push({lat: stop.lat , lng: stop.lng});
                     }
                 });
 

@@ -19,7 +19,7 @@
             Service = _RouteRenderService_;
         }));
 
-        it('should render route with a change', function () {
+        fit('should render route with a change', function () {
 
             var journey = {
                 arrivalLine: 'b', arrivalStopId: '5b', arrivalTime: '06:10',
