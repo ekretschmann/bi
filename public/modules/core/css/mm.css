@@ -36,6 +36,11 @@
   height: 16px;
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAZVJREFUOBGlU01Kw1AQngkkSy14AT1B4xGk0C4bwY11YboUvIAr66oXEFw2LlpBBNNlBfEIxhPoBYTqMoWO8712Hqm0G32bed83883Py4RpzUknxwkxt9UVM3EsJIXeCxIZZ627vCrhKkhf0hqV5YCZkypfvYtITlHUzQ6yKXifwIlns3clalXBursQTSkM95AksAAuy6wq1kpX2vr+oDlkWGAfiyLaKbDrADMzB48WAEH5fLql73CuETsk9KnzX0eN2299k1cfJ/ND1wFT4GdGJScO+JJZ7kf9ZgOWFINf7SRIbITYsmrFHJWZ5GbYbz2AhwVedpRbrLDUFwmY6kZmzVGBtk1svMPKO/+SxCdeJBB6s8D0qRNj5pOLyZFxsA4r7/zmUJ2NUBin4gQPJsRnlgQWGLzz+2Aq/v0VXAIk7E46eDysrzv6QD2tNsbMrm2mNgv3lm7CWg9ao8QnwCbyrPzQ1dj2QRsv8iVhtLuyiQAgkXmjDg71mxjQdwBgx23mYrlijajrKPhKhdA8//03mubP9gdwm8xY2KWb3wAAAABJRU5ErkJggg==");
 }
+.busstop-change-icon {
+  width: 16px;
+  height: 16px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAJOgAACToAYJjBRwAAACbSURBVDhPvZFLDoQgEERZqAvdeA09hXoOPZ3hnDVUuhl/GBsnmZcQPqmqhsbhR/4YMI66OGIPqCpgmnSzYQ9wQToMMu+C3Pcwd5SlBlihiZU5s6iSDkg1jD3YGSPXgGWRKmcef8F7oGmArksH3CBKmmjue6mUFVAUYsgd2o+wCtQ1MM9HgZFNGZ/xOoDwFvFJRq7KdQXaVjdPAB8+BH16umfeEgAAAABJRU5ErkJggg==');
+}
 /*planner*/
 .planner {
   margin-top: 1%;
@@ -45,7 +50,7 @@
   margin-left: 0;
   margin-right: 0;
   padding: 0.2em;
-  background-color: #f1eee9;
+  background-color: #00a5d9;
   font-size: large;
 }
 .planner .planner-button {
@@ -63,9 +68,9 @@
   margin-left: 0;
   margin-right: 0;
   padding: 0.2em;
-  background-color: #f1eee9;
+  background-color: #00a5d9;
   font-size: large;
-  border: 1px solid #b5a68c;
+  border: 1px solid #003140;
 }
 .planner .journey .from-text {
   position: relative;
@@ -119,16 +124,16 @@
 }
 .planner .map {
   height: 100%;
-  border-left: 1px solid #b5a68c;
-  border-right: 1px solid #b5a68c;
+  border-left: 1px solid #003140;
+  border-right: 1px solid #003140;
 }
 .planner .timer {
   margin-left: 0;
   margin-right: 0;
   padding: 0.2em;
-  background-color: #f1eee9;
+  background-color: #00a5d9;
   font-size: large;
-  border: 1px solid #b5a68c;
+  border: 1px solid #003140;
 }
 .planner .timer .now-button {
   margin-top: 0.2em;
