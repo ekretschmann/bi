@@ -11,7 +11,7 @@ angular.module('core').service('DirectionsService', [
 
 
 
-            var journeyTime = moment(time);
+
 
 
             var journeyPlan = {};
@@ -23,19 +23,14 @@ angular.module('core').service('DirectionsService', [
                 var arrivalTime;
                 var itinerary = {};
                 itinerary.changes = [];
-
+                var journeyTime = moment(time);
                 _.forEach(path, function (change) {
 
 
                     var line = _.find(lines, function(l) {return l.id === change.line;});
 
-                    //console.log(change.departureStop.id);
-                    //console.log(change.arrivalStop.id);
-                    //console.log(change.line);
-                    //console.log(journeyTime);
                     var schedule = _self.getScheduledTimes(change.departureStop, change.arrivalStop, journeyTime, line);
 
-                    //console.log(schedule.arrivalTime);
                     var hours = schedule.arrivalTime.split(':')[0];
                     var minutes =schedule.arrivalTime.split(':')[1];
                     journeyTime.hours(hours).minutes(minutes);
@@ -150,14 +145,23 @@ angular.module('core').service('DirectionsService', [
 
             var arrivalTime;
             var departureTime;
+            var getTotalDelay = function(times, index) {
+                return _.sum(_.filter(times, function(t, i) {
+                    return i <= index;
+                }));
+            };
+
             _.forEach(line.stops, function(stop, index) {
+
                 if(stop === arriveStop.id) {
-                    arrivalTime = _self.addMinutes(line.runtimes[scheduleIndex], line.times[index], earliestTravel);
+                    arrivalTime = _self.addMinutes(line.runtimes[scheduleIndex], getTotalDelay(line.times, index), earliestTravel);
                 }
                 if(stop === departStop.id) {
-                    departureTime = _self.addMinutes(line.runtimes[scheduleIndex], line.times[index], earliestTravel);
+                    departureTime = _self.addMinutes(line.runtimes[scheduleIndex], getTotalDelay(line.times, index), earliestTravel);
                 }
             });
+
+
             return {
                 departureTime: departureTime,
                 arrivalTime: arrivalTime
