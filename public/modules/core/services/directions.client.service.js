@@ -84,12 +84,32 @@ angular.module('core').service('DirectionsService', [
         };
 
 
+        this.addMinutes = function(time, addedTime, earliestTime) {
+
+            var hours = time.split(':')[0];
+            var minutes = Number(time.split(':')[1])+addedTime;
+            var moment = earliestTime.clone();
+            moment.hours(hours).minutes(minutes);
+
+            var hoursString = moment.hours()+'';
+            var minutesString = moment.minutes()+'';
+
+            if (hoursString.length === 1) {
+                hoursString = '0'+hoursString;
+            }
+
+            if (minutesString.length === 1) {
+                minutesString = '0'+minutesString;
+            }
+            return hoursString+':'+minutesString;
+        };
 
         this.getScheduledTimes = function (departStop, arriveStop, earliestTravel, line) {
 
            // console.log('xxxx');
             //console.log(departStop, earliestTravel, line);
 
+            var _self = this;
 
             var departures = [];
             _.forEach(line.stops, function(stop, index) {
@@ -99,7 +119,7 @@ angular.module('core').service('DirectionsService', [
                 }
             });
 
-            var departureTime = '';
+
             var minDifference = Number.MAX_VALUE;
 
 
@@ -114,31 +134,20 @@ angular.module('core').service('DirectionsService', [
                 var diff = departureMoment.diff(earliestTravel);
                 if (diff > 0 && diff < minDifference) {
                     minDifference = diff;
-                    departureTime = departure;
+
                     scheduleIndex = index;
                 }
             });
 
+
             var arrivalTime;
+            var departureTime;
             _.forEach(line.stops, function(stop, index) {
                 if(stop === arriveStop.id) {
-                    var departure = line.runtimes[scheduleIndex];
-                    var hours = departure.split(':')[0];
-                    var minutes = Number(departure.split(':')[1])+line.times[index];
-                    var arrivalMoment = earliestTravel.clone();
-                    arrivalMoment.hours(hours).minutes(minutes);
-
-                    var hoursString = arrivalMoment.hours()+'';
-                    var minutesString = arrivalMoment.minutes()+'';
-
-                    if (hours.length === 1) {
-                        hours = '0'+hours;
-                    }
-
-                    if (minutes.length === 1) {
-                        minutes = '0'+minutes;
-                    }
-                    arrivalTime = hours+':'+minutes;
+                    arrivalTime = _self.addMinutes(line.runtimes[scheduleIndex], line.times[index], earliestTravel);
+                }
+                if(stop === departStop.id) {
+                    departureTime = _self.addMinutes(line.runtimes[scheduleIndex], line.times[index], earliestTravel);
                 }
             });
             return {

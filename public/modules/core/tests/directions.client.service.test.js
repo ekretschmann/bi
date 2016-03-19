@@ -300,7 +300,7 @@
 
         });
 
-        it('should find earliest possible connection for simple route', function () {
+        fit('should find earliest possible connection for simple route', function () {
 
             var departure = {lat: 0, lng: 0};
             var arrival = {lat: 100, lng: 100};
@@ -371,24 +371,24 @@
             };
 
 
-            var time = '2013-02-08 06:00';
+            var time = '2013-02-08 05:40';
 
 
 
-            var line1 = {id: '1', stops: ['s1', 's2', 's3', 's4', 's5'], times: [0, 10, 20, 30, 40, 50], runtimes:['06:00']};
+            var line1 = {id: '1', stops: ['s1', 's2', 's3', 's4', 's5'], times: [0, 10, 20, 30, 40, 50], runtimes:['06:50']};
             var stops = {s1: stop1, s2:stop2, s3:stop3, s4:stop4, s5:stop5};
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1], stops);
 
-            //expect(journeyPlan.options.length).toBe(1);
-            //var option = journeyPlan.options[0];
+            expect(journeyPlan.options.length).toBe(1);
+            var option = journeyPlan.options[0];
 
-           // expect(option.departureTime).toBe('06:20');
-            //expect(option.departureStopName).toBe('Stop 2');
-            //expect(option.departureLine).toBe('1');
-            //
-            //expect(option.arrivalTime).toBe('07:00');
-            //expect(option.arrivalStopName).toBe('Stop 4');
-            //expect(option.arrivalLine).toBe('1');
+            expect(option.departureTime).toBe('07:00');
+            expect(option.departureStopName).toBe('Stop 2');
+            expect(option.departureLine).toBe('1');
+
+            expect(option.arrivalTime).toBe('07:20');
+            expect(option.arrivalStopName).toBe('Stop 4');
+            expect(option.arrivalLine).toBe('1');
 
 
         });
@@ -432,10 +432,10 @@
             expect(option.departureTime).toBe('06:10');
             expect(option.departureStopName).toBe('Stop 2');
             expect(option.departureLine).toBe('1');
-            //
-            //expect(option.arrivalTime).toBe('06:30');
-            //expect(option.arrivalStopName).toBe('Stop 4');
-            //expect(option.arrivalLine).toBe('1');
+
+            expect(option.arrivalTime).toBe('06:30');
+            expect(option.arrivalStopName).toBe('Stop 4');
+            expect(option.arrivalLine).toBe('1');
         });
 
         it('should find route on one line with intermediate stop', function () {
