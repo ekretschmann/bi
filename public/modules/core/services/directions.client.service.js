@@ -27,10 +27,18 @@ angular.module('core').service('DirectionsService', [
                 _.forEach(path, function (change) {
 
 
-
                     var line = _.find(lines, function(l) {return l.id === change.line;});
+
+                    //console.log(change.departureStop.id);
+                    //console.log(change.arrivalStop.id);
+                    //console.log(change.line);
+                    //console.log(journeyTime);
                     var schedule = _self.getScheduledTimes(change.departureStop, change.arrivalStop, journeyTime, line);
 
+                    //console.log(schedule.arrivalTime);
+                    var hours = schedule.arrivalTime.split(':')[0];
+                    var minutes =schedule.arrivalTime.split(':')[1];
+                    journeyTime.hours(hours).minutes(minutes);
 
 
                     itinerary.changes.push({
@@ -106,15 +114,16 @@ angular.module('core').service('DirectionsService', [
 
         this.getScheduledTimes = function (departStop, arriveStop, earliestTravel, line) {
 
-           // console.log('xxxx');
-            //console.log(departStop, earliestTravel, line);
-
             var _self = this;
+
+
 
             var departures = [];
             _.forEach(line.stops, function(stop, index) {
                 if(stop === departStop.id) {
-                    departures.push(line.runtimes[0]);
+                    _.forEach(line.runtimes, function(runtime){
+                        departures.push(runtime);
+                    });
 
                 }
             });
@@ -126,7 +135,6 @@ angular.module('core').service('DirectionsService', [
 
             var scheduleIndex = -1;
             _.forEach(departures, function (departure, index) {
-
                 var hours = departure.split(':')[0];
                 var minutes = departure.split(':')[1];
                 var departureMoment = earliestTravel.clone();
@@ -156,24 +164,6 @@ angular.module('core').service('DirectionsService', [
             };
 
         };
-
-
-        //this.getArrival = function (departStop, time, arriveStop, line) {
-        //
-        //    _.forEach(line.stops, function(stop, index) {
-        //        if(stop === departStop.id) {
-        //
-        //        }
-        //    });
-        //
-        //    for (var i = 0; i < departStop.departures.length; i++) {
-        //        if (departStop.departures[i] === time) {
-        //            return arriveStop.arrivals[i];
-        //        }
-        //    }
-        //
-        //
-        //};
 
 
         this.getChangeStopsForAllLines = function (departStop, arriveStop, time, lines, stops) {
@@ -225,18 +215,23 @@ angular.module('core').service('DirectionsService', [
 
 
                         if (path && path.length > 0) {
-                            if (path[0].departureStop.id !== departLineStop.id) {
+                            if (path[0].stop.id !== departLineStop.id) {
 
 
                                 var change = [];
                                 change.push({
                                     departureStop: departLineStop,
-                                    arrivalStop: path[0].arrivalStop
+                                    arrivalStop: path[0].stop,
+                                    line:departLine
                                 });
                                 //for (var i=1; i<path.length; i++) {
                                 //    change.push({departureStop: path[i].departureStop, arrivalStop: path[i].arrivalStop});
                                 //}
-                                change.push({departureStop: path[0].departureStop, arrivalStop: arriveLineStop});
+                                change.push({
+                                    departureStop: path[0].stop,
+                                    arrivalStop: arriveLineStop,
+                                    line: arriveLine
+                                });
                                 changes.push(change);
                             }
                         }
