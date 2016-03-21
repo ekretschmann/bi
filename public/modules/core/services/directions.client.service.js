@@ -28,6 +28,7 @@ angular.module('core').service('DirectionsService', [
 
                     var schedule = _self.getScheduledTimes(change.departureStop, change.arrivalStop, journeyTime, line);
 
+
                     var hours = schedule.arrivalTime.split(':')[0];
                     var minutes =schedule.arrivalTime.split(':')[1];
                     journeyTime.hours(hours).minutes(minutes);
@@ -121,6 +122,8 @@ angular.module('core').service('DirectionsService', [
             });
 
 
+
+
             var minDifference = Number.MAX_VALUE;
 
 
@@ -150,12 +153,19 @@ angular.module('core').service('DirectionsService', [
 
             _.forEach(line.stops, function(stop, index) {
 
+              //  console.log('trying', stop);
 
                 if(stop === arriveStop.id) {
+
+                   // console.log('found arrive stop', arriveStop.id);
                     arrivalTime = _self.addMinutes(line.runtimes[scheduleIndex], getTotalDelay(line.times, index), earliestTravel);
+                    //console.log(arrivalTime);
                 }
                 if(stop === departStop.id) {
+                    //console.log('found depart stop', departStop.id);
                     departureTime = _self.addMinutes(line.runtimes[scheduleIndex], getTotalDelay(line.times, index), earliestTravel);
+                    //console.log(departureTime);
+
                 }
             });
 

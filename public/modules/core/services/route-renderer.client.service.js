@@ -72,12 +72,13 @@ angular.module('core').service('RouteRenderService', [
             );
         };
 
-        this.drawJourney = function (journey, buslines, markerScope, pathScope) {
+        this.drawJourney = function (journey, buslines, busstops, markerScope, pathScope) {
 
 
             var _self = this;
 
             this.buslines = buslines;
+            //this.busstops = busstops;
 
 
             var departureStop;
@@ -94,8 +95,9 @@ angular.module('core').service('RouteRenderService', [
                 var foundArrivalStop = false;
 
 
-                _.forEach(line.stops, function (stop) {
+                _.forEach(line.stops, function (stopId) {
 
+                    var stop = busstops[stopId];
                     if (stop.id === departureStop.stopId) {
                         if (drawDepartureStop) {
                             _self.drawDepartureIcon(markerScope, stop);

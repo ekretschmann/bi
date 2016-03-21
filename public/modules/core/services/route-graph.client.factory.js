@@ -54,6 +54,7 @@ angular.module('core').factory('RouteGraph', [
 
 
                         _.forEach(line.stops, function (stopId) {
+
                             var stop = stops[stopId];
                             if (stop.lines) {
                                 stop.lines.push(line.id);

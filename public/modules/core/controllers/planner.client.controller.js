@@ -2,8 +2,8 @@
 
 
 angular.module('core').controller('PlannerController',
-    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService', 'RouteRenderService', 'BuslinesToNetworkCalculator',
-        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService, RouteRenderService, BuslinesToNetworkCalculator) {
+    ['$scope', '$http', '$timeout', '$window', 'lodash', 'Authentication', 'Locations', 'Buslines', 'DirectionsService', 'RouteRenderService',
+        function ($scope, $http, $timeout, $window, _, Authentication, Locations, Buslines, DirectionsService, RouteRenderService) {
             // This provides Authentication context.
             $scope.authentication = Authentication;
 
@@ -21,13 +21,13 @@ angular.module('core').controller('PlannerController',
                     //console.log($scope.nearestBusstopTo);
 
 
+
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
                         '2013-02-08 05:40', $scope.buslines, $scope.busstops);
 
-                    console.log(journey);
 
 
-                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
+                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
                     //console.log(journey.options[0]);
 
@@ -74,8 +74,8 @@ angular.module('core').controller('PlannerController',
                         });
 
 
-                        $scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, $scope.busstops);
-
+                        //$scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, $scope.busstops);
+                        $scope.buslines = lines;
                         //console.log($scope.buslines);
                         //_.forEach(lines, function (line) {
                         //    //line.id = line._id;
@@ -242,6 +242,7 @@ angular.module('core').controller('PlannerController',
 
                     _.forEach(line.stops, function (stopId) {
 
+                        //console.log(stopId);
                         var stop = $scope.busstops[stopId];
                         // move this into a util service
                         var distance = Math.sqrt((stop.lat - lat) * (stop.lat - lat) + (stop.lng - lng) * (stop.lng - lng));
