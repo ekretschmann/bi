@@ -49,6 +49,8 @@ angular.module('core').service('BuslinesToNetworkCalculator', [
                 var busline = {
                     id: line.id,
                     name: line.name,
+                    runtimes: line.runtimes,
+                    times: line.times,
                     stops: []
                 };
                 result.push(busline);
@@ -56,9 +58,9 @@ angular.module('core').service('BuslinesToNetworkCalculator', [
                     //console.log(stop);
                     //console.log(line.stops);
                     if (_self.lineHasStop(line, stop, stops)) {
-                        var stopCopy = _.cloneDeep(stops[stop.info.naptan]);
-                        stopCopy.line = busline.id;
-                        busline.stops.push(stopCopy);
+                        //var stopCopy = _.cloneDeep(stops[stop.info.naptan]);
+                        //stopCopy.line = busline.id;
+                        busline.stops.push(stop.id);
                     }
                 });
             });

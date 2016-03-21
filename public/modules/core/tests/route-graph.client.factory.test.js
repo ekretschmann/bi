@@ -397,13 +397,13 @@
         });
 
 
-        fit('should build trival graph with one node and no edges', function () {
+        it('should build trival graph with one node and no edges', function () {
 
             // line a: s1    s2
             // routes: none
 
-            var stop1a = { id: 's1'};
-            var stop2a = {id: 's2'};
+            var stop1a = {info: {naptan: 's1'}};
+            var stop2a = {info: {naptan: 's2'}};
 
             var stops = {s1: stop1a, s2:stop2a};
             var linea = {id: 'a', stops: ['s1', 's2'] };

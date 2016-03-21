@@ -14,14 +14,17 @@ angular.module('core').controller('PlannerController',
 
 
 
+
                 if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
-                    console.log('xxxx');
-                    console.log($scope.nearestBusstopFrom);
-                    console.log($scope.nearestBusstopTo);
+                   // console.log('xxxx');
+                    //console.log($scope.nearestBusstopFrom);
+                    //console.log($scope.nearestBusstopTo);
+
 
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
-                        '2013-02-08 06:00', $scope.buslines, $scope.busstops);
+                        '2013-02-08 05:40', $scope.buslines, $scope.busstops);
 
+                    console.log(journey);
 
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
@@ -62,14 +65,22 @@ angular.module('core').controller('PlannerController',
                         $scope.busstops = {};
                         _.forEach(stops, function (stop) {
                             $scope.busstops[stop.info.naptan] = stop;
+                            stop.id = stop.info.naptan;
                         });
 
                         _.forEach(lines, function (line) {
                             line.id = line._id;
+                            //console.log(line.stops);
                         });
 
 
                         $scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, $scope.busstops);
+
+                        //console.log($scope.buslines);
+                        //_.forEach(lines, function (line) {
+                        //    //line.id = line._id;
+                        //    console.log(line.stops);
+                        //});
                     });
 
                 });
@@ -229,8 +240,9 @@ angular.module('core').controller('PlannerController',
 
                 _.forEach($scope.buslines, function (line) {
 
-                    _.forEach(line.stops, function (stop) {
+                    _.forEach(line.stops, function (stopId) {
 
+                        var stop = $scope.busstops[stopId];
                         // move this into a util service
                         var distance = Math.sqrt((stop.lat - lat) * (stop.lat - lat) + (stop.lng - lng) * (stop.lng - lng));
                         if (distance < minDistance) {

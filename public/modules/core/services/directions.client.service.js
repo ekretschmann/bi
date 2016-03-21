@@ -8,13 +8,7 @@ angular.module('core').service('DirectionsService', [
 
         this.getDirectionsBetweenStops = function (departureStop, arrivalStop, time, lines, stops) {
 
-            console.log(stops);
             var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines, stops);
-
-
-
-
-
 
 
             var journeyPlan = {};
@@ -155,6 +149,7 @@ angular.module('core').service('DirectionsService', [
             };
 
             _.forEach(line.stops, function(stop, index) {
+
 
                 if(stop === arriveStop.id) {
                     arrivalTime = _self.addMinutes(line.runtimes[scheduleIndex], getTotalDelay(line.times, index), earliestTravel);

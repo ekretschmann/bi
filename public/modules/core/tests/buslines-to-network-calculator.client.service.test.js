@@ -20,7 +20,7 @@
         }));
 
 
-        fit('should calculate triangle of lines', function () {
+        it('should calculate triangle of lines', function () {
             var stop1ab = {info: {naptan: 's1ab'}};
             var stop2abc = {info: {naptan: 's2abc'}};
             var stop3a = {info: {naptan: 's3a'}};
