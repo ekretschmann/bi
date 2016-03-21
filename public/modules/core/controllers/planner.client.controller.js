@@ -65,7 +65,9 @@ angular.module('core').controller('PlannerController',
                 //$scope.busstops = {};
                 // figure out line graph with intersection stops
                 Buslines.query(function (lines) {
+                    console.log(lines);
                     Locations.query(function(stops) {
+                        console.log(stops);
                         $scope.busstops = {};
                         _.forEach(stops, function (stop) {
                             $scope.busstops[stop.info.naptan] = stop;
