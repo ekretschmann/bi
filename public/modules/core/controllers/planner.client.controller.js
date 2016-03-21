@@ -80,6 +80,10 @@ angular.module('core').controller('PlannerController',
 
                         //$scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, $scope.busstops);
                         $scope.buslines = lines;
+
+                        console.log($scope.busstops);
+                        console.log($scope.buslines);
+
                         //console.log($scope.buslines);
                         //_.forEach(lines, function (line) {
                         //    //line.id = line._id;
