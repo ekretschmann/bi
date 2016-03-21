@@ -14,6 +14,7 @@ angular.module('core').controller('PlannerController',
 
 
 
+                console.log('xxx');
 
                 if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
                    // console.log('xxxx');
@@ -26,6 +27,9 @@ angular.module('core').controller('PlannerController',
                         '2013-02-08 05:40', $scope.buslines, $scope.busstops);
 
 
+                    console.log(journey);
+                    console.log($scope.buslines);
+                    console.log($scope.busstops);
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
