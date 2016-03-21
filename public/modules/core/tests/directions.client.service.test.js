@@ -85,7 +85,8 @@
             var time = '2013-02-08 06:00';
 
 
-            var stops = {sb1a: stopb1a, s1:stop1, si1a:stopi1a, s2:stop2, sa2a:stopa2a, sb1b:stopb1b, si1b: stopi1b, sa2b: stopa2b}
+            var stops = {sb1a: stopb1a, s1:stop1, si1a:stopi1a, s2:stop2,
+                sa2a:stopa2a, sb1b:stopb1b, si1b: stopi1b, sa2b: stopa2b};
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1, line2], stops);
 
             expect(journeyPlan.options.length).toBe(2);

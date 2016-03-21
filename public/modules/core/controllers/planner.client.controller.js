@@ -13,13 +13,16 @@ angular.module('core').controller('PlannerController',
             $scope.calculateDirections = function () {
 
 
+
                 if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
-                    //console.log($scope.nearestBusstopFrom);
-                    //console.log($scope.nearestBusstopTo);
+                    console.log('xxxx');
+                    console.log($scope.nearestBusstopFrom);
+                    console.log($scope.nearestBusstopTo);
 
-                    var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo, '2013-02-08 06:00', $scope.buslines);
+                    var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
+                        '2013-02-08 06:00', $scope.buslines, $scope.busstops);
 
-                    //console.log(journey.options[0]);
+                    console.log(journey.options[0]);
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.markers, $scope.paths);
 
@@ -55,7 +58,15 @@ angular.module('core').controller('PlannerController',
                 //$scope.busstops = {};
                 // figure out line graph with intersection stops
                 Buslines.query(function (lines) {
-                    $scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines);
+                    Locations.query(function(stops) {
+                        $scope.busstops = {};
+                        _.forEach(stops, function (stop) {
+                            $scope.busstops[stop.info.naptan] = stop;
+                        });
+
+                        $scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, stops);
+                    });
+
                 });
 
             };
@@ -212,6 +223,7 @@ angular.module('core').controller('PlannerController',
 
 
                 _.forEach($scope.buslines, function (line) {
+
                     _.forEach(line.stops, function (stop) {
 
                         // move this into a util service
