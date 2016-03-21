@@ -397,7 +397,7 @@
         });
 
 
-        it('should build trival graph with one node and no edges', function () {
+        fit('should build trival graph with one node and no edges', function () {
 
             // line a: s1    s2
             // routes: none
