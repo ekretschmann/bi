@@ -203,8 +203,6 @@ angular.module('core').service('DirectionsService', [
 
             var changes = [];
 
-            //console.log(departStop.lines);
-            //console.log(arriveStop.lines);
 
             _.forEach(departStop.lines, function (departLine) {
 
@@ -215,8 +213,6 @@ angular.module('core').service('DirectionsService', [
 
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
-
-                   // console.log(departLine, arriveLine);
 
                     if (departLine === arriveLine) {
 
@@ -243,9 +239,7 @@ angular.module('core').service('DirectionsService', [
                                     arrivalStop: path[0].stop,
                                     line:departLine
                                 });
-                                //for (var i=1; i<path.length; i++) {
-                                //    change.push({departureStop: path[i].departureStop, arrivalStop: path[i].arrivalStop});
-                                //}
+
                                 change.push({
                                     departureStop: path[0].stop,
                                     arrivalStop: arriveLineStop,

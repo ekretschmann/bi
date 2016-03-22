@@ -25,51 +25,16 @@
             var departure = {lat: 50, lng: 50};
             var arrival = {lat: 76, lng: 76};
 
-            var stopb1a = {
-                id: 'sb1a', name: 'Stop Before s1 on line a',
-                lat: 30, lng: 30
-            };
+            var stopb1a = {id: 'sb1a', name: 'Stop Before s1 on line a', lat: 30, lng: 30};
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 49, lng: 49};
+            var stopi1a = {id: 'si1a', name: 'Stop between 1 and 2 on line a', lat: 60, lng: 60};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 75, lng: 75};
+            var stopa2a = {id: 'sa2a', name: 'Stop After 2 on line a', lat: 80, lng: 80};
+            var stopb1b = {id: 'sb1b', name: 'Stop Before 1 on line b', lat: 25, lng: 25};
+            var stopi1b = {id: 'si1b', name: 'Stop Intermediate ba', lat: 62, lng: 62};
+            var stopa2b = {id: 'sa2b', name: 'Stop After 2 on line b', lat: 80, lng: 80};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 49, lng: 49
-            };
-
-            var stopi1a = {
-                id: 'si1a', name: 'Stop between 1 and 2 on line a',
-                lat: 60, lng: 60
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 75, lng: 75
-            };
-
-            var stopa2a = {
-                id: 'sa2a', name: 'Stop After 2 on line a',
-                lat: 80, lng: 80
-            };
-
-            var stopb1b = {
-                id: 'sb1b', name: 'Stop Before 1 on line b',
-                lat: 25, lng: 25
-            };
-
-
-            var stopi1b = {
-                id: 'si1b', name: 'Stop Intermediate ba',
-                lat: 62, lng: 62
-            };
-
-
-            var stopa2b = {
-                id: 'sa2b', name: 'Stop After 2 on line b',
-                lat: 80, lng: 80
-            };
-
-
-            var line1 = {
-                id: '1',
+            var line1 = {id: '1',
                 stops: ['sb1a', 's1', 'si1a', 's2', 'sa2a'],
                 times: [0, 10, 10, 10, 10],
                 runtimes: ['05:40', '05:55', '06:05']
@@ -141,15 +106,9 @@
             var departure = {lat: 50, lng: 50};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 49, lng: 49
-            };
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 49, lng: 49};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 75, lng: 75};
 
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 75, lng: 75
-            };
             var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:00', '06:30', '07:00']};
             var line2 = {id: '2', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:10', '06:40', '07:10']};
 
@@ -214,25 +173,14 @@
             var departure = {lat: 50, lng: 50};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 49, lng: 49
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 75, lng: 75
-            };
-
-            var stop3 = {
-                id: 's3', name: 'Stop 3',
-                lat: 99, lng: 99
-            };
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 49, lng: 49};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 75, lng: 75};
+            var stop3 = {id: 's3', name: 'Stop 3', lat: 99, lng: 99};
 
             var time = '2013-02-08 05:50';
 
-            var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:00', '06:30', '07:00']};
-            var line2 = {id: '2', stops: ['s2', 's3'], times: [0, 10], runtimes:['06:10', '06:40', '07:10']};
+            var line1 = {name:'Line 1', id: '1', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:00', '06:30', '07:00']};
+            var line2 = {name:'Line 2', id: '2', stops: ['s2', 's3'], times: [0, 10], runtimes:['06:10', '06:40', '07:10']};
             var stops = {s1: stop1, s2:stop2, s3:stop3};
 
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1, line2], stops);
@@ -276,16 +224,8 @@
             var departure = {lat: 0, lng: 0};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 10, lng: 10
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 90, lng: 90
-            };
-
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 90, lng: 90};
 
             var time = '2013-02-08 06:10';
 
@@ -314,35 +254,13 @@
             var departure = {lat: 29, lng: 29};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 10, lng: 10
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 30, lng: 30
-            };
-
-            var stop3 = {
-                id: 's3', name: 'Stop 3',
-                lat: 60, lng: 60
-            };
-
-            var stop4 = {
-                id: 's4', name: 'Stop 4',
-                lat: 90, lng: 90
-            };
-
-            var stop5 = {
-                id: 's5', name: 'Stop 5',
-                lat: 120, lng: 120
-            };
-
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 30, lng: 30};
+            var stop3 = {id: 's3', name: 'Stop 3', lat: 60, lng: 60};
+            var stop4 = {id: 's4', name: 'Stop 4', lat: 90, lng: 90};
+            var stop5 = {id: 's5', name: 'Stop 5', lat: 120, lng: 120};
 
             var time = '2013-02-08 05:40';
-
-
 
             var line1 = {id: '1', stops: ['s1', 's2', 's3', 's4', 's5'], times: [0, 10, 10, 10, 10, 10], runtimes:['06:50']};
             var stops = {s1: stop1, s2:stop2, s3:stop3, s4:stop4, s5:stop5};
@@ -367,27 +285,10 @@
             var departure = {lat: 29, lng: 29};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 10, lng: 10
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 30, lng: 30
-            };
-
-            var stop3 = {
-                id: 's3', name: 'Stop 3',
-                lat: 60, lng: 60
-            };
-
-            var stop4 = {
-                id: 's4', name: 'Stop 4',
-                lat: 90, lng: 90
-            };
-
-
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 30, lng: 30};
+            var stop3 = {id: 's3', name: 'Stop 3', lat: 60, lng: 60};
+            var stop4 = {id: 's4', name: 'Stop 4', lat: 90, lng: 90};
 
             var time = '2013-02-08 05:40';
 
@@ -413,24 +314,11 @@
 
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 10, lng: 10
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 10, lng: 10
-            };
-
-            var stop3 = {
-                id: 's3', name: 'Stop 3',
-                lat: 90, lng: 90
-            };
-
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 10, lng: 10};
+            var stop3 = {id: 's3', name: 'Stop 3', lat: 90, lng: 90};
 
             var line1 = {id: '1', stops: ['s1', 's2', 's3'], times: [0, 10, 10], runtimes:['06:00']};
-
 
             var time = '2013-02-08 05:40';
 
@@ -450,20 +338,53 @@
             expect(option.arrivalLine).toBe('1');
         });
 
+        fit('should not find simple route when direction is wrong', function () {
+
+            var departure = {lat: 100, lng: 100};
+            var arrival = {lat: 10, lng: 10};
+
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 90, lng: 90};
+
+            var stops = {s1: stop1, s2:stop2};
+            var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};
+
+
+            var time = '2013-02-08 05:40';
+
+
+            var journeyPlan = Service.getDirections(departure, arrival, time, [line1], stops);
+
+
+
+            expect(journeyPlan.options.length).toBe(0);
+            //var option = journeyPlan.options[0];
+            //
+            //expect(option.changes.length).toBe(2);
+            //var s0 = option.changes[0];
+            //var s1 = option.changes[1];
+            //
+            //expect(option.departureTime).toBe('06:00');
+            //expect(option.departureStopName).toBe('Stop 1');
+            //expect(option.departureLine).toBe('1');
+            //
+            //expect(option.arrivalTime).toBe('06:10');
+            //expect(option.arrivalStopName).toBe('Stop 2');
+            //expect(option.arrivalLine).toBe('1');
+            //
+            //expect(s0.stopName).toBe('Stop 1');
+            //expect(s1.stopName).toBe('Stop 2');
+            //expect(s0.departureTime).toBe('06:00');
+            //expect(s1.arrivalTime).toBe('06:10');
+        });
+
         it('should find simple route', function () {
 
             var departure = {lat: 0, lng: 0};
             var arrival = {lat: 100, lng: 100};
 
-            var stop1 = {
-                id: 's1', name: 'Stop 1',
-                lat: 10, lng: 10
-            };
-
-            var stop2 = {
-                id: 's2', name: 'Stop 2',
-                lat: 90, lng: 90
-            };
+            var stop1 = {id: 's1', name: 'Stop 1', lat: 10, lng: 10};
+            var stop2 = {id: 's2', name: 'Stop 2', lat: 90, lng: 90};
 
             var stops = {s1: stop1, s2:stop2};
             var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};

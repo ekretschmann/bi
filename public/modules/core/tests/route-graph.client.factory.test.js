@@ -15,7 +15,7 @@
             RouteGraph = _RouteGraph_;
         }));
 
-        fit('you can not change lines when the line names match', function () {
+        it('you can not change lines when the line names match', function () {
 
 
             // line a: s1    s2    s3     s4    s5    s6
@@ -62,15 +62,15 @@
             var stop9 = {id: 's9'};
 
 
-            var lineao = {id: 'ao', stops: ['s1', 's2', 's4', 's6']};
-            var linebo = {id: 'bo', stops: ['s4', 's6']};
-            var lineco = {id: 'co', stops: ['s2', 's4']};
-            var linexo = {id: 'xo', stops: ['s6', 's9']};
+            var lineao = {name:'Line A', id: 'ao', stops: ['s1', 's2', 's4', 's6']};
+            var linebo = {name:'Line B', id: 'bo', stops: ['s4', 's6']};
+            var lineco = {name:'Line C', id: 'co', stops: ['s2', 's4']};
+            var linexo = {name:'Line X', id: 'xo', stops: ['s6', 's9']};
 
-            var lineai = {id: 'ai', stops: ['s6', 's4', 's2', 's1']};
-            var linebi = {id: 'bi', stops: ['s6', 's4']};
-            var lineci = {id: 'ci', stops: ['s4', 's2']};
-            var linexi = {id: 'xi', stops: ['s9', 's6']};
+            var lineai = {name:'Line A', id: 'ai', stops: ['s6', 's4', 's2', 's1']};
+            var linebi = {name:'Line B', id: 'bi', stops: ['s6', 's4']};
+            var lineci = {name:'Line C', id: 'ci', stops: ['s4', 's2']};
+            var linexi = {name:'Line X', id: 'xi', stops: ['s9', 's6']};
 
 
             var stops = {s1: stop1, s2: stop2, s4: stop4, s6: stop6, s9: stop9};
@@ -139,10 +139,10 @@
             var stop6 = {id: 's6'};
             var stop9 = {id: 's9'};
 
-            var linea = {id: 'a', stops: ['s1', 's2', 's4', 's6']};
-            var lineb = {id: 'b', stops: ['s4', 's6']};
-            var linec = {id: 'c', stops: ['s2', 's4']};
-            var linex = {id: 'x', stops: ['s6', 's9']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2', 's4', 's6']};
+            var lineb = {name:'Line B', id: 'b', stops: ['s4', 's6']};
+            var linec = {name:'Line C', id: 'c', stops: ['s2', 's4']};
+            var linex = {name:'Line X', id: 'x', stops: ['s6', 's9']};
 
 
             var stops = {s1: stop1, s2: stop2, s4: stop4, s6: stop6, s9: stop9};
@@ -210,9 +210,9 @@
             var stop4 = {id: 's4'};
 
             var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
-            var linea = {id: 'a', stops: ['s1', 's2', 's3']};
-            var lineb = {id: 'b', stops: ['s2', 's3']};
-            var linec = {id: 'c', stops: ['s2', 's4']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2', 's3']};
+            var lineb = {name:'Line B', id: 'b', stops: ['s2', 's3']};
+            var linec = {name:'Line C', id: 'c', stops: ['s2', 's4']};
 
             var graph = RouteGraph.createNew([linea, lineb, linec], stops);
             expect(graph.nodes.length).toBe(3);
@@ -264,10 +264,10 @@
             var stop4 = {id: 's4'};
             var stop5 = {id: 's5'};
 
-            var linea = {id: 'a', stops: ['s1', 's2']};
-            var linebo = {id: 'b-o', stops: ['s2', 's3', 's4']};
-            var linebi = {id: 'b-i', stops: ['s4', 's3', 's2']};
-            var linec = {id: 'c', stops: ['s3', 's5']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2']};
+            var linebo = {name:'Line B', id: 'b-o', stops: ['s2', 's3', 's4']};
+            var linebi = {name:'Line B', id: 'b-i', stops: ['s4', 's3', 's2']};
+            var linec = {name:'Line C', id: 'c', stops: ['s3', 's5']};
 
             var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4, s5: stop5};
             var graph = RouteGraph.createNew([linea, linebo, linebi, linec], stops);
@@ -301,9 +301,9 @@
             var stop3 = {id: 's3'};
             var stop4 = {id: 's4'};
 
-            var linea = {id: 'a', stops: ['s1', 's2']};
-            var lineb = {id: 'b', stops: ['s2', 's3']};
-            var linec = {id: 'c', stops: ['s3', 's4']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2']};
+            var lineb = {name:'Line B', id: 'b', stops: ['s2', 's3']};
+            var linec = {name:'Line C', id: 'c', stops: ['s3', 's4']};
 
             var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
             var graph = RouteGraph.createNew([linea, lineb, linec], stops);
@@ -351,8 +351,8 @@
 
 
             var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
-            var linea = {id: 'a', stops: ['s1', 's2', 's4']};
-            var lineb = {id: 'b', stops: ['s1', 's3', 's4']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2', 's4']};
+            var lineb = {name:'Line B', id: 'b', stops: ['s1', 's3', 's4']};
 
             var graph = RouteGraph.createNew([linea, lineb], stops);
             expect(graph.nodes.length).toBe(2);
@@ -396,8 +396,8 @@
             var stop3 = {id: 's3'};
 
             var stops = {s1: stop1, s2: stop2, s3: stop3};
-            var linea = {id: 'a', stops: ['s1', 's2']};
-            var lineb = {id: 'b', stops: ['s2', 's3']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2']};
+            var lineb = {name:'Line B', id: 'b', stops: ['s2', 's3']};
 
             var graph = RouteGraph.createNew([linea, lineb], stops);
             expect(graph.nodes.length).toBe(2);
@@ -429,7 +429,7 @@
             var stop2a = {info: {naptan: 's2'}};
 
             var stops = {s1: stop1a, s2: stop2a};
-            var linea = {id: 'a', stops: ['s1', 's2']};
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2']};
 
             var graph = RouteGraph.createNew([linea], stops);
             expect(graph.nodes.length).toBe(1);
