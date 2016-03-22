@@ -65,6 +65,12 @@ angular.module('core').factory('RouteGraph', [
                     });
                 };
 
+                var getLine = function(lineId, lines) {
+                    return _.find(lines, function(line) {
+                        return line.id === lineId;
+                    });
+                };
+
                 var calculateEdges = function(lines, stops) {
 
                     _.forEach(lines, function (line) {
@@ -75,7 +81,9 @@ angular.module('core').factory('RouteGraph', [
 
                             var arrivalStop = stops[arrivalStopId];
                                 _.forEach(arrivalStop.lines, function (change) {
-                                    if (change !== line.id) {
+
+                                    if (change !== line.id &&
+                                        getLine(change, lines).name !== getLine(line.id, lines).name) {
                                         _self.edges.push({
                                             from: line.id,
                                             to: change,

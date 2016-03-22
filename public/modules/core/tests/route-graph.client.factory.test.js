@@ -5,17 +5,42 @@
         //Initialize global variables
         var RouteGraph;
 
-     //   console.log(ApplicationConfiguration.applicationModuleName);
+        //   console.log(ApplicationConfiguration.applicationModuleName);
 
         // Load the main application module
         beforeEach(module(ApplicationConfiguration.applicationModuleName));
 
 
-
-
         beforeEach(inject(function (_RouteGraph_) {
             RouteGraph = _RouteGraph_;
         }));
+
+        fit('you can not change lines when the line names match', function () {
+
+
+            // line a: s1    s2    s3     s4    s5    s6
+            // line b: s1    s2           s4    s5    s6
+
+            // routes: s1a - s6a
+            //         s1b - s6b
+
+            var stop1 = {id: 's1'};
+            var stop2 = {id: 's2'};
+            var stop3 = {id: 's3'};
+            var stop4 = {id: 's4'};
+            var stop5 = {id: 's5'};
+            var stop6 = {id: 's6'};
+
+            var linea = {name:'Line A', id: 'a', stops: ['s1', 's2', 's3', 's4', 's5','s6']};
+            var lineb = {name:'Line A', id: 'b', stops: ['s1', 's2',       's4', 's5','s6']};
+
+            var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4, s5: stop5, s6: stop6};
+            var graph = RouteGraph.createNew([linea, lineb], stops);
+
+            expect(graph.edges.length).toBe(0);
+
+        });
+
 
         it('should build graph with alternatives with more than one change with buses running both ways', function () {
 
@@ -48,7 +73,7 @@
             var linexi = {id: 'xi', stops: ['s9', 's6']};
 
 
-            var stops = {s1: stop1, s2:stop2, s4:stop4, s6:stop6, s9:stop9};
+            var stops = {s1: stop1, s2: stop2, s4: stop4, s6: stop6, s9: stop9};
             var graph = RouteGraph.createNew([lineao, linebo, lineco, linexo, lineai, linebi, lineci, linexi], stops);
 
             var edge2ca = {from: 'co', to: 'ao', stop: stop2};
@@ -120,7 +145,7 @@
             var linex = {id: 'x', stops: ['s6', 's9']};
 
 
-            var stops = {s1: stop1, s2:stop2, s4:stop4, s6:stop6, s9:stop9};
+            var stops = {s1: stop1, s2: stop2, s4: stop4, s6: stop6, s9: stop9};
             var graph = RouteGraph.createNew([linea, lineb, linec, linex], stops);
             expect(graph.nodes.length).toBe(4);
             expect(graph.edges.length).toBe(14);
@@ -184,7 +209,7 @@
             var stop3 = {id: 's3'};
             var stop4 = {id: 's4'};
 
-            var stops = {s1: stop1, s2:stop2, s3: stop3, s4:stop4};
+            var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
             var linea = {id: 'a', stops: ['s1', 's2', 's3']};
             var lineb = {id: 'b', stops: ['s2', 's3']};
             var linec = {id: 'c', stops: ['s2', 's4']};
@@ -239,12 +264,12 @@
             var stop4 = {id: 's4'};
             var stop5 = {id: 's5'};
 
-            var linea = {id: 'a', stops: ['s1', 's2'] };
-            var linebo = {id: 'b-o', stops: ['s2', 's3', 's4'] };
-            var linebi = {id: 'b-i', stops: ['s4', 's3', 's2'] };
-            var linec = {id: 'c', stops: ['s3', 's5'] };
+            var linea = {id: 'a', stops: ['s1', 's2']};
+            var linebo = {id: 'b-o', stops: ['s2', 's3', 's4']};
+            var linebi = {id: 'b-i', stops: ['s4', 's3', 's2']};
+            var linec = {id: 'c', stops: ['s3', 's5']};
 
-            var stops = {s1: stop1, s2:stop2, s3: stop3, s4:stop4, s5: stop5};
+            var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4, s5: stop5};
             var graph = RouteGraph.createNew([linea, linebo, linebi, linec], stops);
 
             var edge2a_bo = {from: 'a', to: 'b-o', stop: stop2};
@@ -280,7 +305,7 @@
             var lineb = {id: 'b', stops: ['s2', 's3']};
             var linec = {id: 'c', stops: ['s3', 's4']};
 
-            var stops = {s1: stop1, s2:stop2, s3: stop3, s4:stop4};
+            var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
             var graph = RouteGraph.createNew([linea, lineb, linec], stops);
             expect(graph.nodes.length).toBe(3);
             expect(graph.nodes[0].id).toBe('a');
@@ -293,7 +318,6 @@
             var edge2ba = {from: 'b', to: 'a', stop: stop2};
             var edge3cb = {from: 'c', to: 'b', stop: stop3};
             var edge3bc = {from: 'b', to: 'c', stop: stop3};
-
 
 
             expect(graph.edges).toContain(edge2ab);
@@ -326,7 +350,7 @@
             var stop4 = {id: 's4'};
 
 
-            var stops = {s1: stop1, s2:stop2, s3: stop3, s4:stop4};
+            var stops = {s1: stop1, s2: stop2, s3: stop3, s4: stop4};
             var linea = {id: 'a', stops: ['s1', 's2', 's4']};
             var lineb = {id: 'b', stops: ['s1', 's3', 's4']};
 
@@ -371,7 +395,7 @@
             var stop2 = {id: 's2'};
             var stop3 = {id: 's3'};
 
-            var stops = {s1: stop1, s2:stop2, s3:stop3};
+            var stops = {s1: stop1, s2: stop2, s3: stop3};
             var linea = {id: 'a', stops: ['s1', 's2']};
             var lineb = {id: 'b', stops: ['s2', 's3']};
 
@@ -389,7 +413,6 @@
             expect(graph.edges).toContain(edge2ba);
 
 
-
             var paths = graph.calculatePaths('a', 'b');
             var expectedPath1 = [edge2ab];
             expect(paths).toContain(expectedPath1);
@@ -405,8 +428,8 @@
             var stop1a = {info: {naptan: 's1'}};
             var stop2a = {info: {naptan: 's2'}};
 
-            var stops = {s1: stop1a, s2:stop2a};
-            var linea = {id: 'a', stops: ['s1', 's2'] };
+            var stops = {s1: stop1a, s2: stop2a};
+            var linea = {id: 'a', stops: ['s1', 's2']};
 
             var graph = RouteGraph.createNew([linea], stops);
             expect(graph.nodes.length).toBe(1);
@@ -414,8 +437,6 @@
             expect(graph.edges.length).toBe(0);
 
         });
-
-
 
 
     });

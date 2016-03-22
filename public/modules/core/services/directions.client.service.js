@@ -11,6 +11,7 @@ angular.module('core').service('DirectionsService', [
             var paths = this.getChangeStopsForAllLines(departureStop, arrivalStop, time, lines, stops);
 
 
+
             var journeyPlan = {};
             journeyPlan.options = [];
             var _self = this;
@@ -48,6 +49,7 @@ angular.module('core').service('DirectionsService', [
                         line: change.line
                     });
                 });
+
 
 
                 itinerary.departureTime = itinerary.changes[0].departureTime;
@@ -201,6 +203,9 @@ angular.module('core').service('DirectionsService', [
 
             var changes = [];
 
+            //console.log(departStop.lines);
+            //console.log(arriveStop.lines);
+
             _.forEach(departStop.lines, function (departLine) {
 
 
@@ -210,6 +215,8 @@ angular.module('core').service('DirectionsService', [
 
                     var departLineStop = getStop(departStop, departLine);
                     var arriveLineStop = getStop(arriveStop, arriveLine);
+
+                   // console.log(departLine, arriveLine);
 
                     if (departLine === arriveLine) {
 

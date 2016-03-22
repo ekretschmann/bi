@@ -13,23 +13,20 @@ angular.module('core').controller('PlannerController',
             $scope.calculateDirections = function () {
 
 
-
-                console.log('xxx');
-
                 if ($scope.nearestBusstopFrom && $scope.nearestBusstopTo) {
-                   // console.log('xxxx');
+                    //console.log('xxxx');
                     //console.log($scope.nearestBusstopFrom);
                     //console.log($scope.nearestBusstopTo);
 
 
 
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
-                        '2013-02-08 05:40', $scope.buslines, $scope.busstops);
+                        '2013-02-08 08:40', $scope.buslines, $scope.busstops);
 
 
-                    console.log(journey);
-                    console.log($scope.buslines);
-                    console.log($scope.busstops);
+                    //console.log(journey);
+                    //console.log($scope.buslines);
+                    //console.log($scope.busstops);
 
                     RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
@@ -65,9 +62,9 @@ angular.module('core').controller('PlannerController',
                 //$scope.busstops = {};
                 // figure out line graph with intersection stops
                 Buslines.query(function (lines) {
-                    console.log(lines);
+                    //console.log(lines);
                     Locations.query(function(stops) {
-                        console.log(stops);
+                        //console.log(stops);
                         $scope.busstops = {};
                         _.forEach(stops, function (stop) {
                             $scope.busstops[stop.info.naptan] = stop;
@@ -76,21 +73,29 @@ angular.module('core').controller('PlannerController',
 
                         _.forEach(lines, function (line) {
                             line.id = line._id;
-                            //console.log(line.stops);
+                            _.forEach(line.stops, function(stopId) {
+                                if ($scope.busstops[stopId].lines) {
+                                    $scope.busstops[stopId].lines.push(line.id);
+                                } else {
+                                    $scope.busstops[stopId].lines= [line.id];
+                                }
+
+                            });
                         });
 
 
                         //$scope.buslines = BuslinesToNetworkCalculator.calculateNetwork(lines, $scope.busstops);
                         $scope.buslines = lines;
 
-                        console.log($scope.busstops);
-                        console.log($scope.buslines);
+                        //console.log($scope.busstops);
+                        //console.log($scope.buslines);
 
                         //console.log($scope.buslines);
                         //_.forEach(lines, function (line) {
                         //    //line.id = line._id;
                         //    console.log(line.stops);
                         //});
+                        //console.log($scope.buslines);
                     });
 
                 });
@@ -263,6 +268,7 @@ angular.module('core').controller('PlannerController',
                     });
                 });
 
+                console.log(minLoc);
 
                 return minLoc;
 
@@ -418,10 +424,16 @@ angular.module('core').controller('PlannerController',
 
             angular.extend($scope, {
 
+                //mk: {
+                //    //  autoDiscover: true
+                //    lat: 52.036,
+                //    lng: -0.7532501220703125,
+                //    zoom: 12
+                //},
                 mk: {
                     //  autoDiscover: true
-                    lat: 52.036,
-                    lng: -0.7532501220703125,
+                    lat: 52.1837736752,
+                    lng: 0.2189300765,
                     zoom: 12
                 },
                 events: {},
