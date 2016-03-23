@@ -23,12 +23,13 @@ angular.module('core').controller('PlannerController',
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
                         '2013-02-08 08:40', $scope.buslines, $scope.busstops);
 
+                   // console.log(journey);
 
                     //console.log(journey);
                     //console.log($scope.buslines);
                     //console.log($scope.busstops);
 
-                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
+                   // RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
                     //console.log(journey.options[0]);
 
@@ -73,14 +74,14 @@ angular.module('core').controller('PlannerController',
 
                         _.forEach(lines, function (line) {
                             line.id = line._id;
-                            _.forEach(line.stops, function(stopId) {
-                                if ($scope.busstops[stopId].lines) {
-                                    $scope.busstops[stopId].lines.push(line.id);
-                                } else {
-                                    $scope.busstops[stopId].lines= [line.id];
-                                }
-
-                            });
+                            //_.forEach(line.stops, function(stopId) {
+                            //    if ($scope.busstops[stopId].lines && $scope.busstops[stopId].lines.indexOf(line.id) === -1) {
+                            //        $scope.busstops[stopId].lines.push(line.id);
+                            //    } else {
+                            //        $scope.busstops[stopId].lines= [line.id];
+                            //    }
+                            //
+                            //});
                         });
 
 
@@ -268,7 +269,6 @@ angular.module('core').controller('PlannerController',
                     });
                 });
 
-                console.log(minLoc);
 
                 return minLoc;
 
@@ -320,6 +320,9 @@ angular.module('core').controller('PlannerController',
                 $scope.from = {};
                 $scope.from.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
                 $scope.from.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
+
+                $scope.from.lat = 52.1821;
+                $scope.from.lng = 0.1888;
 
                 $scope.from.text = 'lat: ' + $scope.from.lat + ' lng: ' + $scope.from.lng;
                 $scope.locationInputState = 'select-to';
@@ -390,6 +393,9 @@ angular.module('core').controller('PlannerController',
                     $scope.to = {};
                     $scope.to.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
                     $scope.to.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
+
+                    $scope.to.lat = 52.2138;
+                    $scope.to.lng = 0.138;
 
                     $scope.to.text = 'lat: ' + $scope.to.lat + ' lng: ' + $scope.to.lng;
 

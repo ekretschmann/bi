@@ -20,7 +20,59 @@
         }));
 
 
-        it('should find a alternative routs without changes with intermediate stops', function () {
+        fit('should build graph with alternatives with more than one change with buses running both ways', function () {
+
+
+            // line a: s1    s2           s4          s6
+            // line b:                    s4          s6
+            // line c:       s2           s4
+            // line x:                                s6    s9
+
+            // routes: s1a - s2a - s2c - s4c - s4a - s6a - s6x - s9x
+            //         s1a - s2a - s2c - s4c - s4b - s6b - s6x - s9x
+            //         s1a - s4a - s4b - s6b - s6x - s9x
+            //         s1a - s6a - s6x - s9x
+
+            var departure = {lat: 99, lng: 99};
+            var arrival = {lat: 141, lng: 181};
+
+            var stop1 = {id: 's1', lat: 100, lng: 100};
+            var stop2 = {id: 's2', lat: 110, lng: 120};
+            var stop4 = {id: 's4', lat: 120, lng: 140};
+            var stop6 = {id: 's6', lat: 130, lng: 160};
+            var stop9 = {id: 's9', lat: 140, lng: 180};
+
+
+            var lineao = {name:'Line A', id: 'ao', stops: ['s1', 's2', 's4', 's6']};
+            var linebo = {name:'Line B', id: 'bo', stops: ['s4', 's6']};
+            var lineco = {name:'Line C', id: 'co', stops: ['s2', 's4']};
+            var linexo = {name:'Line X', id: 'xo', stops: ['s6', 's9']};
+
+            lineao.runtimes = ["6:10"]; lineao.times=[0, 5, 5, 5];
+            linebo.runtimes = ["6:20"]; linebo.times=[0, 5];
+            lineco.runtimes = ["6:30"]; lineco.times=[0, 5];
+            linexo.runtimes = ["6:40"]; linexo.times=[0, 5];
+
+
+
+            //var lineai = {name:'Line A', id: 'ai', stops: ['s6', 's4', 's2', 's1']};
+            //var linebi = {name:'Line B', id: 'bi', stops: ['s6', 's4']};
+            //var lineci = {name:'Line C', id: 'ci', stops: ['s4', 's2']};
+            //var linexi = {name:'Line X', id: 'xi', stops: ['s9', 's6']};
+
+            var time = '2013-02-08 06:00';
+
+            var stops = {s1: stop1, s2: stop2, s4: stop4, s6: stop6, s9: stop9};
+
+            var journeyPlan = Service.getDirections(departure, arrival,
+                time, [lineao, linebo, lineco, linexo], stops);
+
+            console.log(journeyPlan);
+
+        });
+
+
+        it('should find a alternative route without changes with intermediate stops', function () {
 
             var departure = {lat: 50, lng: 50};
             var arrival = {lat: 76, lng: 76};
@@ -338,7 +390,7 @@
             expect(option.arrivalLine).toBe('1');
         });
 
-        fit('should not find simple route when direction is wrong', function () {
+        it('should not find simple route when direction is wrong', function () {
 
             var departure = {lat: 100, lng: 100};
             var arrival = {lat: 10, lng: 10};
@@ -358,24 +410,7 @@
 
 
             expect(journeyPlan.options.length).toBe(0);
-            //var option = journeyPlan.options[0];
-            //
-            //expect(option.changes.length).toBe(2);
-            //var s0 = option.changes[0];
-            //var s1 = option.changes[1];
-            //
-            //expect(option.departureTime).toBe('06:00');
-            //expect(option.departureStopName).toBe('Stop 1');
-            //expect(option.departureLine).toBe('1');
-            //
-            //expect(option.arrivalTime).toBe('06:10');
-            //expect(option.arrivalStopName).toBe('Stop 2');
-            //expect(option.arrivalLine).toBe('1');
-            //
-            //expect(s0.stopName).toBe('Stop 1');
-            //expect(s1.stopName).toBe('Stop 2');
-            //expect(s0.departureTime).toBe('06:00');
-            //expect(s1.arrivalTime).toBe('06:10');
+
         });
 
         it('should find simple route', function () {
