@@ -20,7 +20,7 @@
         }));
 
 
-        fit('should build graph with alternatives with more than one change with buses running both ways', function () {
+        it('should build graph with alternatives with more than one change with buses running both ways', function () {
 
 
             // line a: s1    s2           s4          s6
@@ -187,16 +187,18 @@
             var stopa2b = {id: 'sa2b', name: 'Stop After 2 on line b', lat: 80, lng: 80};
 
             var line1 = {id: '1',
+                name: 'Line 1',
                 stops: ['sb1a', 's1', 'si1a', 's2', 'sa2a'],
                 times: [0, 10, 10, 10, 10],
-                runtimes: ['05:40', '05:55', '06:05']
+                runtimes: ['05:40', '05:55', '06:05', '06:35']
             };
 
             var line2 = {
                 id: '2',
+                name: 'Line 2',
                 stops: ['sb1b', 's1', 'si1b', 's2', 'sa2b'],
                 times: [0, 12, 8, 8, 10],
-                runtimes: ['05:40', '05:55', '06:05']
+                runtimes: ['05:40', '05:55', '06:05', '06:35']
             };
 
             var time = '2013-02-08 06:00';
@@ -208,48 +210,29 @@
 
             expect(journeyPlan.options.length).toBe(2);
 
+
             var option1 = journeyPlan.options[0];
-            expect(option1.changes.length).toBe(2);
-            var s1b = option1.changes[0];
-            var s2b = option1.changes[1];
-            //
-            expect(option1.departureTime).toBe('06:17');
-            expect(option1.departureStopName).toBe('Stop 1');
-            expect(option1.departureLine).toBe('2');
+            expect(option1.length).toBe(1);
+            var leg1a = option1[0];
 
-            expect(option1.arrivalTime).toBe('06:33');
-            expect(option1.arrivalStopName).toBe('Stop 2');
-            expect(option1.arrivalLine).toBe('2');
+            expect(leg1a.departureStopTime).toBe('06:17');
+            expect(leg1a.arrivalStopTime).toBe('06:33');
+            expect(leg1a.departureStopId).toBe('s1');
+            expect(leg1a.arrivalStopId).toBe('s2');
+            expect(leg1a.departureLineId).toBe('2');
 
-
-            expect(s1b.stopName).toBe('Stop 1');
-            expect(s1b.departureTime).toBe('06:17');
-            expect(s1b.line).toBe('2');
-
-            expect(s2b.stopName).toBe('Stop 2');
-            expect(s2b.arrivalTime).toBe('06:33');
-            expect(s2b.line).toBe('2');
 
             var option2 = journeyPlan.options[1];
-            expect(option2.changes.length).toBe(2);
-            var s1a = option2.changes[0];
-            var s2a = option2.changes[1];
+            expect(option2.length).toBe(1);
+            var leg2a = option2[0];
 
-            expect(option2.departureTime).toBe('06:15');
-            expect(option2.departureStopName).toBe('Stop 1');
-            expect(option2.departureLine).toBe('1');
+            expect(leg2a.departureStopTime).toBe('06:15');
+            expect(leg2a.arrivalStopTime).toBe('06:35');
+            expect(leg2a.departureStopId).toBe('s1');
+            expect(leg2a.arrivalStopId).toBe('s2');
+            expect(leg2a.departureLineId).toBe('1');
 
-            expect(option2.arrivalTime).toBe('06:35');
-            expect(option2.arrivalStopName).toBe('Stop 2');
-            expect(option2.arrivalLine).toBe('1');
 
-            expect(s1a.stopName).toBe('Stop 1');
-            expect(s1a.departureTime).toBe('06:15');
-            expect(s1a.line).toBe('1');
-
-            expect(s2a.stopName).toBe('Stop 2');
-            expect(s2a.arrivalTime).toBe('06:35');
-            expect(s2a.line).toBe('1');
 
         });
 
@@ -261,8 +244,8 @@
             var stop1 = {id: 's1', name: 'Stop 1', lat: 49, lng: 49};
             var stop2 = {id: 's2', name: 'Stop 2', lat: 75, lng: 75};
 
-            var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:00', '06:30', '07:00']};
-            var line2 = {id: '2', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:10', '06:40', '07:10']};
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:00', '06:30', '07:00']};
+            var line2 = {name: 'Line 2', id: '2', stops: ['s1', 's2'], times: [0, 15], runtimes:['06:10', '06:40', '07:10']};
 
             var time = '2013-02-08 06:05';
 
@@ -270,52 +253,26 @@
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1, line2], stops);
 
             expect(journeyPlan.options.length).toBe(2);
+            var option1 = journeyPlan.options[0];
+            expect(option1.length).toBe(1);
+            var leg1a = option1[0];
 
-            var option1 = journeyPlan.options[1];
-            var option2 = journeyPlan.options[0];
-
-            expect(option2.changes.length).toBe(2);
-            var s1a = option2.changes[0];
-            var s2a = option2.changes[1];
-
-            expect(option2.departureTime).toBe('06:10');
-            expect(option2.departureStopName).toBe('Stop 1');
-            expect(option2.departureLine).toBe('2');
-
-            expect(option2.arrivalTime).toBe('06:25');
-            expect(option2.arrivalStopName).toBe('Stop 2');
-            expect(option2.arrivalLine).toBe('2');
-
-            expect(s1a.stopName).toBe('Stop 1');
-            expect(s1a.departureTime).toBe('06:10');
-            expect(s1a.line).toBe('2');
-
-            expect(s2a.stopName).toBe('Stop 2');
-            expect(s2a.arrivalTime).toBe('06:25');
-            expect(s2a.line).toBe('2');
-
-            expect(option1.changes.length).toBe(2);
-            var s1b = option1.changes[0];
-            var s2b = option1.changes[1];
-
-            expect(option1.departureTime).toBe('06:30');
-            expect(option1.departureStopName).toBe('Stop 1');
-            expect(option1.departureLine).toBe('1');
-
-            expect(option1.arrivalTime).toBe('06:45');
-            expect(option1.arrivalStopName).toBe('Stop 2');
-            expect(option1.arrivalLine).toBe('1');
+            expect(leg1a.departureStopTime).toBe('06:10');
+            expect(leg1a.arrivalStopTime).toBe('06:25');
+            expect(leg1a.departureStopId).toBe('s1');
+            expect(leg1a.arrivalStopId).toBe('s2');
+            expect(leg1a.departureLineId).toBe('2');
 
 
-            expect(s1b.stopName).toBe('Stop 1');
-            expect(s1b.departureTime).toBe('06:30');
-            expect(s1b.line).toBe('1');
+            var option2 = journeyPlan.options[1];
+            expect(option2.length).toBe(1);
+            var leg2a = option2[0];
 
-            expect(s2b.stopName).toBe('Stop 2');
-            expect(s2b.arrivalTime).toBe('06:45');
-            expect(s2b.line).toBe('1');
-
-
+            expect(leg2a.departureStopTime).toBe('06:30');
+            expect(leg2a.arrivalStopTime).toBe('06:45');
+            expect(leg2a.departureStopId).toBe('s1');
+            expect(leg2a.arrivalStopId).toBe('s2');
+            expect(leg2a.departureLineId).toBe('1');
 
         });
 
@@ -339,36 +296,21 @@
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
-            expect(option.changes.length).toBe(4);
-            var s1 = option.changes[0];
-            var s2 = option.changes[1];
-            var s3 = option.changes[2];
-            var s4 = option.changes[3];
+            expect(option.length).toBe(2);
+            var leg1 = option[0];
+            var leg2 = option[1];
 
-            expect(option.departureTime).toBe('06:00');
-            expect(option.departureStopName).toBe('Stop 1');
-            expect(option.departureLine).toBe('1');
+            expect(leg1.departureStopTime).toBe('06:00');
+            expect(leg1.arrivalStopTime).toBe('06:15');
+            expect(leg1.departureStopId).toBe('s1');
+            expect(leg1.arrivalStopId).toBe('s2');
+            expect(leg1.departureLineId).toBe('1');
 
-            expect(option.arrivalTime).toBe('06:50');
-            expect(option.arrivalStopName).toBe('Stop 3');
-            expect(option.arrivalLine).toBe('2');
-
-            expect(s1.stopName).toBe('Stop 1');
-            expect(s1.departureTime).toBe('06:00');
-            expect(s1.line).toBe('1');
-
-            expect(s2.stopName).toBe('Stop 2');
-            expect(s2.arrivalTime).toBe('06:15');
-            expect(s2.line).toBe('1');
-
-            expect(s3.stopName).toBe('Stop 2');
-            expect(s3.departureTime).toBe('06:40');
-            expect(s3.line).toBe('2');
-
-            expect(s4.stopName).toBe('Stop 3');
-            expect(s4.arrivalTime).toBe('06:50');
-            expect(s4.line).toBe('2');
-
+            expect(leg2.departureStopTime).toBe('06:40');
+            expect(leg2.arrivalStopTime).toBe('06:50');
+            expect(leg2.departureStopId).toBe('s2');
+            expect(leg2.arrivalStopId).toBe('s3');
+            expect(leg2.departureLineId).toBe('2');
         });
 
         it('should find earliest possible connection for simple route', function () {
@@ -390,15 +332,15 @@
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
+            expect(option.length).toBe(1);
+            var leg = option[0];
 
-
-            expect(option.departureTime).toBe('06:30');
-            expect(option.departureStopName).toBe('Stop 1');
-            expect(option.departureLine).toBe('1');
-
-            expect(option.arrivalTime).toBe('06:40');
-            expect(option.arrivalStopName).toBe('Stop 2');
-            expect(option.arrivalLine).toBe('1');
+            expect(leg.departureStopTime).toBe('06:30');
+            expect(leg.arrivalStopTime).toBe('06:40');
+            expect(leg.departureStopId).toBe('s1');
+            expect(leg.arrivalStopId).toBe('s2');
+            expect(leg.departureLineId).toBe('1');
+            expect(leg.arrivalLineId).toBe('1');
         });
 
         it('should find route on one line with follow on stops', function () {
@@ -420,14 +362,15 @@
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
+            expect(option.length).toBe(1);
+            var leg = option[0];
 
-            expect(option.departureTime).toBe('07:00');
-            expect(option.departureStopName).toBe('Stop 2');
-            expect(option.departureLine).toBe('1');
-
-            expect(option.arrivalTime).toBe('07:20');
-            expect(option.arrivalStopName).toBe('Stop 4');
-            expect(option.arrivalLine).toBe('1');
+            expect(leg.departureStopTime).toBe('07:00');
+            expect(leg.arrivalStopTime).toBe('07:20');
+            expect(leg.departureStopId).toBe('s2');
+            expect(leg.arrivalStopId).toBe('s4');
+            expect(leg.departureLineId).toBe('1');
+            expect(leg.arrivalLineId).toBe('1');
 
 
         });
@@ -444,20 +387,21 @@
 
             var time = '2013-02-08 05:40';
 
-            var line1 = {id: '1', stops: ['s1', 's2', 's3', 's4'], times: [0, 10, 10, 10, 10], runtimes:['06:00']};
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2', 's3', 's4'], times: [0, 10, 10, 10, 10], runtimes:['06:00']};
             var stops = {s1: stop1, s2:stop2, s3:stop3, s4:stop4};
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1], stops);
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
+            expect(option.length).toBe(1);
+            var leg = option[0];
 
-            expect(option.departureTime).toBe('06:10');
-            expect(option.departureStopName).toBe('Stop 2');
-            expect(option.departureLine).toBe('1');
-
-            expect(option.arrivalTime).toBe('06:30');
-            expect(option.arrivalStopName).toBe('Stop 4');
-            expect(option.arrivalLine).toBe('1');
+            expect(leg.departureStopTime).toBe('06:10');
+            expect(leg.arrivalStopTime).toBe('06:30');
+            expect(leg.departureStopId).toBe('s2');
+            expect(leg.arrivalStopId).toBe('s4');
+            expect(leg.departureLineId).toBe('1');
+            expect(leg.arrivalLineId).toBe('1');
         });
 
         it('should find route on one line with intermediate stop', function () {
@@ -470,7 +414,7 @@
             var stop2 = {id: 's2', name: 'Stop 2', lat: 10, lng: 10};
             var stop3 = {id: 's3', name: 'Stop 3', lat: 90, lng: 90};
 
-            var line1 = {id: '1', stops: ['s1', 's2', 's3'], times: [0, 10, 10], runtimes:['06:00']};
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2', 's3'], times: [0, 10, 10], runtimes:['06:00']};
 
             var time = '2013-02-08 05:40';
 
@@ -480,14 +424,15 @@
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
+            expect(option.length).toBe(1);
+            var leg = option[0];
 
-            expect(option.departureTime).toBe('06:00');
-            expect(option.departureStopName).toBe('Stop 1');
-            expect(option.departureLine).toBe('1');
-
-            expect(option.arrivalTime).toBe('06:20');
-            expect(option.arrivalStopName).toBe('Stop 3');
-            expect(option.arrivalLine).toBe('1');
+            expect(leg.departureStopTime).toBe('06:00');
+            expect(leg.arrivalStopTime).toBe('06:20');
+            expect(leg.departureStopId).toBe('s1');
+            expect(leg.arrivalStopId).toBe('s3');
+            expect(leg.departureLineId).toBe('1');
+            expect(leg.arrivalLineId).toBe('1');
         });
 
         it('should not find simple route when direction is wrong', function () {
@@ -499,14 +444,13 @@
             var stop2 = {id: 's2', name: 'Stop 2', lat: 90, lng: 90};
 
             var stops = {s1: stop1, s2:stop2};
-            var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};
 
 
             var time = '2013-02-08 05:40';
 
 
             var journeyPlan = Service.getDirections(departure, arrival, time, [line1], stops);
-
 
 
             expect(journeyPlan.options.length).toBe(0);
@@ -522,7 +466,7 @@
             var stop2 = {id: 's2', name: 'Stop 2', lat: 90, lng: 90};
 
             var stops = {s1: stop1, s2:stop2};
-            var line1 = {id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2'], times: [0, 10], runtimes:['06:00']};
 
 
             var time = '2013-02-08 05:40';
@@ -534,23 +478,15 @@
 
             expect(journeyPlan.options.length).toBe(1);
             var option = journeyPlan.options[0];
+            expect(option.length).toBe(1);
+            var leg = option[0];
 
-            expect(option.changes.length).toBe(2);
-            var s0 = option.changes[0];
-            var s1 = option.changes[1];
-
-            expect(option.departureTime).toBe('06:00');
-            expect(option.departureStopName).toBe('Stop 1');
-            expect(option.departureLine).toBe('1');
-
-            expect(option.arrivalTime).toBe('06:10');
-            expect(option.arrivalStopName).toBe('Stop 2');
-            expect(option.arrivalLine).toBe('1');
-
-            expect(s0.stopName).toBe('Stop 1');
-            expect(s1.stopName).toBe('Stop 2');
-            expect(s0.departureTime).toBe('06:00');
-            expect(s1.arrivalTime).toBe('06:10');
+            expect(leg.departureStopTime).toBe('06:00');
+            expect(leg.arrivalStopTime).toBe('06:10');
+            expect(leg.departureStopId).toBe('s1');
+            expect(leg.arrivalStopId).toBe('s2');
+            expect(leg.departureLineId).toBe('1');
+            expect(leg.arrivalLineId).toBe('1');
         });
 
 

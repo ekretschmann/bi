@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    fdescribe('RouteGraph', function () {
+    describe('RouteGraph', function () {
         //Initialize global variables
         var RouteGraph;
 
@@ -384,7 +384,7 @@
         });
 
 
-        fit('should build simple graph with one edge', function () {
+        it('should build simple graph with one edge', function () {
 
             // line a: s1    s2
             // line b:       s2    s3
