@@ -119,13 +119,19 @@ angular.module('core').service('DirectionsService', [
 
             _.forEach(path, function (change) {
 
+                console.log(change);
+                console.log(currentStopId);
 
                 if (change.stop.id !== currentStopId) {
                     var journeyLeg = _self.getSchedule(currentStopId, change.stop.id, change.from, change.to, departureMoment);
-                    currentStopId = journeyLeg.arrivalStopId;
 
-                    _self.setTime(departureMoment, journeyLeg.arrivalStopTime);
-                    itinerary.push(journeyLeg);
+
+                    if (journeyLeg) {
+                        currentStopId = journeyLeg.arrivalStopId;
+
+                        _self.setTime(departureMoment, journeyLeg.arrivalStopTime);
+                        itinerary.push(journeyLeg);
+                    }
                 } else {
                     invalidOption = true;
                 }
@@ -150,6 +156,7 @@ angular.module('core').service('DirectionsService', [
 
             this.lines = lines;
             var _self = this;
+
             var routeGraph = RouteGraph.createNew(lines, stops);
             var earliestDeparture = moment(time);
 
@@ -162,6 +169,7 @@ angular.module('core').service('DirectionsService', [
 
                 _.forEach(arrivalStop.lines, function (arrivalLine) {
 
+
                     var paths = routeGraph.calculatePaths(departLine, arrivalLine);
 
 
@@ -171,10 +179,13 @@ angular.module('core').service('DirectionsService', [
                             itinerary.options.push([option]);
                         }
                     } else {
-                        _.forEach(paths, function (path) {
-                            var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
-                            if (option && option.length > 0) {
-                                itinerary.options.push(option);
+                        _.forEach(paths, function (path, index) {
+                            if (index === 0) {
+                                console.log(path);
+                                var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
+                                if (option && option.length > 0) {
+                                    itinerary.options.push(option);
+                                }
                             }
                         });
                     }

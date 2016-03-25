@@ -23,13 +23,13 @@ angular.module('core').controller('PlannerController',
                     var journey = DirectionsService.getDirectionsBetweenStops($scope.nearestBusstopFrom, $scope.nearestBusstopTo,
                         '2013-02-08 08:40', $scope.buslines, $scope.busstops);
 
-                   // console.log(journey);
+                    console.log(journey);
 
                     //console.log(journey);
                     //console.log($scope.buslines);
                     //console.log($scope.busstops);
 
-                   // RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
+                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
                     //console.log(journey.options[0]);
 
@@ -71,6 +71,7 @@ angular.module('core').controller('PlannerController',
                             $scope.busstops[stop.info.naptan] = stop;
                             stop.id = stop.info.naptan;
                         });
+
 
                         _.forEach(lines, function (line) {
                             line.id = line._id;
