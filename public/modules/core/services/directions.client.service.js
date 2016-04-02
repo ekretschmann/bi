@@ -173,17 +173,23 @@ angular.module('core').service('DirectionsService', [
                     var paths = routeGraph.calculatePaths(departLine, arrivalLine);
 
 
+                    console.log('xxxx');
+
+
                     if (paths.length === 0) {
                         var option = _self.getSchedule(departureStop.id, arrivalStop.id, departLine, departLine, earliestDeparture);
                         if (option) {
                             itinerary.options.push([option]);
                         }
+                        console.log(option)
                     } else {
-                        _.forEach(paths, function (path, index) {
-                            console.log(path);
+                        _.forEach(paths, function (path) {
+                            console.log(departureStop.id, arrivalStop.id);
                             var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
+
                             if (option && option.length > 0) {
                                 itinerary.options.push(option);
+                                console.log(option);
                             }
 
                         });

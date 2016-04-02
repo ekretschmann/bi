@@ -15,6 +15,9 @@
             RouteGraph = _RouteGraph_;
         }));
 
+
+
+
         it('you can not change lines when the line names match', function () {
 
 
@@ -113,10 +116,12 @@
             var expectedPath2 = [edge2ac, edge4cb, edge6bx];
             var expectedPath3 = [edge4ab, edge6bx];
             var expectedPath4 = [edge6ax];
-            expect(paths).toContain(expectedPath1);
+            expect(paths.length).toBe(3);
             expect(paths).toContain(expectedPath2);
             expect(paths).toContain(expectedPath3);
             expect(paths).toContain(expectedPath4);
+
+
 
 
         });
@@ -188,10 +193,43 @@
             var expectedPath2 = [edge2ac, edge4cb, edge6bx];
             var expectedPath3 = [edge4ab, edge6bx];
             var expectedPath4 = [edge6ax];
-            expect(paths).toContain(expectedPath1);
+            expect(paths.length).toBe(3);
+            //expect(paths).toContain(expectedPath1);
             expect(paths).toContain(expectedPath2);
             expect(paths).toContain(expectedPath3);
             expect(paths).toContain(expectedPath4);
+
+
+        });
+
+        it('should bla', function () {
+
+            var stop1 = {id: 's1'};
+            var stop2 = {id: 's2'};
+
+            var line1 = {name: 'Line 1', id: '1', stops: ['s1', 's2']};
+            var line2 = {name: 'Line 2', id: '2', stops: ['s1', 's2']};
+
+            var stops = {s1: stop1, s2: stop2};
+            var graph = RouteGraph.createNew([line1, line2], stops);
+            expect(graph.nodes.length).toBe(2);
+            expect(graph.nodes[0].id).toBe('1');
+            expect(graph.nodes[1].id).toBe('2');
+
+            expect(graph.edges.length).toBe(4);
+            var edge2ab = {from: '1', to: '2', stop: stop1};
+            var edge2ba = {from: '2', to: '1', stop: stop1};
+            var edge2ac = {from: '1', to: '2', stop: stop2};
+            var edge2ca = {from: '2', to: '1', stop: stop2};
+
+            var paths = graph.calculatePaths('1', '1');
+            expect(paths.length).toBe(2);
+
+            var expectedPath1 = [edge2ab];
+            var expectedPath2 = [edge2ac];
+            //
+            expect(paths).toContain(expectedPath1);
+            expect(paths).toContain(expectedPath2);
 
 
         });

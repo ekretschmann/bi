@@ -237,7 +237,7 @@
 
         });
 
-        it('should find a alternative routes without changes', function () {
+        fit('should find a alternative routes without changes', function () {
 
             var departure = {lat: 50, lng: 50};
             var arrival = {lat: 100, lng: 100};
@@ -274,6 +274,10 @@
             expect(leg2a.departureStopId).toBe('s1');
             expect(leg2a.arrivalStopId).toBe('s2');
             expect(leg2a.departureLineId).toBe('1');
+
+            //_.forEach(journeyPlan.options, function(opt) {
+            //    console.log(opt);
+            //});
 
         });
 
