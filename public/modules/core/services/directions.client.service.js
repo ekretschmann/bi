@@ -164,6 +164,7 @@ angular.module('core').service('DirectionsService', [
             itinerary.options = [];
 
 
+
             _.forEach(departureStop.lines, function (departLine) {
 
                 _.forEach(arrivalStop.lines, function (arrivalLine) {
@@ -179,6 +180,7 @@ angular.module('core').service('DirectionsService', [
                         }
                     } else {
                         _.forEach(paths, function (path, index) {
+                            console.log(path);
                             var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
                             if (option && option.length > 0) {
                                 itinerary.options.push(option);
