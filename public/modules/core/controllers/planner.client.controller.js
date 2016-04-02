@@ -25,14 +25,15 @@ angular.module('core').controller('PlannerController',
                         '2013-02-08 08:40', $scope.buslines, $scope.busstops);
 
                    // console.log($scope.busstops);
-                    //console.log($scope.nearestBusstopTo);
+                   // console.log($scope.nearestBusstopFrom);
+                   // console.log($scope.nearestBusstopTo);
                     //console.log(journey);
 
                     //console.log(journey);
-                    //console.log($scope.buslines);
+                  //  console.log($scope.buslines);
                     //console.log($scope.busstops);
 
-                    //RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
+                    RouteRenderService.drawJourney(journey.options[0], $scope.buslines, $scope.busstops, $scope.markers, $scope.paths);
 
                     //console.log(journey.options[0]);
 
@@ -325,8 +326,8 @@ angular.module('core').controller('PlannerController',
                 $scope.from.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
                 $scope.from.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
 
-                $scope.from.lat = 52.1821;
-                $scope.from.lng = 0.1888;
+                //$scope.from.lat = 52.1821;
+                //$scope.from.lng = 0.1888;
 
                 $scope.from.text = 'lat: ' + $scope.from.lat + ' lng: ' + $scope.from.lng;
                 $scope.locationInputState = 'select-to';
@@ -398,8 +399,8 @@ angular.module('core').controller('PlannerController',
                     $scope.to.lat = Math.round(leafEvent.latlng.lat * 10000) / 10000;
                     $scope.to.lng = Math.round(leafEvent.latlng.lng * 10000) / 10000;
 
-                    $scope.to.lat = 52.2138;
-                    $scope.to.lng = 0.138;
+                    //$scope.to.lat = 52.2138;
+                    //$scope.to.lng = 0.138;
 
                     $scope.to.text = 'lat: ' + $scope.to.lat + ' lng: ' + $scope.to.lng;
 
