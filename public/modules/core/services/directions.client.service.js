@@ -70,9 +70,11 @@ angular.module('core').service('DirectionsService', [
 
         };
 
+
         this.getSchedule = function (departureStopId, arrivalStopId, departureLineId, arrivalLineId, earliestDeparture) {
 
             var _self = this;
+
 
             var line = _self.getLine(departureLineId);
             var runtime = _self.getRuntime(line, _self.toTimeString(earliestDeparture));
@@ -80,6 +82,7 @@ angular.module('core').service('DirectionsService', [
             var arrivalStopTime;
             _.forEach(line.stops, function (stop, index) {
                 if (stop === departureStopId) {
+
                     departureStopTime = _self.getStopTime(runtime, _self.getTotalDelay(line.times, index));
                 }
                 if (stop === arrivalStopId) {
@@ -111,27 +114,24 @@ angular.module('core').service('DirectionsService', [
             var itinerary = [];
 
 
-
             var invalidOption = false;
+
+
+
 
 
             // inbetween legs
 
             _.forEach(path, function (change) {
-
-                console.log(change);
-                console.log(currentStopId);
-
-                if (change.stop.id !== currentStopId) {
-                    var journeyLeg = _self.getSchedule(currentStopId, change.stop.id, change.from, change.to, departureMoment);
+                var journeyLeg = _self.getSchedule(currentStopId, change.stop.id, change.from, change.to, departureMoment);
 
 
-                    if (journeyLeg) {
-                        currentStopId = journeyLeg.arrivalStopId;
+                if (journeyLeg) {
+                    currentStopId = journeyLeg.arrivalStopId;
 
-                        _self.setTime(departureMoment, journeyLeg.arrivalStopTime);
-                        itinerary.push(journeyLeg);
-                    }
+                    _self.setTime(departureMoment, journeyLeg.arrivalStopTime);
+                    itinerary.push(journeyLeg);
+
                 } else {
                     invalidOption = true;
                 }
@@ -164,7 +164,6 @@ angular.module('core').service('DirectionsService', [
             itinerary.options = [];
 
 
-
             _.forEach(departureStop.lines, function (departLine) {
 
                 _.forEach(arrivalStop.lines, function (arrivalLine) {
@@ -180,13 +179,11 @@ angular.module('core').service('DirectionsService', [
                         }
                     } else {
                         _.forEach(paths, function (path, index) {
-                            if (index === 0) {
-                                console.log(path);
-                                var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
-                                if (option && option.length > 0) {
-                                    itinerary.options.push(option);
-                                }
+                            var option = _self.getItinerary(path, departureStop, arrivalStop, earliestDeparture);
+                            if (option && option.length > 0) {
+                                itinerary.options.push(option);
                             }
+
                         });
                     }
 
@@ -212,8 +209,6 @@ angular.module('core').service('DirectionsService', [
             return this.getDirectionsBetweenStops(departStop, arriveStop, time, lines, stops);
 
         };
-
-
 
 
         this.getClosestStop = function (lat, lng, stops) {

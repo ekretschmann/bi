@@ -20,7 +20,7 @@
         }));
 
 
-        fit('should build graph with alternatives with more than one change with buses running both ways', function () {
+        it('should build graph with alternatives with more than one change with buses running both ways', function () {
 
 
             // line a: s1    s2           s4          s6
@@ -64,109 +64,109 @@
 
             expect(journeyPlan.options.length).toBe(4);
 
-            //var option1 = journeyPlan.options[0];
-            //expect(option1.length).toBe(2);
-            //var leg1a = option1[0];
-            //var leg1b = option1[1];
+            var option1 = journeyPlan.options[0];
+            expect(option1.length).toBe(2);
+            var leg1a = option1[0];
+            var leg1b = option1[1];
 
-            //expect(leg1a.departureStopTime).toBe('06:10');
-            //expect(leg1a.arrivalStopTime).toBe('06:25');
-            //expect(leg1a.departureStopId).toBe('s1');
-            //expect(leg1a.arrivalStopId).toBe('s6');
-            //expect(leg1a.departureLineId).toBe('ao');
-            //
-            //expect(leg1b.departureStopTime).toBe('06:40');
-            //expect(leg1b.arrivalStopTime).toBe('06:45');
-            //expect(leg1b.departureStopId).toBe('s6');
-            //expect(leg1b.arrivalStopId).toBe('s9');
-            //expect(leg1b.departureLineId).toBe('xo');
-            //
-            //
-            //var option2 = journeyPlan.options[1];
-            //expect(option2.length).toBe(4);
-            //var leg2a = option2[0];
-            //var leg2b = option2[1];
-            //var leg2c = option2[2];
-            //var leg2d = option2[3];
-            //
-            //expect(leg2a.departureStopTime).toBe('06:10');
-            //expect(leg2a.arrivalStopTime).toBe('06:15');
-            //expect(leg2a.departureStopId).toBe('s1');
-            //expect(leg2a.arrivalStopId).toBe('s2');
-            //expect(leg2a.departureLineId).toBe('ao');
-            //
-            //expect(leg2b.departureStopTime).toBe('06:30');
-            //expect(leg2b.arrivalStopTime).toBe('06:35');
-            //expect(leg2b.departureStopId).toBe('s2');
-            //expect(leg2b.arrivalStopId).toBe('s4');
-            //expect(leg2b.departureLineId).toBe('co');
-            //
-            //expect(leg2c.departureStopTime).toBe('06:50');
-            //expect(leg2c.arrivalStopTime).toBe('06:55');
-            //expect(leg2c.departureStopId).toBe('s4');
-            //expect(leg2c.arrivalStopId).toBe('s6');
-            //expect(leg2c.departureLineId).toBe('ao');
-            //
-            //expect(leg2d.departureStopTime).toBe('07:10');
-            //expect(leg2d.arrivalStopTime).toBe('07:15');
-            //expect(leg2d.departureStopId).toBe('s6');
-            //expect(leg2d.arrivalStopId).toBe('s9');
-            //expect(leg2d.departureLineId).toBe('xo');
-            //
-            //
-            //var option3 = journeyPlan.options[2];
-            //expect(option3.length).toBe(4);
-            //var leg3a = option2[0];
-            //var leg3b = option2[1];
-            //var leg3c = option2[2];
-            //var leg3d = option2[3];
-            //expect(leg3a.departureStopTime).toBe('06:10');
-            //expect(leg3a.arrivalStopTime).toBe('06:15');
-            //expect(leg3a.departureStopId).toBe('s1');
-            //expect(leg3a.arrivalStopId).toBe('s2');
-            //expect(leg3a.departureLineId).toBe('ao');
-            //
-            //expect(leg3b.departureStopTime).toBe('06:30');
-            //expect(leg3b.arrivalStopTime).toBe('06:35');
-            //expect(leg3b.departureStopId).toBe('s2');
-            //expect(leg3b.arrivalStopId).toBe('s4');
-            //expect(leg3b.departureLineId).toBe('co');
-            //
-            //expect(leg3c.departureStopTime).toBe('06:50');
-            //expect(leg3c.arrivalStopTime).toBe('06:55');
-            //expect(leg3c.departureStopId).toBe('s4');
-            //expect(leg3c.arrivalStopId).toBe('s6');
-            //expect(leg3c.departureLineId).toBe('ao');
-            //
-            //expect(leg3d.departureStopTime).toBe('07:10');
-            //expect(leg3d.arrivalStopTime).toBe('07:15');
-            //expect(leg3d.departureStopId).toBe('s6');
-            //expect(leg3d.arrivalStopId).toBe('s9');
-            //expect(leg3d.departureLineId).toBe('xo');
-            //
-            //var option4 = journeyPlan.options[3];
-            //expect(option4.length).toBe(3);
-            //var leg4a = option4[0];
-            //var leg4b = option4[1];
-            //var leg4c = option4[2];
-            //
-            //expect(leg4a.departureStopTime).toBe('06:10');
-            //expect(leg4a.arrivalStopTime).toBe('06:20');
-            //expect(leg4a.departureStopId).toBe('s1');
-            //expect(leg4a.arrivalStopId).toBe('s4');
-            //expect(leg4a.departureLineId).toBe('ao');
-            //
-            //expect(leg4b.departureStopTime).toBe('06:50');
-            //expect(leg4b.arrivalStopTime).toBe('06:55');
-            //expect(leg4b.departureStopId).toBe('s4');
-            //expect(leg4b.arrivalStopId).toBe('s6');
-            //expect(leg4b.departureLineId).toBe('bo');
-            //
-            //expect(leg4c.departureStopTime).toBe('07:10');
-            //expect(leg4c.arrivalStopTime).toBe('07:15');
-            //expect(leg4c.departureStopId).toBe('s6');
-            //expect(leg4c.arrivalStopId).toBe('s9');
-            //expect(leg4c.departureLineId).toBe('xo');
+            expect(leg1a.departureStopTime).toBe('06:10');
+            expect(leg1a.arrivalStopTime).toBe('06:25');
+            expect(leg1a.departureStopId).toBe('s1');
+            expect(leg1a.arrivalStopId).toBe('s6');
+            expect(leg1a.departureLineId).toBe('ao');
+
+            expect(leg1b.departureStopTime).toBe('06:40');
+            expect(leg1b.arrivalStopTime).toBe('06:45');
+            expect(leg1b.departureStopId).toBe('s6');
+            expect(leg1b.arrivalStopId).toBe('s9');
+            expect(leg1b.departureLineId).toBe('xo');
+
+
+            var option2 = journeyPlan.options[1];
+            expect(option2.length).toBe(4);
+            var leg2a = option2[0];
+            var leg2b = option2[1];
+            var leg2c = option2[2];
+            var leg2d = option2[3];
+
+            expect(leg2a.departureStopTime).toBe('06:10');
+            expect(leg2a.arrivalStopTime).toBe('06:15');
+            expect(leg2a.departureStopId).toBe('s1');
+            expect(leg2a.arrivalStopId).toBe('s2');
+            expect(leg2a.departureLineId).toBe('ao');
+
+            expect(leg2b.departureStopTime).toBe('06:30');
+            expect(leg2b.arrivalStopTime).toBe('06:35');
+            expect(leg2b.departureStopId).toBe('s2');
+            expect(leg2b.arrivalStopId).toBe('s4');
+            expect(leg2b.departureLineId).toBe('co');
+
+            expect(leg2c.departureStopTime).toBe('06:50');
+            expect(leg2c.arrivalStopTime).toBe('06:55');
+            expect(leg2c.departureStopId).toBe('s4');
+            expect(leg2c.arrivalStopId).toBe('s6');
+            expect(leg2c.departureLineId).toBe('ao');
+
+            expect(leg2d.departureStopTime).toBe('07:10');
+            expect(leg2d.arrivalStopTime).toBe('07:15');
+            expect(leg2d.departureStopId).toBe('s6');
+            expect(leg2d.arrivalStopId).toBe('s9');
+            expect(leg2d.departureLineId).toBe('xo');
+
+
+            var option3 = journeyPlan.options[2];
+            expect(option3.length).toBe(4);
+            var leg3a = option2[0];
+            var leg3b = option2[1];
+            var leg3c = option2[2];
+            var leg3d = option2[3];
+            expect(leg3a.departureStopTime).toBe('06:10');
+            expect(leg3a.arrivalStopTime).toBe('06:15');
+            expect(leg3a.departureStopId).toBe('s1');
+            expect(leg3a.arrivalStopId).toBe('s2');
+            expect(leg3a.departureLineId).toBe('ao');
+
+            expect(leg3b.departureStopTime).toBe('06:30');
+            expect(leg3b.arrivalStopTime).toBe('06:35');
+            expect(leg3b.departureStopId).toBe('s2');
+            expect(leg3b.arrivalStopId).toBe('s4');
+            expect(leg3b.departureLineId).toBe('co');
+
+            expect(leg3c.departureStopTime).toBe('06:50');
+            expect(leg3c.arrivalStopTime).toBe('06:55');
+            expect(leg3c.departureStopId).toBe('s4');
+            expect(leg3c.arrivalStopId).toBe('s6');
+            expect(leg3c.departureLineId).toBe('ao');
+
+            expect(leg3d.departureStopTime).toBe('07:10');
+            expect(leg3d.arrivalStopTime).toBe('07:15');
+            expect(leg3d.departureStopId).toBe('s6');
+            expect(leg3d.arrivalStopId).toBe('s9');
+            expect(leg3d.departureLineId).toBe('xo');
+
+            var option4 = journeyPlan.options[3];
+            expect(option4.length).toBe(3);
+            var leg4a = option4[0];
+            var leg4b = option4[1];
+            var leg4c = option4[2];
+
+            expect(leg4a.departureStopTime).toBe('06:10');
+            expect(leg4a.arrivalStopTime).toBe('06:20');
+            expect(leg4a.departureStopId).toBe('s1');
+            expect(leg4a.arrivalStopId).toBe('s4');
+            expect(leg4a.departureLineId).toBe('ao');
+
+            expect(leg4b.departureStopTime).toBe('06:55');
+            expect(leg4b.arrivalStopTime).toBe('07:00');
+            expect(leg4b.departureStopId).toBe('s4');
+            expect(leg4b.arrivalStopId).toBe('s6');
+            expect(leg4b.departureLineId).toBe('bo');
+
+            expect(leg4c.departureStopTime).toBe('07:10');
+            expect(leg4c.arrivalStopTime).toBe('07:15');
+            expect(leg4c.departureStopId).toBe('s6');
+            expect(leg4c.arrivalStopId).toBe('s9');
+            expect(leg4c.departureLineId).toBe('xo');
 
 
 
